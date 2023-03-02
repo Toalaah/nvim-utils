@@ -14,7 +14,7 @@
     configuration,
     plugins,
   }: let
-    # evaluates configuration into stringified lua table
+    # evaluates configuration into a set of stringified lua tables
     evalConfig = import ./configGenerator.nix {inherit lib;};
     cfg = evalConfig {inherit configuration plugins;};
   in

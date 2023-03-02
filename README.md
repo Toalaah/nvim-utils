@@ -1,1 +1,1 @@
-An extensible Neovim flake powered via [Lazy.nvim](https://github.com/folke/lazy.nvim)
+An extensible Neovim flake powered via [lazy.nvim](https://github.com/folke/lazy.nvim)
