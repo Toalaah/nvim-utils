@@ -20,7 +20,28 @@
   in
     wrapLuaConfig ''
       vim.opt.runtimepath:prepend('${lazy-nvim}')
-      require('lazy').setup({${cfg.config.spec}}, { root = '/tmp/lazy', dev = { path = "~/dev" }, defaults = { lazy = true } })
+      require('lazy').setup({${cfg.config.spec}},
+        {
+          root = '/tmp/lazy',
+          dev = { path = "~/dev" },
+          defaults = { lazy = true },
+          checker = { enabled = false },
+          performance = {
+            cache = { enabled = true },
+            rtp = {
+              disabled_plugins = {
+                'gzip',
+                'matchit',
+                'matchparen',
+                'rplugin',
+                'tarPlugin',
+                'tohtml',
+                'tutor',
+                'zipPlugin',
+              },
+            },
+          }
+        })
       ${cfg.config.preferences}
     '';
 
