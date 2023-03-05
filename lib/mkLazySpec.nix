@@ -2,14 +2,8 @@
   mkLazySpec = {
     pluginSlug,
     src,
-    name,
-    opts,
     lazy,
     enabled,
-    cond,
-    cmd,
-    keys,
-    ft,
     priority ? 50,
     ...
   }: ''
