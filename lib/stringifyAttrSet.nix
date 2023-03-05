@@ -24,17 +24,19 @@
         if x
         then "true"
         else "false";
+      stringifyList = "{${lib.concatStringsSep ", " (map processPrimitive value)}}";
+      isNull = x: x == null;
     in
       if isString value
       then literalQuote value
       else if isNumber value
       then toString value
-      else if value == null
+      else if isNull value
       then "nil"
       else if isBool value
       then stringifyBool value
       else if isList value
-      then "{${lib.concatStringsSep ", " (map processPrimitive value)}}"
+      then stringifyList value
       else if isPath value
       then literalQuote value
       else if isAttrs value
@@ -64,7 +66,7 @@
   stringifyAttrs = attrs: let
     listToStr = list: "${lib.concatStringsSep ", " list}";
     magicIdentifier = "__index__";
-    hasSubstr = substr: string: builtins.length (lib.strings.splitString substr string) > 1;
+    hasSubstr = substr: string: (builtins.match ".*${substr}.*" string) != null;
     convertToLua = name: value:
       if hasSubstr magicIdentifier name
       then "${processPrimitive value}"

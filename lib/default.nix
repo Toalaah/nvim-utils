@@ -45,6 +45,7 @@
       ${cfg.config.preferences}
     '';
 
+  # TODO: allow for specifiying custom neovim packages
   mkNeovimPackage = let
     system = pkgs.system;
   in

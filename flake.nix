@@ -65,7 +65,7 @@
           })
         packages;
 
-      # TODO: nixos+ home-manager modules
+      # TODO: nixos + home-manager modules
       formatter = pkgs.alejandra;
 
       devShells.default = import ./shell.nix {inherit pkgs;};
