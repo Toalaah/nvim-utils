@@ -5,6 +5,6 @@ with pkgs;
       alejandra
       deadnix
       vim
-      gitAndTools
+      gitAndTools.git
     ];
   }

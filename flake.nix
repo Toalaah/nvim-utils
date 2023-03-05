@@ -43,7 +43,6 @@
         config = {};
         overlays = [];
       };
-
       lib = import ./lib {inherit pkgs;};
       configurations = import ./configurations;
       plugins = {
@@ -69,6 +68,6 @@
       # TODO: nixos+ home-manager modules
       formatter = pkgs.alejandra;
 
-      devShells.${system}.default = import ./shell.nix {inherit pkgs;};
+      devShells.default = import ./shell.nix {inherit pkgs;};
     });
 }
