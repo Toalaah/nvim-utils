@@ -16,33 +16,42 @@
   }: let
     # evaluates configuration into a set of stringified lua tables
     evalConfig = import ./configGenerator.nix {inherit lib;};
-    cfg = evalConfig {inherit configuration plugins;};
+    cfg = (evalConfig {inherit configuration plugins;}).config;
+    lazyOpts = (import ./stringifyAttrSet.nix {inherit lib;}) {
+      spec = [
+        {
+          __index__ = "folke/tokyonight.nvim";
+          dir = plugins.tokyonight-nvim.outPath;
+          enabled = true;
+          name = "tokyonight";
+          opts = {style = "storm";};
+        }
+      ];
+      root = "/tmp/lazy";
+      dev = {path = "~/dev";};
+      defaults = {lazy = true;};
+      checker = {enabled = false;};
+      performance = {
+        cache = {enabled = true;};
+        rtp = {
+          disabled_plugins = [
+            "gzip"
+            "matchit"
+            "matchparen"
+            "rplugin"
+            "tarPlugin"
+            "tohtml"
+            "tutor"
+            "zipPlugin"
+          ];
+        };
+      };
+    };
   in
     wrapLuaConfig ''
       vim.opt.runtimepath:prepend('${lazy-nvim}')
-      require('lazy').setup({${cfg.config.spec}},
-        {
-          root = '/tmp/lazy',
-          dev = { path = "~/dev" },
-          defaults = { lazy = true },
-          checker = { enabled = false },
-          performance = {
-            cache = { enabled = true },
-            rtp = {
-              disabled_plugins = {
-                'gzip',
-                'matchit',
-                'matchparen',
-                'rplugin',
-                'tarPlugin',
-                'tohtml',
-                'tutor',
-                'zipPlugin',
-              },
-            },
-          }
-        })
-      ${cfg.config.preferences}
+      require('lazy').setup(${lazyOpts})
+      ${cfg.preferences}
     '';
 
   # TODO: allow for specifiying custom neovim packages
