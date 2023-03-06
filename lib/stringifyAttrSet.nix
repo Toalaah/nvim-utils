@@ -3,8 +3,15 @@
    Converts a primitive value to its stringified lua counterpart.
 
   Types `nil`, `boolean`, `number`, `string`, and `table` are convertable from
-  their respective nix-equivalents. The types `function`, `userdata`, and
-  `thread` are not able to be converted to.
+  their respective nix-equivalents. Functions are supported in limited a
+  fashion; a passed function must be callable with exactly one argument (which
+  should be ignored in the implementation). The function must return raw lua
+  code (stringified). The following lambda is an example of such a valid
+  function:
+
+  foo = _: "function(msg) print('hello ' .. msg) end"
+
+  The remaining types `userdata` and `thread` are not able to be converted to.
 
    Example:
      x = { a = "foo"; b = null }
@@ -39,6 +46,12 @@
       then stringifyList value
       else if isPath value
       then literalQuote value
+      /*
+      Implies that the lambda must return a string which contains raw lua code
+      (arguments are ignored)
+      */
+      else if isFunction value
+      then value null
       else if isAttrs value
       then stringifyAttrs value
       else throw "Unsupported type: ${typeOf value}";
