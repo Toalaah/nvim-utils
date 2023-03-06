@@ -31,7 +31,7 @@
         if x
         then "true"
         else "false";
-      stringifyList = "{${lib.concatStringsSep ", " (map processPrimitive value)}}";
+      stringifyList = value: "{${lib.concatStringsSep ", " (map processPrimitive value)}}";
       isNull = x: x == null;
     in
       if isString value
