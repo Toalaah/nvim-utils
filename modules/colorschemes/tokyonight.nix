@@ -6,7 +6,6 @@
 }:
 with lib; let
   cfg = config.colorschemes.tokyonight;
-  bool = x: lib.boolToString x;
 in {
   options = {
     colorschemes.tokyonight = {
@@ -20,15 +19,15 @@ in {
   };
   config = mkMerge [
     (mkIf cfg.enable {
-      spec = ''
+      plugins = [
         {
-          "folke/tokyonight.nvim",
-          enabled = ${bool cfg.enable},
-          name = "tokyonight",
-          dir = "${plugins.tokyonight-nvim}",
-          opts = { style = "${cfg.style}" },
-        },
-      '';
+          pluginSlug = "folke/tokyonight.nvim";
+          enabled = true;
+          name = "tokyonight";
+          src = plugins.tokyonight-nvim;
+          opts = {style = "${cfg.style}";};
+        }
+      ];
       preferences = ''
         vim.cmd.colorscheme "tokyonight"
       '';

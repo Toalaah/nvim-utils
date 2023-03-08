@@ -13,7 +13,7 @@
     configuration,
     plugins,
   }: let
-    mkConfig = import ./mkNvimConfig.nix {inherit lib;};
+    mkConfig = import ./mkNvimConfig {inherit lib;};
     toLua = import ./toLua.nix {inherit lib;};
 
     cfg = mkConfig {inherit configuration plugins;};
@@ -42,7 +42,7 @@
   in
     wrapLuaConfig ''
       vim.opt.runtimepath:prepend('${lazy-nvim}')
-      require('lazy').setup(${lazyOpts})
+      require('lazy').setup(${cfg.plugins}, ${lazyOpts})
       ${cfg.preferences}
     '';
 
