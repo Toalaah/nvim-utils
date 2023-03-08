@@ -14,19 +14,11 @@
     configuration,
     plugins,
   }: let
-    # evaluates configuration into a set of stringified lua tables
-    evalConfig = import ./configGenerator.nix {inherit lib;};
-    cfg = (evalConfig {inherit configuration plugins;}).config;
-    lazyOpts = (import ./stringifyAttrSet.nix {inherit lib;}) {
-      spec = [
-        {
-          __index__ = "folke/tokyonight.nvim";
-          dir = plugins.tokyonight-nvim.outPath;
-          enabled = true;
-          name = "tokyonight";
-          opts = {style = "storm";};
-        }
-      ];
+    mkConfig = import ./mkNvimConfig.nix.nix {inherit lib;};
+    toLua = import ./toLua.nix.nix {inherit lib;};
+    cfg = (mkConfig {inherit configuration plugins;}).config;
+    lazyOpts = toLua {
+      spec = [];
       root = "/tmp/lazy";
       dev = {path = "~/dev";};
       defaults = {lazy = true;};

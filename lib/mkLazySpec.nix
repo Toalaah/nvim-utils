@@ -4,7 +4,7 @@
     src,
     ...
   } @ inputs: let
-    mkLuaTable = import ./stringifyAttrSet.nix {inherit lib;};
+    toLua = import ./toLua.nix {inherit lib;};
     isExtraArg = x: _: !(builtins.elem x ["pluginSlug" "src"]);
     extraArgs = lib.filterAttrs isExtraArg inputs;
     attrs = (
@@ -15,6 +15,6 @@
       // extraArgs
     );
   in
-    mkLuaTable attrs;
+    toLua attrs;
 in
   mkLazySpec
