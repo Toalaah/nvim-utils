@@ -1,7 +1,6 @@
 {
   pkgs,
   lib ? pkgs.lib,
-  ...
 }: rec {
   wrapLuaConfig = luaCode: ''
     lua << EOF
@@ -14,9 +13,10 @@
     configuration,
     plugins,
   }: let
-    mkConfig = import ./mkNvimConfig.nix.nix {inherit lib;};
-    toLua = import ./toLua.nix.nix {inherit lib;};
-    cfg = (mkConfig {inherit configuration plugins;}).config;
+    mkConfig = import ./mkNvimConfig.nix {inherit lib;};
+    toLua = import ./toLua.nix {inherit lib;};
+
+    cfg = mkConfig {inherit configuration plugins;};
     lazyOpts = toLua {
       spec = [];
       root = "/tmp/lazy";
