@@ -36,22 +36,27 @@
     rose-pine,
     tokyonight-nvim,
     ...
-  }:
+  } @ attrs:
     flake-utils.lib.eachDefaultSystem (system: let
       pkgs = import nixpkgs {
         inherit system;
         config = {};
         overlays = [];
       };
-      lib = import ./lib {inherit pkgs;};
+      mkNvimPackage = (import ./lib {inherit pkgs;}).mkNvimPackage;
       configurations = import ./configurations;
-      plugins = {
-        inherit rose-pine tokyonight-nvim;
-      };
+      plugins = pkgs.lib.filterAttrs (x: _:
+        !(builtins.elem x [
+          "flake-utils"
+          "lazy-nvim"
+          "neovim-nightly"
+          "nixpkgs"
+        ]))
+      attrs;
     in rec {
       # map each configuration to an individual package
       packages = builtins.mapAttrs (name: _:
-        lib.mkNeovimPackage {
+        mkNvimPackage {
           configuration = configurations.${name};
           inherit plugins neovim-nightly lazy-nvim;
         })

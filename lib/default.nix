@@ -47,7 +47,7 @@
     '';
 
   # TODO: allow for specifiying custom neovim packages
-  mkNeovimPackage = let
+  mkNvimPackage = let
     system = pkgs.system;
   in
     {
