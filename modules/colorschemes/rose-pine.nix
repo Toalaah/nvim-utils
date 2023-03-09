@@ -6,7 +6,6 @@
 }:
 with lib; let
   cfg = config.colorschemes.rose-pine;
-  bool = x: lib.boolToString x;
   defaultFalse = desc:
     mkOption {
       description = desc;
@@ -31,22 +30,22 @@ in {
   };
   config = mkMerge [
     (mkIf cfg.enable {
-      spec = ''
+      plugins = [
         {
-          "rose-pine/neovim",
-          enabled = ${bool cfg.enable},
-          name = "rose-pine",
-          dir = "${plugins.rose-pine}",
+          pluginSlug = "rose-pine/neovim";
+          enabled = true;
+          name = "rose-pine";
+          src = plugins.rose-pine;
           opts = {
-            variant = "${cfg.variant}",
-            bold_vert_split = ${bool cfg.bold_vert_split},
-            dim_nc_background = ${bool cfg.dim_nc_background},
-            disable_background = ${bool cfg.disable_background},
-            disable_float_background = ${bool cfg.disable_float_background},
-            disable_italics = ${bool cfg.disable_italics},
-          },
-        },
-      '';
+            variant = cfg.variant;
+            bold_vert_split = cfg.bold_vert_split;
+            dim_nc_background = cfg.dim_nc_background;
+            disable_background = cfg.disable_background;
+            disable_float_background = cfg.disable_float_background;
+            disable_italics = cfg.disable_italics;
+          };
+        }
+      ];
       preferences = ''
         vim.cmd.colorscheme "rose-pine"
       '';

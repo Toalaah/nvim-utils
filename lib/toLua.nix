@@ -1,6 +1,6 @@
 {lib}: let
   /*
-   Converts a primitive value to its stringified lua counterpart.
+  Converts a primitive value to its stringified lua counterpart.
 
   Types `nil`, `boolean`, `number`, `string`, and `table` are convertable from
   their respective nix-equivalents. Functions are supported in limited a
@@ -21,7 +21,7 @@
      => "nil"
 
    Type:
-     processPrimitive :: AttrSet -> String
+     processPrimitive :: Any -> String
   */
   processPrimitive = with builtins;
     value: let
@@ -53,38 +53,57 @@
       else if isFunction value
       then value null
       else if isAttrs value
-      then stringifyAttrs value
+      then toLua value
       else throw "Unsupported type: ${typeOf value}";
 
   /*
-  Converts an attribute set into its stringified lua table representation.
+  Converts an attribute set, list, or primitive into its stringified lua
+  representation.
 
-  Since lua supports both named and unnamed table values (but nix attrsets do
-  not), a magic identifier `__index__` is used to convert from named values to
-  anonymous ones. This identified may occur anywhere inside the name. Note that
-  since attrsets are implicitly sorted by key names, you will need to
-  lexicographically sort the keys which you want to anonymize by hand, ex:
-  `zzz__index__`.
+  Note on converting attribute sets: Since lua supports both named and unnamed
+  table values (but nix attrsets do not), a magic identifier `__index__` is
+  used to convert from named values to anonymous ones. This identified may
+  occur anywhere inside the name. Note that since attrsets are implicitly
+  sorted by key names, you will need to lexicographically sort the keys which
+  you want to anonymize by hand, ex: `zzz__index__`.
 
   Example:
     x = { a = { b = 3; }; __index__baz = "some string"; c = "foo"; d = null; }
-    stringifyAttrs x
+    y = "some string"
+
+    toLua x
     => ''
      { "some string", a = { b = 3 }, c = "foo", d = nil }
-    ''
+
+    toLua y
+    => "\"some string\""
 
   Type:
-    stringifyAttrs :: AttrSet -> String
+    toLua :: Any -> String
   */
-  stringifyAttrs = attrs: let
+  toLua = values: let
+    # small helpers
     listToStr = list: "${lib.concatStringsSep ", " list}";
-    magicIdentifier = "__index__";
+    isListLike = vals: lib.isAttrs vals || lib.isList vals;
     hasSubstr = substr: string: (builtins.match ".*${substr}.*" string) != null;
-    convertToLua = name: value:
-      if hasSubstr magicIdentifier name
+    # specialized attr-mapper is needed to allow for keyless table values
+    attrsToLua = name: value:
+      if hasSubstr "__index__" name
       then "${processPrimitive value}"
       else "${name} = ${processPrimitive value}";
+    # converts an attribute set or list by mapping the input to a stringified
+    # lua list representation
+    convertListLike = x:
+      "{"
+      + listToStr (
+        if lib.isAttrs x
+        then lib.mapAttrsToList attrsToLua x
+        else builtins.map processPrimitive x
+      )
+      + "}";
   in
-    "{" + listToStr (lib.mapAttrsToList convertToLua attrs) + "}";
+    if isListLike values
+    then convertListLike values
+    else processPrimitive values;
 in
-  stringifyAttrs
+  toLua

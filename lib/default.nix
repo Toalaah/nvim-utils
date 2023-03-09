@@ -1,7 +1,6 @@
 {
   pkgs,
   lib ? pkgs.lib,
-  ...
 }: rec {
   wrapLuaConfig = luaCode: ''
     lua << EOF
@@ -14,35 +13,37 @@
     configuration,
     plugins,
   }: let
-    # evaluates configuration into a set of stringified lua tables
-    evalConfig = import ./configGenerator.nix {inherit lib;};
-    cfg = evalConfig {inherit configuration plugins;};
+    mkConfig = import ./mkNvimConfig {inherit lib;};
+    toLua = import ./toLua.nix {inherit lib;};
+
+    cfg = mkConfig {inherit configuration plugins;};
+    lazyOpts = toLua {
+      spec = [];
+      root = "/tmp/lazy";
+      dev = {path = "~/dev";};
+      defaults = {lazy = true;};
+      checker = {enabled = false;};
+      performance = {
+        cache = {enabled = true;};
+        rtp = {
+          disabled_plugins = [
+            "gzip"
+            "matchit"
+            "matchparen"
+            "rplugin"
+            "tarPlugin"
+            "tohtml"
+            "tutor"
+            "zipPlugin"
+          ];
+        };
+      };
+    };
   in
     wrapLuaConfig ''
       vim.opt.runtimepath:prepend('${lazy-nvim}')
-      require('lazy').setup({${cfg.config.spec}},
-        {
-          root = '/tmp/lazy',
-          dev = { path = "~/dev" },
-          defaults = { lazy = true },
-          checker = { enabled = false },
-          performance = {
-            cache = { enabled = true },
-            rtp = {
-              disabled_plugins = {
-                'gzip',
-                'matchit',
-                'matchparen',
-                'rplugin',
-                'tarPlugin',
-                'tohtml',
-                'tutor',
-                'zipPlugin',
-              },
-            },
-          }
-        })
-      ${cfg.config.preferences}
+      require('lazy').setup(${cfg.plugins}, ${lazyOpts})
+      ${cfg.preferences}
     '';
 
   # TODO: allow for specifiying custom neovim packages
