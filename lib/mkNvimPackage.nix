@@ -1,7 +1,7 @@
 {
   pkgs,
   lib ? pkgs.lib,
-}: rec {
+}: let
   wrapLuaConfig = luaCode: ''
     lua << EOF
     ${luaCode}
@@ -67,4 +67,5 @@
           };
         };
       };
-}
+in
+  mkNvimPackage

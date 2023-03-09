@@ -43,7 +43,7 @@
         config = {};
         overlays = [];
       };
-      mkNvimPackage = (import ./lib {inherit pkgs;}).mkNvimPackage;
+      mkNvimPackage = import ./lib/mkNvimPackage.nix {inherit pkgs;};
       configurations = import ./configurations;
       plugins = pkgs.lib.filterAttrs (x: _:
         !(builtins.elem x [

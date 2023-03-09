@@ -1,5 +1,6 @@
 {...}: {
   imports = [
-    ./colorschemes
+    ./colorschemes/rose-pine.nix
+    ./colorschemes/tokyonight.nix
   ];
 }
