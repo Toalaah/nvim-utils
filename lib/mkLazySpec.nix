@@ -1,14 +1,14 @@
 {lib}: let
   mkLazySpec = {
-    pluginSlug,
+    slug,
     src,
     ...
   } @ inputs: let
-    isExtraArg = x: _: !(builtins.elem x ["pluginSlug" "src"]);
+    isExtraArg = x: _: !(builtins.elem x ["slug" "src"]);
     extraArgs = lib.filterAttrs isExtraArg inputs;
     attrs = (
       {
-        __index__ = pluginSlug;
+        __index__ = slug;
         dir =
           if lib.isString src
           then src

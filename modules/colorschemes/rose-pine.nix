@@ -32,7 +32,7 @@ in {
     (mkIf cfg.enable {
       plugins = [
         {
-          pluginSlug = "rose-pine/neovim";
+          slug = "rose-pine/neovim";
           enabled = true;
           name = "rose-pine";
           src = plugins.rose-pine;

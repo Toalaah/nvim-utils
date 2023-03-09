@@ -21,7 +21,7 @@ in {
     (mkIf cfg.enable {
       plugins = [
         {
-          pluginSlug = "folke/tokyonight.nvim";
+          slug = "folke/tokyonight.nvim";
           enabled = true;
           name = "tokyonight";
           src = plugins.tokyonight-nvim;
