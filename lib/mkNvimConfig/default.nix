@@ -23,6 +23,7 @@
       .config;
   in {
     preferences = lib.strings.concatStringsSep "\n" cfg.preferences;
+    lazy = toLua cfg.lazy;
     plugins = toLua (builtins.map mkLazySpec cfg.plugins);
   };
 in
