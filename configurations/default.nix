@@ -7,6 +7,7 @@ rec {
         style = "moon";
       };
     };
+    foo.random.enable = true;
   };
 
   # TODO: multiple configs for different workflows (programming / prose / devops?)

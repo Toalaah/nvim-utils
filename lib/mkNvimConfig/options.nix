@@ -32,16 +32,12 @@ This file defines the top-level options of `mkNvimConfig`.
 
     */
     preferences = lib.mkOption {
-      type = lib.types.str;
+      type = lib.types.listOf lib.types.str;
       description = ''
-        List of vim-preferences / lua functions to execute, separated by \n.
-        Called after lazy startup
+        List of vim-preferences / lua functions to execute. Called after lazy startup
       '';
-      example = ''
-        vim.opt.leader = ' '
-        vim.cmd.colorscheme 'tokyonight'
-      '';
-      default = "";
+      example = ["vim.opt.leader = ' '"];
+      default = [];
     };
   };
 }

@@ -22,7 +22,7 @@
       })
       .config;
   in {
-    inherit (cfg) preferences;
+    preferences = lib.strings.concatStringsSep "\n" cfg.preferences;
     plugins = toLua (builtins.map mkLazySpec cfg.plugins);
   };
 in

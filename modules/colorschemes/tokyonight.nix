@@ -28,9 +28,11 @@ in {
           opts = {style = "${cfg.style}";};
         }
       ];
-      preferences = ''
-        vim.cmd.colorscheme "tokyonight"
-      '';
+      preferences = [
+        ''
+          vim.cmd.colorscheme "tokyonight"
+        ''
+      ];
     })
   ];
 }
