@@ -1,5 +1,6 @@
 /*
-This file defines the top-level options of `mkNvimConfig`.
+This file defines the top-level options of `mkNvimConfig`, more specifically
+options which are not directly plugin-specific.
 */
 {lib}: {
   options = {
@@ -18,6 +19,19 @@ This file defines the top-level options of `mkNvimConfig`.
         Combined plugin spec passed to lazy.nvim startup function
       '';
       default = [];
+    };
+
+    lazy = lib.mkOption {
+      type = lib.types.nullOr lib.types.attrs;
+      description = ''
+        Options passed to lazy.nvim startup function. See the project's readme
+        for all currently available options.
+      '';
+      example = {
+        dev.path = "~/dev";
+        defaults.lazy = true;
+      };
+      default = null;
     };
 
     /*
