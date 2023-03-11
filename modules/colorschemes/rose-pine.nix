@@ -6,12 +6,6 @@
 }:
 with lib; let
   cfg = config.colorschemes.rose-pine;
-  defaultFalse = desc:
-    mkOption {
-      description = desc;
-      type = types.bool;
-      default = false;
-    };
 in {
   options = {
     colorschemes.rose-pine = {
@@ -21,11 +15,11 @@ in {
         type = types.enum ["auto" "main" "moon" "dawn"];
         default = "auto";
       };
-      bold_vert_split = defaultFalse "bold vertical split";
-      dim_nc_background = defaultFalse "dim nc background";
-      disable_background = defaultFalse "disable background";
-      disable_float_background = defaultFalse "disable float background";
-      disable_italics = defaultFalse "disable italics";
+      bold_vert_split = mkEnableOption "bold vertical split";
+      dim_nc_background = mkEnableOption "dim nc background";
+      disable_background = mkEnableOption "disable background";
+      disable_float_background = mkEnableOption "disable float background";
+      disable_italics = mkEnableOption "disable italics";
     };
   };
   config = mkMerge [
@@ -46,9 +40,7 @@ in {
           };
         }
       ];
-      preferences = ''
-        vim.cmd.colorscheme "rose-pine"
-      '';
+      preferences = ["vim.cmd.colorscheme 'rose-pine'"];
     })
   ];
 }
