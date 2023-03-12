@@ -19,6 +19,12 @@ in {
   };
   config = mkMerge [
     (mkIf cfg.enable {
+      assertions = [
+        {
+          assertion = !config.colorschemes.rose-pine.enable;
+          message = "only one colorscheme should be enabled at any time";
+        }
+      ];
       plugins = [
         {
           slug = "folke/tokyonight.nvim";
