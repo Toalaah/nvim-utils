@@ -24,6 +24,12 @@ in {
   };
   config = mkMerge [
     (mkIf cfg.enable {
+      assertions = [
+        {
+          assertion = !config.colorschemes.tokyonight.enable;
+          message = "only one colorscheme should be enabled at any time";
+        }
+      ];
       plugins = [
         {
           slug = "rose-pine/neovim";
