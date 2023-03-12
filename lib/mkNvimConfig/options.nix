@@ -13,8 +13,7 @@ options which are not directly plugin-specific.
     which is finally insered into the custom RC of the wrapped binary.
     */
     plugins = lib.mkOption {
-      # TODO: add more concrete type-checking here
-      type = lib.types.listOf lib.types.anything;
+      type = lib.types.listOf lib.types.attrs;
       description = ''
         Combined plugin spec passed to lazy.nvim startup function
       '';
@@ -35,22 +34,36 @@ options which are not directly plugin-specific.
     };
 
     /*
-    Defines various lua commands to execute after lazy.nvim startup, separated
-    by newlines. Like with `options.plugins`, these preferences are merged by
-    each module.
-
-    TODO: maybe "preferences" should be pure vim options (i.e `vim.opt`). This
-    would allow defining commands via attrsets similar to how is done with
-    `options.plugins` Arbitary commands could then be made possible via
-    pre/post-hook options.
-
+    Defines an interface for specifiying vim options to set, for instance
+    `vim.g` or `vim.opt`.
     */
-    preferences = lib.mkOption {
+    vim = let
+      mkVimNamespaceOption = ns:
+        lib.mkOption {
+          type = lib.types.attrs;
+          description = "values to set under the `vim.${ns}` namespace";
+          default = {};
+        };
+    in {
+      opt = mkVimNamespaceOption "opt";
+      g = mkVimNamespaceOption "g";
+    };
+
+    /*
+    Allows the user to specify pre-and-post hooks to run before and after lazy
+    startup respectively.
+    */
+    preHooks = lib.mkOption {
       type = lib.types.listOf lib.types.str;
-      description = ''
-        List of vim-preferences / lua functions to execute. Called after lazy startup
-      '';
-      example = ["vim.opt.leader = ' '"];
+      description = "List of pieces of lua-code to execute before lazy startup";
+      example = ["print('hello world')"];
+      default = [];
+    };
+
+    postHooks = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      description = "List of pieces of lua-code to execute after lazy startup";
+      example = ["print('hello world')"];
       default = [];
     };
   };

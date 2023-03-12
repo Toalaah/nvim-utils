@@ -74,6 +74,7 @@
     toLua x
     => ''
      { "some string", a = { b = 3 }, c = "foo", d = nil }
+    ''
 
     toLua y
     => "\"some string\""

@@ -24,6 +24,21 @@ rec {
         "zipPlugin"
       ];
     };
+
+    vim = {
+      opt = {
+        relativenumber = true;
+        number = true;
+        listchars = {
+          extends = "⟩";
+          nbsp = "␣";
+          precedes = "⟨";
+          tab = "→\\\\ ";
+          trail = "•";
+        };
+      };
+      g.mapleader = " ";
+    };
   };
 
   # TODO: multiple configs for different workflows (programming / prose / devops?)

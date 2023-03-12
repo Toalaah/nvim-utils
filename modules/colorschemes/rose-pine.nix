@@ -40,7 +40,9 @@ in {
           };
         }
       ];
-      preferences = ["vim.cmd.colorscheme 'rose-pine'"];
+      postHooks = [
+        "vim.cmd.colorscheme('rose-pine')"
+      ];
     })
   ];
 }

@@ -17,9 +17,12 @@
     cfg = mkConfig {inherit configuration plugins;};
   in
     wrapLuaConfig ''
+      ${cfg.preHooks}
       vim.opt.runtimepath:prepend('${lazy-nvim}')
       require('lazy').setup(${cfg.plugins}, ${cfg.lazy})
-      ${cfg.preferences}
+      ${cfg.vim.opt}
+      ${cfg.vim.g}
+      ${cfg.postHooks}
     '';
 
   # TODO: allow for specifiying custom neovim packages

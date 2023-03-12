@@ -2,6 +2,15 @@
   options = import ./options.nix {inherit lib;};
   mkLazySpec = import ../mkLazySpec.nix {inherit lib;};
   toLua = import ../toLua.nix {inherit lib;};
+  joinNewLine = xs: lib.strings.concatStringsSep "\n" xs;
+  /*
+  processes each vim namespace (for example "vim.g" or "vim.o") into
+  stringified lua code
+  */
+  processVimPrefs = ns: values:
+    joinNewLine (
+      lib.mapAttrsToList (name: value: "vim.${ns}.${name} = ${toLua value}") values
+    );
 
   /*
   Produces an attribute set of various pieces of lua code to be consumed by the
@@ -22,9 +31,11 @@
       })
       .config;
   in {
-    preferences = lib.strings.concatStringsSep "\n" cfg.preferences;
     lazy = toLua cfg.lazy;
+    vim = lib.mapAttrs (name: value: processVimPrefs name value) cfg.vim;
     plugins = toLua (builtins.map mkLazySpec cfg.plugins);
+    preHooks = joinNewLine cfg.preHooks;
+    postHooks = joinNewLine cfg.postHooks;
   };
 in
   mkNvimConfig
