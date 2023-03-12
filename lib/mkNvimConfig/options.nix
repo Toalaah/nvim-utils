@@ -54,6 +54,7 @@ options which are not directly plugin-specific.
     startup respectively.
     */
     preHooks = lib.mkOption {
+      # TODO: types.lines?
       type = lib.types.listOf lib.types.str;
       description = "List of pieces of lua-code to execute before lazy startup";
       example = ["print('hello world')"];
