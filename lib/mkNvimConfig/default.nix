@@ -3,14 +3,16 @@
   assertions = import ../assertions.nix {inherit lib;};
   mkLazySpec = import ../mkLazySpec.nix {inherit lib;};
   toLua = import ../toLua.nix {inherit lib;};
-  joinNewLine = xs: lib.strings.concatStringsSep "\n" xs;
   /*
   processes each vim namespace (for example "vim.g" or "vim.o") into
   stringified lua code
   */
   processVimPrefs = ns: values:
-    joinNewLine (
-      lib.mapAttrsToList (name: value: "vim.${ns}.${name} = ${toLua value}") values
+    lib.strings.concatStringsSep "\n"
+    (
+      lib.mapAttrsToList
+      (name: value: "vim.${ns}.${name} = ${toLua value}")
+      values
     );
 
   /*
@@ -47,8 +49,7 @@
     lazy = toLua cfg.lazy;
     vim = lib.mapAttrs (name: value: processVimPrefs name value) cfg.vim;
     plugins = toLua (builtins.map mkLazySpec cfg.plugins);
-    preHooks = joinNewLine cfg.preHooks;
-    postHooks = joinNewLine cfg.postHooks;
+    inherit (cfg) preHooks postHooks;
   };
 in
   mkNvimConfig

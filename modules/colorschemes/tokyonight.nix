@@ -34,9 +34,7 @@ in {
           opts = {style = "${cfg.style}";};
         }
       ];
-      postHooks = [
-        "vim.cmd.colorscheme('tokyonight')"
-      ];
+      postHooks = "vim.cmd.colorscheme('tokyonight')";
     })
   ];
 }
