@@ -28,7 +28,10 @@
     # TODO: allow custom modules / plugins to be passed through
   }: let
     evaledModule = lib.evalModules {
-      specialArgs = {inherit plugins;};
+      specialArgs = {
+        inherit plugins;
+        mkOpts = opts: lib.filterAttrs (n: _v: n != "enable") opts;
+      };
       modules = [
         ../../modules
         options

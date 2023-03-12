@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  mkOpts,
   plugins,
   ...
 }:
@@ -28,10 +29,9 @@ in {
       plugins = [
         {
           slug = "folke/tokyonight.nvim";
-          enabled = true;
           name = "tokyonight";
           src = plugins.tokyonight-nvim;
-          opts = {style = "${cfg.style}";};
+          opts = mkOpts cfg;
         }
       ];
       postHooks = "vim.cmd.colorscheme('tokyonight')";

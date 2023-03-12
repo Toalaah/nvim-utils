@@ -18,6 +18,10 @@
       url = "github:folke/tokyonight.nvim";
       flake = false;
     };
+    gitsigns-nvim = {
+      url = "github:lewis6991/gitsigns.nvim";
+      flake = false;
+    };
 
     # Temporary fix for unreproducable build. See
     # nix-community/neovim-nightly-overlay#164

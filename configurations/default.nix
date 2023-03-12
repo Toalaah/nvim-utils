@@ -7,8 +7,20 @@ rec {
         style = "moon";
       };
     };
+    git.gitsigns = {
+      enable = true;
+      current_line_blame = true;
+      current_line_blame_opts = {
+        virt_text = true;
+        virt_text_pos = "eol";
+        delay = 500;
+        ignore_whitespace = false;
+      };
+      current_line_blame_formatter = "<author>; <author_time:%R> - <summary>";
+    };
 
     lazy = {
+      root = "/tmp/lazy";
       dev.path = "~/dev";
       defaults.lazy = true;
       checker.enabled = false;

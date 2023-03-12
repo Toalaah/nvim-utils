@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  mkOpts,
   plugins,
   ...
 }:
@@ -33,17 +34,9 @@ in {
       plugins = [
         {
           slug = "rose-pine/neovim";
-          enabled = true;
           name = "rose-pine";
           src = plugins.rose-pine;
-          opts = {
-            variant = cfg.variant;
-            bold_vert_split = cfg.bold_vert_split;
-            dim_nc_background = cfg.dim_nc_background;
-            disable_background = cfg.disable_background;
-            disable_float_background = cfg.disable_float_background;
-            disable_italics = cfg.disable_italics;
-          };
+          opts = mkOpts cfg;
         }
       ];
       postHooks = "vim.cmd.colorscheme('rose-pine')";
