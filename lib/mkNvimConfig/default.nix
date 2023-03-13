@@ -30,7 +30,7 @@
     evaledModule = lib.evalModules {
       specialArgs = {
         inherit plugins;
-        mkOpts = opts: lib.filterAttrs (n: _v: n != "enable") opts;
+        mkOpts = opts: lib.filterAttrs (n: _: n != "enable") opts;
       };
       modules = [
         ../../modules

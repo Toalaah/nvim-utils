@@ -29,7 +29,6 @@ in {
       plugins = [
         {
           slug = "folke/tokyonight.nvim";
-          name = "tokyonight";
           src = plugins.tokyonight-nvim;
           opts = mkOpts cfg;
         }

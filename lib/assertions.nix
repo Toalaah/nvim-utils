@@ -1,5 +1,5 @@
 /*
-Defines the assertion option type. Enabled checking of module integrity via
+Defines the assertion option type. Enables checking of module integrity via
 custom validators / assertions.
 */
 {lib}:
