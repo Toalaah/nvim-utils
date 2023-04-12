@@ -2,7 +2,7 @@
   description = "Neovim flake powered via Lazy.nvim";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     flake-utils.url = "github:numtide/flake-utils";
 
     # plugins
@@ -23,12 +23,9 @@
       flake = false;
     };
 
-    # Temporary fix for unreproducable build. See
-    # nix-community/neovim-nightly-overlay#164
-    nixpkgs-neovim-nightly.url = "github:nixos/nixpkgs?rev=fad51abd42ca17a60fc1d4cb9382e2d79ae31836";
     neovim-nightly = {
-      url = "github:neovim/neovim/nightly/?dir=contrib";
-      inputs.nixpkgs.follows = "nixpkgs-neovim-nightly";
+      url = "github:neovim/neovim/nightly?dir=contrib";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
