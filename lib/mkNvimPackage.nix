@@ -35,7 +35,7 @@
       lazy-nvim,
       neovim-nightly,
     }:
-      pkgs.wrapNeovim neovim-nightly.packages.${system}.neovim {
+      pkgs.wrapNeovim neovim-nightly {
         configure = {
           customRC = mkVimRC {
             inherit

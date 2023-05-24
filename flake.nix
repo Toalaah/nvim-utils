@@ -2,7 +2,7 @@
   description = "Neovim flake powered via Lazy.nvim";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs";
     flake-utils.url = "github:numtide/flake-utils";
 
     # plugins
@@ -23,10 +23,8 @@
       flake = false;
     };
 
-    neovim-nightly = {
-      url = "github:neovim/neovim/nightly?dir=contrib";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    neovim-nightly.url = "github:neovim/neovim?dir=contrib";
+    neovim-nightly.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = {
@@ -37,7 +35,7 @@
     rose-pine,
     tokyonight-nvim,
     ...
-  } @ attrs:
+  } @ inputs:
     flake-utils.lib.eachDefaultSystem (system: let
       pkgs = import nixpkgs {
         inherit system;
@@ -53,13 +51,17 @@
           "neovim-nightly"
           "nixpkgs"
         ]))
-      attrs;
+      inputs;
+      neovim-nightly' = inputs.neovim-nightly.packages.${system}.neovim.overrideAttrs (finalAttrs: {
+        patches = [];
+      });
     in rec {
       # map each configuration to an individual package
       packages = builtins.mapAttrs (name: _:
         mkNvimPackage {
           configuration = configurations.${name};
-          inherit plugins neovim-nightly lazy-nvim;
+          neovim-nightly = neovim-nightly';
+          inherit plugins lazy-nvim;
         })
       configurations;
       # expose each package as an app
@@ -74,6 +76,13 @@
       # TODO: nixos + home-manager modules
       formatter = pkgs.alejandra;
 
-      devShells.default = import ./shell.nix {inherit pkgs;};
+      devShells.default = pkgs.mkShell {
+        buildInputs = with pkgs; [
+          alejandra
+          deadnix
+          vim
+          gitAndTools.git
+        ];
+      };
     });
 }
