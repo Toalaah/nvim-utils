@@ -22,6 +22,10 @@
       url = "github:lewis6991/gitsigns.nvim";
       flake = false;
     };
+    nvim-treesitter = {
+      url = "github:nvim-treesitter/nvim-treesitter";
+      flake = false;
+    };
 
     neovim-nightly.url = "github:neovim/neovim?dir=contrib";
     neovim-nightly.inputs.nixpkgs.follows = "nixpkgs";

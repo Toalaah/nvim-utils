@@ -103,6 +103,22 @@
         "type": "github"
       }
     },
+    "nvim-treesitter": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1685267624,
+        "narHash": "sha256-SVQz1T4SjvD7WxodGbJqDlvrJLXco52yzI57bpf5tbg=",
+        "owner": "nvim-treesitter",
+        "repo": "nvim-treesitter",
+        "rev": "e23d5493cf14401ef02ec2e4e99b65f199869966",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nvim-treesitter",
+        "repo": "nvim-treesitter",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
@@ -110,6 +126,7 @@
         "lazy-nvim": "lazy-nvim",
         "neovim-nightly": "neovim-nightly",
         "nixpkgs": "nixpkgs",
+        "nvim-treesitter": "nvim-treesitter",
         "rose-pine": "rose-pine",
         "tokyonight-nvim": "tokyonight-nvim"
       }

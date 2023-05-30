@@ -7,6 +7,12 @@ rec {
         style = "moon";
       };
     };
+    treesitter = {
+      enable = true;
+      opts = {
+        highlight.enable = true;
+      };
+    };
     git.gitsigns = {
       enable = true;
       current_line_blame = true;
