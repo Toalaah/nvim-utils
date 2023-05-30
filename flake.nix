@@ -80,13 +80,6 @@
       # TODO: nixos + home-manager modules
       formatter = pkgs.alejandra;
 
-      devShells.default = pkgs.mkShell {
-        buildInputs = with pkgs; [
-          alejandra
-          deadnix
-          vim
-          gitAndTools.git
-        ];
-      };
+      devShells.default = import ./shell.nix {inherit pkgs;};
     });
 }
