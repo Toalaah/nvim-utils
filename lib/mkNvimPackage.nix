@@ -12,8 +12,9 @@
     lazy-nvim,
     configuration,
     plugins,
+    pkgs,
   }: let
-    mkConfig = import ./mkNvimConfig {inherit lib;};
+    mkConfig = import ./mkNvimConfig {inherit pkgs lib;};
     cfg = mkConfig {inherit configuration plugins;};
   in
     wrapLuaConfig ''
@@ -26,25 +27,31 @@
     '';
 
   # TODO: allow for specifiying custom neovim packages
-  mkNvimPackage = let
-    system = pkgs.system;
+  mkNvimPackage = {
+    configuration,
+    lazy-nvim,
+    package,
+    plugins,
+  }: let
+    extraPkgs = pkgs.symlinkJoin {
+      name = "extra-packages";
+      paths = [pkgs.hello];
+    };
   in
-    {
-      configuration,
-      plugins,
-      lazy-nvim,
-      neovim-nightly,
-    }:
-      pkgs.wrapNeovim neovim-nightly {
-        configure = {
-          customRC = mkVimRC {
-            inherit
-              lazy-nvim
-              configuration
-              plugins
-              ;
-          };
+    pkgs.wrapNeovim package {
+      extraMakeWrapperArgs = ''
+        --prefix PATH : ${extraPkgs}/bin
+      '';
+      configure = {
+        customRC = mkVimRC {
+          inherit
+            lazy-nvim
+            configuration
+            plugins
+            pkgs
+            ;
         };
       };
+    };
 in
   mkNvimPackage

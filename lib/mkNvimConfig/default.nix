@@ -1,4 +1,7 @@
-{lib}: let
+{
+  pkgs,
+  lib ? pkgs.lib,
+}: let
   options = import ./options.nix {inherit lib;};
   assertions = import ../assertions.nix {inherit lib;};
   mkLazySpec = import ../mkLazySpec.nix {inherit lib;};
@@ -29,7 +32,7 @@
   }: let
     evaledModule = lib.evalModules {
       specialArgs = {
-        inherit plugins;
+        inherit plugins pkgs;
         mkOpts = opts: lib.filterAttrs (n: _: n != "enable") opts;
       };
       modules = [
@@ -52,7 +55,7 @@
     lazy = toLua cfg.lazy;
     vim = lib.mapAttrs (name: value: processVimPrefs name value) cfg.vim;
     plugins = toLua (builtins.map mkLazySpec cfg.plugins);
-    inherit (cfg) preHooks postHooks;
+    inherit (cfg) preHooks postHooks extraPackages;
   };
 in
   mkNvimConfig

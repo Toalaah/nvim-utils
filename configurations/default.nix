@@ -13,6 +13,10 @@ rec {
         highlight.enable = true;
       };
     };
+    lsp.lsp-config.enable = true;
+    lsp.null-ls.enable = true;
+    languages.lua.enable = true;
+    languages.nix.enable = true;
     git.gitsigns = {
       enable = true;
       current_line_blame = true;
@@ -30,21 +34,26 @@ rec {
       dev.path = "~/dev";
       defaults.lazy = true;
       checker.enabled = false;
-      performance.cache.enabled = true;
-      rtp.disabled_plugins = [
-        "gzip"
-        "matchit"
-        "matchparen"
-        "rplugin"
-        "tarPlugin"
-        "tohtml"
-        "tutor"
-        "zipPlugin"
-      ];
+      performance = {
+        cache.enabled = true;
+        reset_packpath = false;
+        rtp.reset = false;
+        rtp.disabled_plugins = [
+          "gzip"
+          "matchit"
+          "matchparen"
+          "rplugin"
+          "tarPlugin"
+          "tohtml"
+          "tutor"
+          "zipPlugin"
+        ];
+      };
     };
 
     vim = {
       opt = {
+        tabstop = 2;
         relativenumber = true;
         number = true;
         listchars = {

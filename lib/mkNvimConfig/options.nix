@@ -70,5 +70,17 @@ options which are not directly plugin-specific.
       '';
       default = "";
     };
+
+    /*
+    Extra packages to be included in the wrapped program's PATH
+    */
+    extraPackages = lib.mkOption {
+      type = lib.types.listOf lib.types.package;
+      description = "extra packages to be included in the wrapped program's PATH";
+      example = lib.literalExpression ''
+        [ pkgs.hello ]
+      '';
+      default = [];
+    };
   };
 }

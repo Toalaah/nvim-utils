@@ -103,6 +103,38 @@
         "type": "github"
       }
     },
+    "null-ls-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1685458805,
+        "narHash": "sha256-ELMTBAo0d1zcDfOn+uxaOL6R2PyKpcr2+oqBW3yA/s4=",
+        "owner": "jose-elias-alvarez",
+        "repo": "null-ls.nvim",
+        "rev": "c89333e034a8daba654ebfcf9a4ec9f87765f01e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "jose-elias-alvarez",
+        "repo": "null-ls.nvim",
+        "type": "github"
+      }
+    },
+    "nvim-lspconfig": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1685341496,
+        "narHash": "sha256-KwXWEUXSe9FlaNRJGid+jCKrO5oj68obYpWFHVdLuuY=",
+        "owner": "neovim",
+        "repo": "nvim-lspconfig",
+        "rev": "9166622781a39a829878d1fd24c174529d996838",
+        "type": "github"
+      },
+      "original": {
+        "owner": "neovim",
+        "repo": "nvim-lspconfig",
+        "type": "github"
+      }
+    },
     "nvim-treesitter": {
       "flake": false,
       "locked": {
@@ -119,6 +151,22 @@
         "type": "github"
       }
     },
+    "plenary-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1684942084,
+        "narHash": "sha256-o83xyCwMhaJtEchbYtZMbIYERPHPZhk2wTPoz/t+RVA=",
+        "owner": "nvim-lua",
+        "repo": "plenary.nvim",
+        "rev": "52544825d6b8be677eb395983515ad5e30ae1f2e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nvim-lua",
+        "repo": "plenary.nvim",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
@@ -126,7 +174,10 @@
         "lazy-nvim": "lazy-nvim",
         "neovim-nightly": "neovim-nightly",
         "nixpkgs": "nixpkgs",
+        "null-ls-nvim": "null-ls-nvim",
+        "nvim-lspconfig": "nvim-lspconfig",
         "nvim-treesitter": "nvim-treesitter",
+        "plenary-nvim": "plenary-nvim",
         "rose-pine": "rose-pine",
         "tokyonight-nvim": "tokyonight-nvim"
       }

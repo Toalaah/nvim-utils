@@ -26,12 +26,25 @@
       url = "github:nvim-treesitter/nvim-treesitter";
       flake = false;
     };
+    nvim-lspconfig = {
+      url = "github:neovim/nvim-lspconfig";
+      flake = false;
+    };
+    null-ls-nvim = {
+      url = "github:jose-elias-alvarez/null-ls.nvim";
+      flake = false;
+    };
+    plenary-nvim = {
+      url = "github:nvim-lua/plenary.nvim";
+      flake = false;
+    };
 
     neovim-nightly.url = "github:neovim/neovim?dir=contrib";
     neovim-nightly.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = {
+    self,
     flake-utils,
     lazy-nvim,
     neovim-nightly,
@@ -54,28 +67,28 @@
           "lazy-nvim"
           "neovim-nightly"
           "nixpkgs"
+          "self"
         ]))
       inputs;
-      neovim-nightly' = inputs.neovim-nightly.packages.${system}.neovim.overrideAttrs (finalAttrs: {
+      neovim-nightly' = inputs.neovim-nightly.packages.${system}.neovim.overrideAttrs (_finalAttrs: {
         patches = [];
       });
-    in rec {
+    in {
       # map each configuration to an individual package
       packages = builtins.mapAttrs (name: _:
         mkNvimPackage {
           configuration = configurations.${name};
-          neovim-nightly = neovim-nightly';
+          package = neovim-nightly';
           inherit plugins lazy-nvim;
         })
       configurations;
       # expose each package as an app
-      apps = with flake-utils.lib;
-        builtins.mapAttrs (name: _:
-          mkApp {
-            drv = packages.${name};
-            exePath = "/bin/nvim";
-          })
-        packages;
+      apps = builtins.mapAttrs (name: _:
+        flake-utils.lib.mkApp {
+          drv = self.packages.${name};
+          exePath = "/bin/nvim";
+        })
+      self.packages;
 
       # TODO: nixos + home-manager modules
       formatter = pkgs.alejandra;
