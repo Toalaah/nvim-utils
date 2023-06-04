@@ -26,10 +26,15 @@ options which are not directly plugin-specific.
         Options passed to lazy.nvim startup function. See the project's readme
         for all currently available options.
       '';
-      example = {
-        dev.path = "~/dev";
-        defaults.lazy = true;
-      };
+      example = lib.literalExpression ''
+          {
+            dev.path = "~/dev";
+            defaults = {
+              lazy = true;
+            };
+          }
+        };
+      '';
       default = null;
     };
 

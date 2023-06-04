@@ -1,5 +1,5 @@
 {lib}: let
-  mkLazySpec = {
+  mkPluginSpec = {
     slug,
     src,
     name ? null,
@@ -26,4 +26,4 @@
   in
     attrs;
 in
-  mkLazySpec
+  mkPluginSpec
