@@ -28,6 +28,9 @@ in {
       assertions = [];
       plugins = [];
       treesitter.parsers = ["nix"];
+      lsp.null-ls.formatters = ["alejandra"];
+      lsp.null-ls.diagnostics = ["deadnix"];
+      extraPackages = [ pkgs.alejandra pkgs.deadnix ];
       postHooks = lib.optionalString config.lsp.lsp-config.enable ''
         require('lspconfig').nil_ls.setup {
           cmd = { "${pkgs.nil}/bin/nil" },

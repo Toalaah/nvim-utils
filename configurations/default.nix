@@ -15,9 +15,10 @@ rec {
     };
     lsp.lsp-config.enable = true;
     lsp.null-ls.enable = true;
+    lsp.null-ls.enableAutoFormat = true;
     languages.nix.enable = true;
     languages.nix.opts = {
-      formatting.command = ["alejandra"];
+      # formatting.command = ["alejandra"];
       nix.flake.autoArchive = false;
     };
     languages.lua.enable = true;
