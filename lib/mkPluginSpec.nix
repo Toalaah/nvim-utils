@@ -3,9 +3,10 @@
     slug,
     src,
     name ? null,
+    dependencies ? [],
     ...
   } @ inputs: let
-    isExtraArg = x: _: !(builtins.elem x ["slug" "src"]);
+    isExtraArg = x: _: !(builtins.elem x ["slug" "src" "dependencies"]);
     extraArgs = lib.filterAttrs isExtraArg inputs;
     # extract name from slug if not explicitly passed
     name' =
@@ -22,6 +23,7 @@
         name = name';
       }
       // extraArgs
+      // (lib.filterAttrs (_: v: v != []) { dependencies = builtins.map mkPluginSpec dependencies; })
     );
   in
     attrs;
