@@ -17,18 +17,18 @@ with lib; let
       '';
       default = [];
     };
-    mapSources = srcType: builtins.map (x: "nls.builtins.${srcType}.${x}");
-    allCodeActionSources = mapSources "code_actions" cfg.code-actions;
-    allCompletionSources = mapSources "completion" cfg.completion;
-    allDiagnosticSources = mapSources "diagnostics" cfg.diagnostics;
-    allHoverSources = mapSources "hover" cfg.hover;
-    allFormatterSources = mapSources "formatting" cfg.formatters;
-    allSources = 
-      allCodeActionSources ++
-      allCompletionSources ++
-      allDiagnosticSources ++
-      allHoverSources ++
-      allFormatterSources;
+  mapSources = srcType: builtins.map (x: "nls.builtins.${srcType}.${x}");
+  allCodeActionSources = mapSources "code_actions" cfg.code-actions;
+  allCompletionSources = mapSources "completion" cfg.completion;
+  allDiagnosticSources = mapSources "diagnostics" cfg.diagnostics;
+  allHoverSources = mapSources "hover" cfg.hover;
+  allFormatterSources = mapSources "formatting" cfg.formatters;
+  allSources =
+    allCodeActionSources
+    ++ allCompletionSources
+    ++ allDiagnosticSources
+    ++ allHoverSources
+    ++ allFormatterSources;
 in {
   options.lsp.null-ls = {
     enable = mkEnableOption "null-ls";
@@ -64,18 +64,18 @@ in {
                 },
 
               ${lib.optionalString cfg.enableAutoFormat ''
-                on_attach = function(client, bufnr)
-                  if client.supports_method("textDocument/formatting") then
-                    vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-                    vim.api.nvim_create_autocmd("BufWritePre", {
-                      group = augroup,
-                      buffer = bufnr,
-                      callback = function()
-                        vim.lsp.buf.format({ bufnr = bufnr, async = true })
-                      end,
-                    })
-                    end
-                end,
+              on_attach = function(client, bufnr)
+                if client.supports_method("textDocument/formatting") then
+                  vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+                  vim.api.nvim_create_autocmd("BufWritePre", {
+                    group = augroup,
+                    buffer = bufnr,
+                    callback = function()
+                      vim.lsp.buf.format({ bufnr = bufnr })
+                    end,
+                  })
+                  end
+              end,
             ''}
             }
             end

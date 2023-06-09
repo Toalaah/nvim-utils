@@ -23,7 +23,7 @@
         name = name';
       }
       // extraArgs
-      // (lib.filterAttrs (_: v: v != []) { dependencies = builtins.map mkPluginSpec dependencies; })
+      // (lib.filterAttrs (_: v: v != []) {dependencies = builtins.map mkPluginSpec dependencies;})
     );
   in
     attrs;
