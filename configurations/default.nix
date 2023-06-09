@@ -15,8 +15,12 @@ rec {
     };
     lsp.lsp-config.enable = true;
     lsp.null-ls.enable = true;
-    languages.lua.enable = true;
     languages.nix.enable = true;
+    languages.nix.opts = {
+      formatting.command = ["alejandra"];
+      nix.flake.autoArchive = false;
+    };
+    languages.lua.enable = true;
     git.gitsigns = {
       enable = true;
       current_line_blame = true;
