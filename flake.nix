@@ -38,7 +38,46 @@
       url = "github:nvim-lua/plenary.nvim";
       flake = false;
     };
-
+    lsp_lines = {
+      url = "git+https://git.sr.ht/~whynothugo/lsp_lines.nvim";
+      flake = false;
+    };
+    nvim-cmp = {
+      url = "github:hrsh7th/nvim-cmp";
+      flake = false;
+    };
+    cmp-nvim-lsp = {
+      url = "github:hrsh7th/cmp-nvim-lsp";
+      flake = false;
+    };
+    cmp-nvim-lua = {
+      url = "github:hrsh7th/cmp-nvim-lua";
+      flake = false;
+    };
+    cmp-async-path = {
+      url = "github:felipelema/cmp-async-path";
+      flake = false;
+    };
+    cmp-cmdline = {
+      url = "github:hrsh7th/cmp-cmdline";
+      flake = false;
+    };
+    cmp-buffer = {
+      url = "github:hrsh7th/cmp-buffer";
+      flake = false;
+    };
+    cmp_luasnip = {
+      url = "github:saadparwaiz1/cmp_luasnip";
+      flake = false;
+    };
+    luasnip = {
+      url = "github:L3MON4D3/LuaSnip";
+      flake = false;
+    };
+    friendly-snippets = {
+      url = "github:rafamadriz/friendly-snippets";
+      flake = false;
+    };
     neovim-nightly.url = "github:neovim/neovim?dir=contrib";
     neovim-nightly.inputs.nixpkgs.follows = "nixpkgs";
   };

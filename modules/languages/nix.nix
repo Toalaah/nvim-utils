@@ -34,6 +34,7 @@ in {
       postHooks = lib.optionalString config.lsp.lsp-config.enable ''
         require('lspconfig').nil_ls.setup {
           cmd = { "${pkgs.nil}/bin/nil" },
+          capabilities = require('cmp_nvim_lsp').default_capabilities(),
           settings = {
             ['nil'] = ${toLua cfg.opts}
           },

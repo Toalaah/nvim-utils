@@ -58,6 +58,7 @@ in {
             function()
               local nls = require("null-ls")
               return {
+                debounce = 150,
                 root_dir = require("null-ls.utils").root_pattern("Makefile", ".git"),
                 sources = {
                   ${lib.concatStringsSep ",\n" allSources}

@@ -25,6 +25,7 @@ in {
       postHooks = lib.optionalString config.lsp.lsp-config.enable ''
         require('lspconfig').lua_ls.setup {
             cmd = { "${pkgs.lua-language-server}/bin/lua-language-server" },
+            capabilities = require('cmp_nvim_lsp').default_capabilities(),
             settings = {
               single_file_support = true,
               Lua = {
