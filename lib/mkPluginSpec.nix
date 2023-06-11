@@ -1,29 +1,50 @@
 {lib}: let
   mkPluginSpec = {
-    slug,
     src,
-    name ? null,
+    slug ? "",
+    name ? "",
     dependencies ? [],
     ...
   } @ inputs: let
-    isExtraArg = x: _: !(builtins.elem x ["slug" "src" "dependencies"]);
-    extraArgs = lib.filterAttrs isExtraArg inputs;
-    # extract name from slug if not explicitly passed
-    name' =
-      if name != null
-      then name
-      else (builtins.elemAt (lib.strings.splitString "/" slug) 1);
+    extraArgs = builtins.removeAttrs inputs ["slug" "src" "name" "dependencies"];
+
+    tryGetSlug = src:
+      if !(builtins.isAttrs src && builtins.hasAttr "owner" src && builtins.hasAttr "repo" src)
+      then
+        throw ''
+          Failed to compute slug. Either pass a `slug` parameter manually or pass
+          a src which has an `owner`, `repo`, and `outPath` attribute (for
+          example, lib.fetchFromGitHub).
+        ''
+      else "${src.owner}/${src.repo}";
+
+    slug' =
+      if slug != ""
+      then slug
+      else tryGetSlug src;
+
+    dependencies' = lib.filterAttrs (_: v: v != []) {
+      dependencies = builtins.map (p:
+        if builtins.isString p
+        then p
+        else mkPluginSpec p)
+      dependencies;
+    };
+
     attrs = (
       {
-        __index__ = slug;
+        __index__ = slug';
         dir =
-          if lib.isString src
-          then src
-          else src.outPath;
-        name = name';
+          if builtins.isAttrs src
+          then src.outPath
+          else src;
+        name =
+          if name != ""
+          then name
+          else (builtins.elemAt (lib.strings.splitString "/" slug') 1);
       }
       // extraArgs
-      // (lib.filterAttrs (_: v: v != []) {dependencies = builtins.map mkPluginSpec dependencies;})
+      // dependencies'
     );
   in
     attrs;
