@@ -1,46 +1,35 @@
-rec {
-  # standard config exposed in flake's default package / app
+{
   default = {
-    colorschemes = {
-      tokyonight = {
-        enable = true;
-        style = "moon";
-      };
-    };
-    treesitter = {
-      enable = true;
-      opts = {
-        highlight.enable = true;
-      };
+    # implicitly enables colorscheme and sets to primary
+    colorschemes.default = "tokyonight";
+    colorschemes.tokyonight.opts = {
+      style = "moon";
     };
 
-    # enable general language server configs and completion setup
+    treesitter.enable = true;
+    treesitter.opts = {
+      highlight.enable = true;
+    };
+
+    git.gitsigns.enable = true;
+
     lsp.lsp-config.enable = true;
+
+    # lsp.completion.enable = true;
+    # lsp.snippets.enable = true;
+
     lsp.null-ls.enable = true;
-    lsp.null-ls.enableAutoFormat = true;
+    lsp.null-ls.autoformat = false;
 
-    # enable per-language lsp-configs
-    languages.nix.enable = true;
-    languages.nix.opts = {nix.flake.autoArchive = false;};
     languages.lua.enable = true;
-
-    git.gitsigns = {
-      enable = true;
-      current_line_blame = true;
-      current_line_blame_opts = {
-        virt_text = true;
-        virt_text_pos = "eol";
-        delay = 500;
-        ignore_whitespace = false;
-      };
-      current_line_blame_formatter = "<author>; <author_time:%R> - <summary>";
-    };
 
     lazy = {
       root = "/tmp/lazy";
       dev.path = "~/dev";
+      lockfile = "/dev/null";
       defaults.lazy = true;
-      checker.enabled = false;
+      change_detection.enabled = false;
+      install.missing = false;
       performance = {
         cache.enabled = true;
         reset_packpath = false;
@@ -58,35 +47,14 @@ rec {
       };
     };
 
-    # vim = {
-    #   opt = {
-    #     tabstop = 2;
-    #     relativenumber = true;
-    #     number = true;
-    #     listchars = {
-    #       extends = "⟩";
-    #       nbsp = "␣";
-    #       precedes = "⟨";
-    #       tab = "→\\\\ ";
-    #       trail = "•";
-    #     };
-    #   };
-    #   g.mapleader = " ";
-    # };
-
     vim.opt.backup = false;
     vim.opt.undofile = true;
     vim.opt.clipboard = "unnamedplus";
     vim.opt.cmdheight = 0;
     vim.opt.completeopt = "menu,menuone,noselect";
-    # vim.cmd [[set spelllang=en_us,de_de ]];
     vim.opt.confirm = true;
     vim.opt.cursorline = true;
     vim.opt.diffopt = "vertical";
-    # vim.o.foldcolumn = "1";
-    # vim.o.foldlevel = 99;
-    # vim.o.foldlevelstart = 99;
-    # vim.o.foldenable = true;
     vim.opt.splitright = true;
     vim.opt.splitbelow = true;
     vim.opt.expandtab = true;
@@ -102,8 +70,6 @@ rec {
       precedes = "⟨";
       tab = "→\\\\ ";
       trail = "•";
-      # eol = "↴";
-      # space = "⋅";
     };
     vim.opt.mouse = "a";
     vim.opt.number = true;
@@ -120,12 +86,8 @@ rec {
     vim.opt.termguicolors = true;
     vim.opt.timeoutlen = 250;
     vim.opt.wrap = false;
-
     vim.g.tex_flavor = "latex";
     vim.g.mapleader = " ";
     vim.g.editorconfig = true;
   };
-
-  # TODO: multiple configs for different workflows (programming / prose / devops?)
-  minimal = default;
 }

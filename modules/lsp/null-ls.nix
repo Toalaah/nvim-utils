@@ -1,11 +1,18 @@
 {
   config,
   lib,
-  plugins,
+  pkgs,
+  rawLua,
   ...
 }:
 with lib; let
   cfg = config.lsp.null-ls;
+  src = pkgs.fetchFromGitHub {
+    owner = "jose-elias-alvarez";
+    repo = "null-ls.nvim";
+    rev = "a138b14099e9623832027ea12b4631ddd2a49256";
+    hash = "sha256-N8TlKUq9fGzlYaGtOVDE1A40AVoE6vQlM9J1P2WA+sk=";
+  };
   mkSourceOption = srcType:
     mkOption {
       type = types.listOf types.string;
@@ -32,7 +39,16 @@ with lib; let
 in {
   options.lsp.null-ls = {
     enable = mkEnableOption "null-ls";
-    enableAutoFormat = mkEnableOption "autoformatting";
+    src = mkOption {
+      type = types.attrs;
+      description = lib.mdDoc ''
+        Source to use for this plugin. This allows you to swap out the pinned
+        version with a newer revision/fork or add patches by creating a
+        wrapper derivation.
+      '';
+      default = src;
+    };
+    autoformat = mkEnableOption "autoformatting";
     code-actions = mkSourceOption "code-actions";
     completion = mkSourceOption "completion";
     diagnostics = mkSourceOption "diagnostics";
@@ -46,15 +62,20 @@ in {
         {
           slug = "jose-elias-alvarez/null-ls.nvim";
           event = ["BufReadPre" "BufNewFile"];
+          inherit (cfg) src;
           dependencies = [
             {
               slug = "nvim-lua/plenary.nvim";
-              src = plugins.plenary-nvim;
+              src = pkgs.fetchFromGitHub {
+                owner = "nvim-lua";
+                repo = "plenary.nvim";
+                rev = "36aaceb6e93addd20b1b18f94d86aecc552f30c4";
+                hash = "sha256-q7cWcedN/BViNWpIFRdnvQrs60vQICmboqi9y+cRH2Q=";
+              };
             }
           ];
-          src = plugins.null-ls-nvim;
           name = "null-ls.nvim";
-          opts = _: ''
+          opts = rawLua ''
             function()
               local nls = require("null-ls")
               return {
@@ -64,7 +85,7 @@ in {
                   ${lib.concatStringsSep ",\n" allSources}
                 },
 
-              ${lib.optionalString cfg.enableAutoFormat ''
+              ${lib.optionalString cfg.autoformat ''
               on_attach = function(client, bufnr)
                 if client.supports_method("textDocument/formatting") then
                   vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
@@ -84,7 +105,7 @@ in {
         }
       ];
       # TODO: create aucmd module
-      preHooks = ''
+      preHooks = lib.optionalString cfg.autoformat ''
         local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
       '';
     })

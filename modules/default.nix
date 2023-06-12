@@ -1,12 +1,16 @@
 {...}: {
   imports = [
-    ./colorschemes/rose-pine.nix
-    ./colorschemes/tokyonight.nix
-    ./git/gitsigns.nix
+    ./colorschemes
+
     ./treesitter
-    ./languages/lua.nix
-    ./languages/nix.nix
-    ./lsp/lsp-config.nix
+
+    ./git/gitsigns
+
     ./lsp/null-ls.nix
+    ./lsp/lsp-config.nix
+    ./lsp/completion
+
+    ./languages/lua
+    # ./languages/nix
   ];
 }

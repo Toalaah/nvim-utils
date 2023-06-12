@@ -2,10 +2,15 @@
   config,
   lib,
   pkgs,
-  plugins,
   ...
 }:
 with lib; let
+  src = pkgs.fetchFromGitHub {
+    owner = "nvim-treesitter";
+    repo = "nvim-treesitter";
+    rev = "f9d701176cb9a3e206a4c690920a8993630c3ec8";
+    hash = "sha256-K4OXsqGA+ldC4o2YWmuVjpOaJiUSkOAd4pSJoHMM7CM=";
+  };
   cfg = config.treesitter;
   mkKeymapOptionFor = what: default:
     mkOption {
@@ -24,6 +29,15 @@ in {
   options = {
     treesitter = {
       enable = mkEnableOption "treesitter";
+      src = mkOption {
+        type = types.attrs;
+        description = lib.mdDoc ''
+          Source to use for this plugin. This allows you to swap out the pinned
+          version with a newer revision/fork or add patches by creating a
+          wrapper derivation.
+        '';
+        default = src;
+      };
       parsers = mkOption {
         type = types.listOf types.str;
         description = "list of language parsers to install";
@@ -50,12 +64,9 @@ in {
       assertions = [];
       plugins = [
         {
-          slug = "nvim-treesitter/nvim-treesitter";
-          name = "nvim-treesitter";
-          src = plugins.nvim-treesitter;
           main = "nvim-treesitter.configs";
-          event = "BufReadPost";
-          inherit (cfg) opts;
+          event = ["BufReadPost" "BufNewFile"];
+          inherit (cfg) src opts;
         }
       ];
       preHooks = "vim.opt.runtimepath:prepend('${parsers}')";

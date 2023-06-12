@@ -6,10 +6,9 @@
     configuration,
     lazy-nvim,
     package,
-    plugins,
   }: let
     mkNvimConfig = import ./mkNvimConfig {inherit pkgs lib;};
-    cfg = mkNvimConfig {inherit configuration plugins lazy-nvim;};
+    cfg = mkNvimConfig {inherit configuration lazy-nvim;};
     vimRC = import ./rc.nix {inherit cfg lazy-nvim;};
   in
     pkgs.wrapNeovim package {
