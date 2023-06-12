@@ -14,17 +14,35 @@ options which are not directly plugin-specific.
     */
     plugins = lib.mkOption {
       type = lib.types.listOf lib.types.attrs;
-      description = ''
+      description = lib.mdDoc ''
         Combined plugin spec passed to lazy.nvim startup function
+      '';
+      default = [];
+    };
+
+    rtp = lib.mkOption {
+      type = lib.types.listOf lib.types.path;
+      description = lib.mdDoc ''
+        A list of paths to add to the `runtimepath`. The paths must be placed
+        inside a parent folder named in accordance to where they should be
+        in the `runtimepath`.
+
+        For instance, if you wish to have a lua module `module.lua` to be
+        available in the `rtp`, you must place it **inside** a folder named
+        `lua`, then add this folder to `opt.rtp`.
+
+        See `:h rtp` for more information.
       '';
       default = [];
     };
 
     lazy = lib.mkOption {
       type = lib.types.nullOr lib.types.attrs;
-      description = ''
-        Options passed to lazy.nvim startup function. See the project's readme
-        for all currently available options.
+      description = lib.mdDoc ''
+        Options passed to lazy.nvim startup function.
+
+        Consult the project's [readme](https://github.com/folke/lazy.nvim) for
+        all currently available options.
       '';
       example = lib.literalExpression ''
           {
@@ -46,7 +64,11 @@ options which are not directly plugin-specific.
       mkVimNamespaceOption = ns:
         lib.mkOption {
           type = lib.types.attrs;
-          description = "values to set under the `vim.${ns}` namespace";
+          description = lib.mdDoc ''
+            Values to set under the `vim.${ns}` namespace".
+
+            Run `:help vim.o` for from inside the nvim process more information.
+          '';
           default = {};
         };
     in {
@@ -60,7 +82,7 @@ options which are not directly plugin-specific.
     */
     preHooks = lib.mkOption {
       type = lib.types.lines;
-      description = "lua statements to to execute before lazy startup, newline separated";
+      description = lib.mdDoc "lua statements to be executed **before** lazy startup, newline separated";
       example = ''
         print('hello world')
       '';
@@ -69,7 +91,7 @@ options which are not directly plugin-specific.
 
     postHooks = lib.mkOption {
       type = lib.types.lines;
-      description = "lua statements to to execute after lazy startup, newline separated";
+      description = lib.mdDoc "lua statements to be executed **after** lazy startup, newline separated";
       example = ''
         print('hello world')
       '';
@@ -81,7 +103,7 @@ options which are not directly plugin-specific.
     */
     extraPackages = lib.mkOption {
       type = lib.types.listOf lib.types.package;
-      description = "extra packages to be included in the wrapped program's PATH";
+      description = lib.mdDoc "Extra packages to be included in the wrapped program's PATH";
       example = lib.literalExpression ''
         [ pkgs.hello ]
       '';

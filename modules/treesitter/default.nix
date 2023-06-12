@@ -18,12 +18,17 @@ with lib; let
       inherit default;
       description = "keybinding for ${what}";
     };
-  parsers = pkgs.symlinkJoin {
-    name = "treesitter-parsers";
-    paths = let
+  parsers = pkgs.stdenv.mkDerivation {
+    name = "parser";
+    src = let
       parsers' = p: (builtins.map (x: p."${x}") config.treesitter.parsers);
     in
       (pkgs.vimPlugins.nvim-treesitter.withPlugins parsers').dependencies;
+    phases = [ "installPhase"];
+    installPhase = ''
+      mkdir -p $out
+      cp -r $src/parser/* $out
+    '';
   };
 in {
   options = {
@@ -69,7 +74,7 @@ in {
           inherit (cfg) src opts;
         }
       ];
-      preHooks = "vim.opt.runtimepath:prepend('${parsers}')";
+      rtp = [parsers];
     })
   ];
 }

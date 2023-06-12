@@ -22,7 +22,10 @@
         configuration
       ];
     };
+    mkRtp = import ./rtp.nix pkgs;
   in {
+    rtp = mkRtp cfg.rtp;
+
     # TODO: create a designated module for the lazy config?
 
     # We set the root to the path of an empty derivation as it is useless

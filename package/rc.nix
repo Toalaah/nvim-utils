@@ -10,7 +10,6 @@
 in
   wrapLuaConfig ''
     ${cfg.preHooks}
-    vim.opt.runtimepath:prepend('${lazy-nvim}')
     require('lazy').setup(${cfg.plugins}, ${cfg.lazy})
     ${cfg.vim.opt}
     ${cfg.vim.g}

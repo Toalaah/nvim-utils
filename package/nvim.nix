@@ -12,9 +12,10 @@
     vimRC = import ./rc.nix {inherit cfg lazy-nvim;};
   in
     pkgs.wrapNeovim package {
-      extraMakeWrapperArgs = ''
-        --prefix PATH : ${cfg.extraPkgs}/bin
-      '';
+      extraMakeWrapperArgs = lib.strings.concatStringsSep " " [
+        "--prefix PATH : ${cfg.extraPkgs}/bin"
+        ''--add-flags "--cmd 'set rtp^=${lazy-nvim},${cfg.rtp}'"''
+      ];
       configure.customRC = vimRC;
     };
 in
