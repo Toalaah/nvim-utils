@@ -2,7 +2,12 @@
 This file defines the top-level options of `mkNvimConfig`, more specifically
 options which are not directly plugin-specific.
 */
-{lib}: {
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}: {
   options = {
     /*
     Defines an array of merged plugin specs. These specs are defined on a
@@ -34,6 +39,17 @@ options which are not directly plugin-specific.
         See `:h rtp` for more information.
       '';
       default = [];
+    };
+
+    # used internally for read-access to final derivation output path
+    _rtpPath = lib.mkOption {
+      type = lib.types.path;
+      readOnly = true;
+      internal = true;
+      default = let
+        mkRtp = import ./rtp.nix pkgs;
+      in
+        (mkRtp config.rtp).outPath;
     };
 
     lazy = lib.mkOption {

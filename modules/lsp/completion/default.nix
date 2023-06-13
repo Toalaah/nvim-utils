@@ -7,7 +7,7 @@
   ...
 }:
 with lib; let
-  sources = builtins.mapAttrs (_: v: pkgs.fetchFromGitHub (v // { name = v.repo; })) (import ./sources.nix);
+  sources = builtins.mapAttrs (_: v: pkgs.fetchFromGitHub (v // {name = v.repo;})) (import ./sources.nix);
 in {
   config = mkMerge [
     (mkIf config.lsp.lsp-config.enable {

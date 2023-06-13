@@ -26,6 +26,8 @@ in {
               globals = ["vim"];
               unusedLocalExclude = ["_*"];
             };
+            # expose custom lua modules to lsp config, for instance to enable goto definition.
+            workspace.library = [config._rtpPath];
           };
         };
         description = lib.mdDoc ''

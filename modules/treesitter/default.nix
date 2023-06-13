@@ -24,7 +24,7 @@ with lib; let
       parsers' = p: (builtins.map (x: p."${x}") config.treesitter.parsers);
     in
       (pkgs.vimPlugins.nvim-treesitter.withPlugins parsers').dependencies;
-    phases = [ "installPhase"];
+    phases = ["installPhase"];
     installPhase = ''
       mkdir -p $out
       cp -r $src/parser/* $out

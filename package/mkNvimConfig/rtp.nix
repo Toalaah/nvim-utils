@@ -2,7 +2,7 @@ pkgs: rtp:
 pkgs.stdenv.mkDerivation {
   name = "rtp";
   src = rtp;
-  phases = [ "installPhase"];
+  phases = ["installPhase"];
   installPhase = ''
     mkdir -p $out
     # sanitize out-path, ex: /nix/store/xxxxxx-file.lua -> file.lua

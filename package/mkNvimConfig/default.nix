@@ -4,7 +4,6 @@
 }: let
   lib' = import ../../lib {inherit lib;};
   inherit (lib') toLua rawLua mkPluginSpec vim evalModule;
-  options = import ./options.nix {inherit lib;};
 
   mkNvimConfig = {
     lazy-nvim,
@@ -18,13 +17,12 @@
       # TODO: allow custom modules / plugins to be passed through
       modules = [
         ../../modules
-        options
         configuration
+        ./options.nix
       ];
     };
-    mkRtp = import ./rtp.nix pkgs;
   in {
-    rtp = mkRtp cfg.rtp;
+    rtp = cfg._rtpPath;
 
     # TODO: create a designated module for the lazy config?
 
