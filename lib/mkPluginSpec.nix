@@ -34,14 +34,14 @@
     attrs = (
       {
         __index__ = slug';
-        dir =
-          if builtins.isAttrs src
-          then src.outPath
-          else src;
-        name =
-          if name != ""
-          then name
-          else (builtins.elemAt (lib.strings.splitString "/" slug') 1);
+        # dir =
+        #   if builtins.isAttrs src
+        #   then src.outPath
+        #   else src;
+        # name =
+        #   if name != ""
+        #   then name
+        #   else (builtins.elemAt (lib.strings.splitString "/" slug') 1);
       }
       // extraArgs
       // dependencies'

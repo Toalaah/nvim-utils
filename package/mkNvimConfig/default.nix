@@ -21,17 +21,30 @@
         ./options.nix
       ];
     };
+
+    mkPlugNameDrv = plug: let
+      src = plug.src;
+      name = src.repo;
+    in
+      pkgs.runCommand name {} ''
+        mkdir -p $out
+        cp -r ${src} $out/${name}
+      '';
+    pluginDrv = let
+      nestedPlugins = lib.lists.flatten (builtins.map (p: p.dependencies or []) cfg.plugins);
+      nestedPluginSpecs = builtins.filter (p: builtins.isAttrs p) nestedPlugins;
+      allPlugins = cfg.plugins ++ nestedPluginSpecs;
+    in
+      pkgs.symlinkJoin {
+        name = "plugins";
+        paths = builtins.map mkPlugNameDrv allPlugins;
+      };
   in {
     rtp = cfg._rtpPath;
 
     # TODO: create a designated module for the lazy config?
 
-    # We set the root to the path of an empty derivation as it is useless
-    # within the context of a pre-installed/built, immutable config
-    lazy = let
-      root = (pkgs.runCommand "lazy-root" {} "mkdir $out").outPath;
-    in
-      toLua (cfg.lazy // {inherit root;});
+    lazy = toLua (cfg.lazy // {root = pluginDrv.outPath;});
     vim = lib.mapAttrs (name: value: vim.processVimPrefs name value) cfg.vim;
     plugins = toLua (builtins.map mkPluginSpec cfg.plugins);
     inherit (cfg) preHooks postHooks;
