@@ -12,7 +12,5 @@
 
     ./languages/lua
     # ./languages/nix
-
-    ./test-module
   ];
 }
