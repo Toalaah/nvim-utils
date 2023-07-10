@@ -7,7 +7,7 @@
 
   mkNvimConfig = {
     lazy-nvim,
-    configuration ? {},
+    configuration,
   }: let
     cfg = evalModule {
       specialArgs = {

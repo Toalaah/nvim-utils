@@ -69,7 +69,7 @@ options which are not directly plugin-specific.
           }
         };
       '';
-      default = null;
+      default = {};
     };
 
     /*
