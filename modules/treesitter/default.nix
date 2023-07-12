@@ -27,7 +27,7 @@ with lib; let
     phases = ["installPhase"];
     installPhase = ''
       mkdir -p $out
-      cp -r $src/parser/* $out
+      find $src -name '*.so' -exec cp -r {} $out \;
     '';
   };
 in {
