@@ -1,5 +1,5 @@
 {
-  description = "Functions for creating extensible, lazy-based neovim configurations in nix";
+  description = "Utilities for creating extensible, reproducible, and portable lazy.nvim-based neovim configurations in nix";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs";
@@ -20,24 +20,15 @@
       pkgs = import nixpkgs {inherit system;};
       nvimPkg = import ./package;
       configurations = import ./configurations;
-      neovim-nightly' = inputs.neovim-nightly.packages.${system}.neovim.overrideAttrs (_finalAttrs: {
-        patches = [];
-      });
+      neovim-nightly' = inputs.neovim-nightly.packages.${system}.neovim;
     in {
-      # # map each configuration to an individual package
+      # map each configuration to an individual package
       packages = builtins.mapAttrs (name: _:
         pkgs.callPackage nvimPkg {
           configuration = configurations.${name};
           package = neovim-nightly';
         })
       configurations;
-      # # expose each package as an app
-      # apps = builtins.mapAttrs (name: _:
-      #   flake-utils.lib.mkApp {
-      #     drv = self.packages.${name};
-      #     exePath = "/bin/nvim";
-      #   })
-      # self.packages;
 
       # TODO: nixos + home-manager modules
       formatter = pkgs.alejandra;
