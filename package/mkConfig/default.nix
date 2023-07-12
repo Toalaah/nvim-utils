@@ -6,18 +6,19 @@
   inherit (lib') toLua rawLua mkPluginSpec vim evalModule;
 
   mkNvimConfig = {
-    lazy-nvim,
     configuration,
+    lazy-nvim,
+    modules',
   }: let
     cfg = evalModule {
       specialArgs = {
         inherit pkgs toLua rawLua;
         mkOpts = opts: lib.filterAttrs (n: _: n != "enable") opts;
       };
-      # TODO: allow custom modules / plugins to be passed through
       modules = [
-        ../../modules
+        modules'
         configuration
+        # base options
         ./options.nix
       ];
     };
