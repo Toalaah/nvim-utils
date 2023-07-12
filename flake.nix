@@ -27,8 +27,8 @@
       # # map each configuration to an individual package
       packages = builtins.mapAttrs (name: _:
         pkgs.callPackage nvimPkg {
-          # configuration = configurations.${name};
-          # package = neovim-nightly';
+          configuration = configurations.${name};
+          package = neovim-nightly';
         })
       configurations;
       # # expose each package as an app
