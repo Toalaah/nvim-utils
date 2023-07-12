@@ -2,10 +2,15 @@
   config,
   lib,
   pkgs,
-  plugins,
   ...
 }:
 with lib; let
+  src = pkgs.fetchFromGitHub {
+    owner = "nvim-treesitter";
+    repo = "nvim-treesitter";
+    rev = "f9d701176cb9a3e206a4c690920a8993630c3ec8";
+    hash = "sha256-K4OXsqGA+ldC4o2YWmuVjpOaJiUSkOAd4pSJoHMM7CM=";
+  };
   cfg = config.treesitter;
   mkKeymapOptionFor = what: default:
     mkOption {
@@ -13,17 +18,31 @@ with lib; let
       inherit default;
       description = "keybinding for ${what}";
     };
-  parsers = pkgs.symlinkJoin {
-    name = "treesitter-parsers";
-    paths = let
+  parsers = pkgs.stdenv.mkDerivation {
+    name = "parser";
+    src = let
       parsers' = p: (builtins.map (x: p."${x}") config.treesitter.parsers);
     in
       (pkgs.vimPlugins.nvim-treesitter.withPlugins parsers').dependencies;
+    phases = ["installPhase"];
+    installPhase = ''
+      mkdir -p $out
+      cp -r $src/parser/* $out
+    '';
   };
 in {
   options = {
     treesitter = {
       enable = mkEnableOption "treesitter";
+      src = mkOption {
+        type = types.attrs;
+        description = lib.mdDoc ''
+          Source to use for this plugin. This allows you to swap out the pinned
+          version with a newer revision/fork or add patches by creating a
+          wrapper derivation.
+        '';
+        default = src;
+      };
       parsers = mkOption {
         type = types.listOf types.str;
         description = "list of language parsers to install";
@@ -50,15 +69,12 @@ in {
       assertions = [];
       plugins = [
         {
-          slug = "nvim-treesitter/nvim-treesitter";
-          name = "nvim-treesitter";
-          src = plugins.nvim-treesitter;
           main = "nvim-treesitter.configs";
-          event = "BufReadPost";
-          inherit (cfg) opts;
+          event = ["BufReadPost" "BufNewFile"];
+          inherit (cfg) src opts;
         }
       ];
-      preHooks = "vim.opt.runtimepath:prepend('${parsers}')";
+      rtp = [parsers];
     })
   ];
 }
