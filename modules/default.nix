@@ -12,5 +12,7 @@
 
     ./languages/lua
     # ./languages/nix
+
+    ./tools/zk
   ];
 }
