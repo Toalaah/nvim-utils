@@ -24,6 +24,7 @@
     nixosModules.default = self.nixosModules.nvim;
 
     lib.baseModules = ./modules;
+    lib.mkNvimPkg = import ./package;
 
     formatter = eachSystem ({pkgs, ...}: pkgs.alejandra);
 
