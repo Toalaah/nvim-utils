@@ -15,7 +15,9 @@
     neovim-nightly,
     nixpkgs,
     ...
-  } @ inputs:
+  } @ inputs: let
+    mkModule = import ./module.nix;
+  in
     flake-utils.lib.eachDefaultSystem (system: let
       pkgs = import nixpkgs {inherit system;};
       nvimPkg = import ./package;
@@ -30,9 +32,17 @@
         })
       configurations;
 
-      # TODO: nixos + home-manager modules
       formatter = pkgs.alejandra;
 
       devShells.default = import ./shell.nix {inherit pkgs;};
-    });
+    })
+    // {
+      homeManagerModules.nvim = mkModule {};
+      homeManagerModules.default = self.homeManagerModules.nvim;
+
+      nixosModules.nvim = mkModule {nixos = true;};
+      nixosModules.default = self.nixosModles.default;
+
+      lib.baseModules = ./modules;
+    };
 }
