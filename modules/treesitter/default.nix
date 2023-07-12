@@ -8,8 +8,8 @@ with lib; let
   src = pkgs.fetchFromGitHub {
     owner = "nvim-treesitter";
     repo = "nvim-treesitter";
-    rev = "f9d701176cb9a3e206a4c690920a8993630c3ec8";
-    hash = "sha256-K4OXsqGA+ldC4o2YWmuVjpOaJiUSkOAd4pSJoHMM7CM=";
+    rev = "575f5a4b1fcb60c1ac4f560c46a5171454d674ca";
+    hash = "sha256-WbOqur7pZVK/iJXbse6rRP0OyLkFDHxfIjMn8J+xOUU=";
   };
   cfg = config.treesitter;
   mkKeymapOptionFor = what: default:
