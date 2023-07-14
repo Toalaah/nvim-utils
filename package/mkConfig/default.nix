@@ -25,7 +25,7 @@
 
     mkPlugNameDrv = plug: let
       src = plug.src;
-      name = src.repo;
+      name = plug.name or src.repo;
     in
       pkgs.runCommand name {} ''
         mkdir -p $out

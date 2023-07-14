@@ -39,16 +39,14 @@ in {
       };
     };
   };
-  config = mkMerge [
-    (mkIf (cfg.enable || config.colorschemes.default == "rose-pine") {
-      assertions = [];
-      plugins = [
-        {
-          slug = "rose-pine/neovim";
-          name = "rose-pine";
-          inherit (cfg) src opts;
-        }
-      ];
-    })
-  ];
+  config = mkIf cfg.enable {
+    assertions = [];
+    plugins = [
+      {
+        inherit (cfg) src opts;
+        name = "rose-pine";
+        main = "rose-pine";
+      }
+    ];
+  };
 }

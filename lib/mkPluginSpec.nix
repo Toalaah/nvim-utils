@@ -2,11 +2,10 @@
   mkPluginSpec = {
     src,
     slug ? "",
-    name ? "",
     dependencies ? [],
     ...
   } @ inputs: let
-    extraArgs = builtins.removeAttrs inputs ["slug" "src" "name" "dependencies"];
+    extraArgs = builtins.removeAttrs inputs ["slug" "src" "dependencies"];
 
     tryGetSlug = src:
       if !(builtins.isAttrs src && builtins.hasAttr "owner" src && builtins.hasAttr "repo" src)
@@ -32,7 +31,7 @@
     };
 
     attrs = (
-      { __index__ = slug'; }
+      {__index__ = slug';}
       // extraArgs
       // dependencies'
     );
