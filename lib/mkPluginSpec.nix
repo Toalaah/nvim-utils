@@ -14,7 +14,7 @@
         throw ''
           Failed to compute slug. Either pass a `slug` parameter manually or pass
           a src which has an `owner`, `repo`, and `outPath` attribute (for
-          example, lib.fetchFromGitHub).
+          example, pkgs.fetchFromGitHub).
         ''
       else "${src.owner}/${src.repo}";
 
