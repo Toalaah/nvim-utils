@@ -23,7 +23,23 @@
     nixosModules.nvim = mkModule {nixos = true;};
     nixosModules.default = self.nixosModules.nvim;
 
-    lib.baseModules = ./modules;
+    lib.baseModules = let
+      modules = import ./modules;
+      recurseAttrValuesToList = list:
+        builtins.map (
+          v:
+            if builtins.typeOf v == "set"
+            then recurseAttrValuesToList (nixpkgs.lib.attrValues v)
+            else v
+        )
+        list;
+      moduleList = nixpkgs.lib.flatten (recurseAttrValuesToList (nixpkgs.lib.attrValues modules));
+    in
+      {
+        all = {imports = moduleList;};
+      }
+      // modules;
+
     lib.mkNvimPkg = import ./package;
 
     formatter = eachSystem ({pkgs, ...}: pkgs.alejandra);
@@ -40,7 +56,7 @@
         builtins.mapAttrs (name: _:
           mkNvimPkg {
             configuration = configurations.${name};
-            modules = [self.lib.baseModules];
+            modules = [self.lib.baseModules.all];
           })
         configurations
     );

@@ -1,18 +1,15 @@
-{...}: {
-  imports = [
-    ./colorschemes
+{
+  colorschemes.tokyonight = ./colorschemes/tokyonight;
+  colorschemes.rose-pine = ./colorschemes/rose-pine;
 
-    ./treesitter
+  git.gitsigns = ./git/gitsigns;
 
-    ./git/gitsigns
+  languages.lua = ./languages/lua;
+  languages.nix = ./languages/nix;
 
-    ./lsp/null-ls.nix
-    ./lsp/lsp-config.nix
-    ./lsp/completion
+  lsp = ./lsp;
 
-    ./languages/lua
-    # ./languages/nix
+  tools.zk = ./tools/zk;
 
-    ./tools/zk
-  ];
+  treesitter = ./treesitter;
 }
