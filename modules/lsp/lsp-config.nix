@@ -16,11 +16,11 @@ with lib; let
   };
   setupServer = name: opts: let
     serverConfig =
-      opts
-      // {
+      {
         capabilities = rawLua "capabilities";
         on_attach = rawLua "on_attach";
-      };
+      }
+      // opts;
   in ''
     require('lspconfig').${name}.setup ${toLua serverConfig}
   '';
@@ -38,8 +38,7 @@ in {
     };
     capabilities = mkOption {
       default = "vim.lsp.protocol.make_client_capabilities()";
-      type =
-        types.str;
+      type = types.str;
       description = lib.mdDoc ''
         A stringified lua table which is inserted into each language
         server's setup function as the `capabilities` parameter.
