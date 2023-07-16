@@ -1,10 +1,8 @@
 {
   default = {
-    # implicitly enables colorscheme and sets to primary
-    colorschemes.default = "tokyonight";
-    colorschemes.tokyonight.opts = {
-      style = "moon";
-    };
+    colorschemes.tokyonight.enable = true;
+    colorschemes.tokyonight.opts.style = "moon";
+    postHooks = "vim.cmd.colorscheme('tokyonight')";
 
     treesitter.enable = true;
     treesitter.opts = {
@@ -24,6 +22,8 @@
     languages.lua.enable = true;
 
     lazy = {
+      # TODO: this should not be overwritten. Create a module for lazy setup
+      # and add warnings if user tries to specify non-default root.
       root = "/tmp/lazy";
       dev.path = "~/dev";
       lockfile = "/dev/null";
@@ -33,6 +33,8 @@
       performance = {
         cache.enabled = true;
         reset_packpath = false;
+        # TODO: this should also not be overwritten. Or alternatively, add the
+        # final drv rtp to `lazy.performance.rt.paths`
         rtp.reset = false;
         rtp.disabled_plugins = [
           "gzip"

@@ -34,15 +34,13 @@ in {
       };
     };
   };
-  config = mkMerge [
-    (mkIf (cfg.enable || config.colorschemes.default == "tokyonight") {
-      assertions = [];
-      plugins = [
-        {
-          slug = "folke/tokyonight.nvim";
-          inherit (cfg) src opts;
-        }
-      ];
-    })
-  ];
+  config = mkIf cfg.enable {
+    assertions = [];
+    plugins = [
+      {
+        slug = "folke/tokyonight.nvim";
+        inherit (cfg) src opts;
+      }
+    ];
+  };
 }
