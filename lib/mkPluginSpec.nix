@@ -22,6 +22,11 @@
       then slug
       else tryGetSlug src;
 
+    keys' =
+      if (builtins.hasAttr "keys" extraArgs)
+      then (import ./mkKeyBindings.nix) extraArgs.keys
+      else {};
+
     dependencies' = lib.filterAttrs (_: v: v != []) {
       dependencies = builtins.map (p:
         if builtins.isString p
@@ -34,6 +39,7 @@
       {__index__ = slug';}
       // extraArgs
       // dependencies'
+      // keys'
     );
   in
     attrs;

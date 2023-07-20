@@ -14,10 +14,10 @@
   initLua = pkgs.writeTextFile {
     name = "init.lua";
     text = ''
-      ${cfg.preHooks}
-      require('lazy').setup(${cfg.plugins}, ${cfg.lazy})
       ${cfg.vim.opt}
       ${cfg.vim.g}
+      ${cfg.preHooks}
+      require('lazy').setup(${cfg.plugins}, ${cfg.lazy})
       ${cfg.postHooks}
     '';
   };
