@@ -29,4 +29,4 @@ in
       "--add-flags '-u ${initLua}'"
     ];
   })
-  .overrideAttrs (old: {passthru.initLua = builtins.readFile initLua;})
+  .overrideAttrs (_: {passthru = {inherit initLua;};})
