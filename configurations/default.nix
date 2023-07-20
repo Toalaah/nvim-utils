@@ -20,6 +20,7 @@
     lsp.null-ls.autoformat = false;
 
     languages.lua.enable = true;
+    languages.nix.enable = true;
 
     lazy = {
       # TODO: this should not be overwritten. Create a module for lazy setup

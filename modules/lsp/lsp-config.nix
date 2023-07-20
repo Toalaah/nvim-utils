@@ -22,7 +22,7 @@ with lib; let
       }
       // opts;
   in ''
-    require('lspconfig').${name}.setup ${toLua serverConfig}
+    require('lspconfig')['${name}'].setup ${toLua serverConfig}
   '';
 in {
   options.lsp.lsp-config = {
