@@ -11,7 +11,7 @@
     inherit configuration lazy-nvim;
     modules' = {imports = modules;};
   };
-  init_lua = pkgs.writeTextFile {
+  initLua = pkgs.writeTextFile {
     name = "init.lua";
     text = ''
       ${cfg.preHooks}
@@ -22,10 +22,11 @@
     '';
   };
 in
-  pkgs.wrapNeovim package {
+  (pkgs.wrapNeovim package {
     extraMakeWrapperArgs = lib.strings.concatStringsSep " " [
       "--prefix PATH : ${cfg.extraPkgs}/bin"
       ''--add-flags "--cmd 'set rtp^=${lazy-nvim},${cfg.rtp}'"''
-      "--add-flags '-u ${init_lua}'"
+      "--add-flags '-u ${initLua}'"
     ];
-  }
+  })
+  .overrideAttrs (old: {passthru.initLua = builtins.readFile initLua;})
