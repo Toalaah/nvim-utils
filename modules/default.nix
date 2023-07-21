@@ -7,6 +7,8 @@
   languages.lua = ./languages/lua;
   languages.nix = ./languages/nix;
 
+  lazy = ./lazy;
+
   lsp = ./lsp;
 
   tools.zk = ./tools/zk;

@@ -1,58 +1,52 @@
 {
+  configuration,
+  modules',
   pkgs,
   lib ? pkgs.lib,
 }: let
   lib' = import ../../lib {inherit lib;};
   inherit (lib') toLua rawLua mkPluginSpec vim evalModule;
-
-  mkNvimConfig = {
-    configuration,
-    lazy-nvim,
-    modules',
-  }: let
-    cfg = evalModule {
-      specialArgs = {
-        inherit pkgs toLua rawLua;
-        mkOpts = opts: lib.filterAttrs (n: _: n != "enable") opts;
-      };
-      modules = [
-        modules'
-        configuration
-        # base options
-        ./options.nix
-      ];
+  cfg = evalModule {
+    specialArgs = {
+      inherit pkgs toLua rawLua;
+      mkOpts = opts: lib.filterAttrs (n: _: n != "enable") opts;
     };
-
-    mkPlugNameDrv = plug: let
-      src = plug.src;
-      name = plug.name or src.repo;
-    in
-      pkgs.runCommand name {} ''
-        mkdir -p $out
-        cp -r ${src} $out/${name}
-      '';
-    pluginDrv = let
-      nestedPlugins = lib.lists.flatten (builtins.map (p: p.dependencies or []) cfg.plugins);
-      nestedPluginSpecs = builtins.filter (p: builtins.isAttrs p) nestedPlugins;
-      allPlugins = cfg.plugins ++ nestedPluginSpecs;
-    in
-      pkgs.symlinkJoin {
-        name = "plugins";
-        paths = builtins.map mkPlugNameDrv allPlugins;
-      };
-  in {
-    rtp = cfg._rtpPath;
-
-    # TODO: create a designated module for the lazy config?
-
-    lazy = toLua (cfg.lazy // {root = pluginDrv.outPath;});
-    vim = lib.mapAttrs (name: value: vim.processVimPrefs name value) cfg.vim;
-    plugins = toLua (builtins.map mkPluginSpec cfg.plugins);
-    inherit (cfg) preHooks postHooks;
-    extraPkgs = pkgs.symlinkJoin {
-      name = "extra-packages";
-      paths = [cfg.extraPackages];
-    };
+    modules = [
+      modules'
+      configuration
+      # base options
+      ./options.nix
+      ../../modules/lazy
+    ];
   };
-in
-  mkNvimConfig
+  lazy = let
+    # https://stackoverflow.com/questions/54504685
+    recursiveMerge = attrList: let
+      f = attrPath:
+        lib.zipAttrsWith (
+          n: values:
+            if builtins.tail values == []
+            then builtins.head values
+            else if builtins.all builtins.isList values
+            then lib.unique (lib.concatLists values)
+            else if builtins.all builtins.isAttrs values
+            then f (attrPath ++ [n]) values
+            else lib.warn "ignoring configuration value for 'lazy.opts.${n}', using default instead." lib.last values
+        );
+    in
+      f [] attrList;
+  in {
+    inherit (cfg.lazy) src;
+    opts = toLua (recursiveMerge [cfg.lazy.opts cfg.lazy._readOnlyOpts]);
+  };
+in {
+  inherit (cfg) preHooks postHooks;
+  inherit lazy;
+  rtp = cfg._rtpPath;
+  vim = lib.mapAttrs (name: value: vim.processVimPrefs name value) cfg.vim;
+  plugins = toLua (builtins.map mkPluginSpec cfg.plugins);
+  extraPkgs = pkgs.symlinkJoin {
+    name = "extra-packages";
+    paths = [cfg.extraPackages];
+  };
+}
