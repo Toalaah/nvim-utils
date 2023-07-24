@@ -3,9 +3,10 @@
   modules,
 }: let
   inherit (import ./assertions.nix {inherit lib;}) assertionModule testAssertions;
+  inherit (import ./warnings.nix {inherit lib;}) warningModule evalWarnings;
   evaledModule = lib.evalModules {
     inherit specialArgs;
-    modules = modules ++ [assertionModule];
+    modules = modules ++ [assertionModule warningModule];
   };
 in
-  (testAssertions evaledModule.config.assertions) evaledModule.config
+  (evalWarnings evaledModule.config.warnings testAssertions evaledModule.config.assertions) evaledModule.config

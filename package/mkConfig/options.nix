@@ -52,26 +52,6 @@ options which are not directly plugin-specific.
         (mkRtp config.rtp).outPath;
     };
 
-    lazy = lib.mkOption {
-      type = lib.types.nullOr lib.types.attrs;
-      description = lib.mdDoc ''
-        Options passed to lazy.nvim startup function.
-
-        Consult the project's [readme](https://github.com/folke/lazy.nvim) for
-        all currently available options.
-      '';
-      example = lib.literalExpression ''
-          {
-            dev.path = "~/dev";
-            defaults = {
-              lazy = true;
-            };
-          }
-        };
-      '';
-      default = {};
-    };
-
     /*
     Defines an interface for specifiying vim options to set, for instance
     `vim.g` or `vim.opt`.

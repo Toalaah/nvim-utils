@@ -5,16 +5,11 @@
     postHooks = "vim.cmd.colorscheme('tokyonight')";
 
     treesitter.enable = true;
-    treesitter.opts = {
-      highlight.enable = true;
-    };
+    treesitter.opts.highlight.enable = true;
 
     git.gitsigns.enable = true;
 
     lsp.lsp-config.enable = true;
-
-    # lsp.completion.enable = true;
-    # lsp.snippets.enable = true;
 
     lsp.null-ls.enable = true;
     lsp.null-ls.autoformat = false;
@@ -22,33 +17,7 @@
     languages.lua.enable = true;
     languages.nix.enable = true;
 
-    lazy = {
-      # TODO: this should not be overwritten. Create a module for lazy setup
-      # and add warnings if user tries to specify non-default root.
-      root = "/tmp/lazy";
-      dev.path = "~/dev";
-      lockfile = "/dev/null";
-      defaults.lazy = true;
-      change_detection.enabled = false;
-      install.missing = false;
-      performance = {
-        cache.enabled = true;
-        reset_packpath = false;
-        # TODO: this should also not be overwritten. Or alternatively, add the
-        # final drv rtp to `lazy.performance.rt.paths`
-        rtp.reset = false;
-        rtp.disabled_plugins = [
-          "gzip"
-          "matchit"
-          "matchparen"
-          "rplugin"
-          "tarPlugin"
-          "tohtml"
-          "tutor"
-          "zipPlugin"
-        ];
-      };
-    };
+    lazy.opts.defaults.lazy = true;
 
     vim.opt.backup = false;
     vim.opt.undofile = true;

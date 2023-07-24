@@ -1,13 +1,17 @@
 {lib}:
 with lib; {
   assertionModule = let
-    hasAttrOfType = attr: type: x:
-      builtins.hasAttr attr x && type.check x.${attr};
-    assertionType = types.mkOptionType {
-      name = "assertion";
-      check = x:
-        hasAttrOfType "assertion" types.bool x
-        && hasAttrOfType "message" types.str x;
+    assertionType = lib.types.submodule {
+      options = {
+        assertion = lib.mkOption {
+          type = types.bool;
+          description = "assertion which must pass";
+        };
+        message = lib.mkOption {
+          type = types.str;
+          description = "message to output on assertion failure";
+        };
+      };
     };
   in {
     options = {
