@@ -3,7 +3,6 @@
   lib,
   pkgs,
   rawLua,
-  toLua,
   ...
 }:
 with lib; let

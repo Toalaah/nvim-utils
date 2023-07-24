@@ -4,7 +4,6 @@
   pkgs,
   ...
 }: let
-  cfg = config.lazy;
   src = pkgs.fetchFromGitHub {
     owner = "folke";
     repo = "lazy.nvim";
