@@ -17,6 +17,7 @@
       # base options
       ./options.nix
       ../../modules/lazy
+      ../../modules/core
     ];
   };
   lazy = let

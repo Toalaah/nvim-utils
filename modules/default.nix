@@ -1,4 +1,6 @@
 {
+  core = ./core;
+
   colorschemes.tokyonight = ./colorschemes/tokyonight;
   colorschemes.rose-pine = ./colorschemes/rose-pine;
 
