@@ -73,7 +73,7 @@ in {
       invalidAuCmds = lib.lists.filter (x: !(xor x.callback x.command)) autocmds;
     in
       builtins.map (
-        x: {
+        _: {
           assertion = false;
           message = "autocmd: exactly one of `command` or `callback` must be specified";
         }
