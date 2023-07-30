@@ -52,11 +52,11 @@ in {
           default = null;
         };
         once = mkOption {
-          type = types.boolean;
+          type = types.bool;
           default = false;
         };
         nested = mkOption {
-          type = types.boolean;
+          type = types.bool;
           default = false;
         };
       };
