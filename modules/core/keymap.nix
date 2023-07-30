@@ -48,6 +48,21 @@ in {
     # XXX: ordering in `oneOf` matters here!
     type = types.listOf (types.oneOf [(types.functionTo types.attrs) keymap]);
     default = [];
+    example = lib.literalExpression ''
+      [
+        # syntactic sugar for setting a (non recursive) normal-mode keymap.
+        (vim.nnoremap "<leader>p" (rawLua "function() print('hello world') end"))
+        # you can also just use raw attrsets if you prefer
+        {
+          mode = "n";
+          lhs = "<leader>r";
+          rhs = rawLua "function() print('hello world 2') end";
+          opts = {desc = "print another cool message";};
+        }
+        # note that you can (but do not have to) pass additional keymap options
+        (vim.nnoremap 'j'  "v:count == 0 ? 'gj' : 'j'"  "Move down"  { expr = true; silent = true; })
+      ]
+    '';
   };
   config = {
     preHooks = ''
