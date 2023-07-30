@@ -9,9 +9,9 @@ with lib; let
   # Small sanity check: `expr` must only be callable once, specifically, only
   # `opts` should be optional. See `lib/vim.nix` for more details.
   let
-    missingArguments = !(builtins.isAttrs expr) && builtins.isFunction (expr {});
+    isMissingArguments = x: !(builtins.isAttrs x) && builtins.isFunction (x {});
   in
-    if missingArguments
+    if isMissingArguments expr
     then throw "mkKeymap (or derivative thereof): missing argument(s)"
     else if (builtins.isFunction expr)
     then expr {}
@@ -52,6 +52,8 @@ in {
       [
         # syntactic sugar for setting a (non recursive) normal-mode keymap.
         (vim.nnoremap "<leader>p" (rawLua "function() print('hello world') end"))
+        # note that you can also (but do not have to) pass additional keymap options
+        (vim.nnoremap 'j'  "v:count == 0 ? 'gj' : 'j'"  "Move down"  { expr = true; silent = true; })
         # you can also just use raw attrsets if you prefer
         {
           mode = "n";
@@ -59,8 +61,6 @@ in {
           rhs = rawLua "function() print('hello world 2') end";
           opts = {desc = "print another cool message";};
         }
-        # note that you can (but do not have to) pass additional keymap options
-        (vim.nnoremap 'j'  "v:count == 0 ? 'gj' : 'j'"  "Move down"  { expr = true; silent = true; })
       ]
     '';
   };

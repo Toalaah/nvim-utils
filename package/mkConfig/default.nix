@@ -9,6 +9,7 @@
   cfg = evalModule {
     specialArgs = {
       inherit pkgs toLua rawLua;
+      inherit (lib') vim;
       mkOpts = opts: lib.filterAttrs (n: _: n != "enable") opts;
     };
     modules = [
