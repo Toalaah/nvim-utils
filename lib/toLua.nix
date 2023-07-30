@@ -86,12 +86,21 @@
     # small helpers
     listToStr = list: "${lib.concatStringsSep ", " list}";
     isListLike = vals: lib.isAttrs vals || lib.isList vals;
-    hasSubstr = substr: string: (builtins.match ".*${substr}.*" string) != null;
+    hasSubstr = substr: string: lib.strings.hasInfix substr string;
+    # handles invalid identifiers for table keys
+    isInvalidKey = key: let
+      invalidIdentifiers = ["'" "\"" ";" "<" ">" "]" "["];
+    in
+      lib.lists.any (lib.flip hasSubstr key) invalidIdentifiers;
+    escapeTableKey = key:
+      if isInvalidKey key
+      then "['${key}']"
+      else key;
     # specialized attr-mapper is needed to allow for keyless table values
     attrsToLua = name: value:
       if hasSubstr "__index__" name
       then "${processPrimitive value}"
-      else "${name} = ${processPrimitive value}";
+      else "${escapeTableKey name} = ${processPrimitive value}";
     # converts an attribute set or list by mapping the input to a stringified
     # lua list representation
     convertListLike = x:
