@@ -6,7 +6,7 @@
 }: let
   lib' = import ../../lib {inherit lib;};
   inherit (lib') toLua rawLua mkPluginSpec vim evalModule;
-  cfg = evalModule {
+  evald = evalModule {
     specialArgs = {
       inherit pkgs toLua rawLua;
       inherit (lib') vim;
@@ -20,6 +20,10 @@
       ../../modules/lazy
       ../../modules/core
     ];
+  };
+  cfg = evald.config;
+  docs = pkgs.nixosOptionsDoc {
+    inherit (evald) options;
   };
   lazy = let
     # https://stackoverflow.com/questions/54504685
@@ -44,6 +48,7 @@
 in {
   inherit (cfg) preHooks postHooks;
   inherit lazy;
+  inherit docs;
   rtp = cfg._rtpPath;
   vim = lib.mapAttrs (name: value: vim.processVimPrefs name value) cfg.vim;
   plugins = toLua (builtins.map mkPluginSpec cfg.plugins);

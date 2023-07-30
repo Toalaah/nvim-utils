@@ -10,6 +10,7 @@
     inherit configuration pkgs lib;
     modules' = {imports = modules;};
   };
+  docs = pkgs.callPackage ./docs.nix {inherit (cfg) docs;};
   initLua = pkgs.writeTextFile {
     name = "init.lua";
     text = ''
@@ -28,4 +29,4 @@ in
       "--add-flags '-u ${initLua}'"
     ];
   })
-  .overrideAttrs (_: {passthru = {inherit initLua;};})
+  .overrideAttrs (_: {passthru = {inherit initLua docs;};})
