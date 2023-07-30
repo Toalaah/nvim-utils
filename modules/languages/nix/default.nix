@@ -10,6 +10,11 @@ in {
   options = {
     languages.nix = {
       enable = mkEnableOption "nix";
+      autoEnableLsp = mkOption {
+        description = lib.mdDoc "lsp features for nix. This implies enabling `lsp.lsp-config`";
+        type = types.bool;
+        default = true;
+      };
       settings = mkOption {
         type = types.attrsOf types.anything;
         default = {};
@@ -22,17 +27,22 @@ in {
       };
     };
   };
-  config = mkIf cfg.enable {
-    assertions = [];
-    plugins = [];
-    treesitter.parsers = ["nix"];
-    lsp.null-ls.formatters = ["alejandra"];
-    lsp.null-ls.diagnostics = ["deadnix"];
-    extraPackages = [pkgs.alejandra pkgs.deadnix];
-    rtp = [./ftdetect];
-    lsp.lsp-config.serverConfigurations.nil_ls = {
-      cmd = ["${pkgs.nil}/bin/nil"];
-      inherit (cfg) settings;
-    };
-  };
+  config = mkMerge [
+    (mkIf (cfg.enable && cfg.autoEnableLsp) {
+      lsp.lsp-config.enable = true;
+    })
+    (mkIf cfg.enable {
+      assertions = [];
+      plugins = [];
+      treesitter.parsers = ["nix"];
+      lsp.null-ls.formatters = ["alejandra"];
+      lsp.null-ls.diagnostics = ["deadnix"];
+      extraPackages = [pkgs.alejandra pkgs.deadnix];
+      rtp = [./ftdetect];
+      lsp.lsp-config.serverConfigurations.nil_ls = {
+        cmd = ["${pkgs.nil}/bin/nil"];
+        inherit (cfg) settings;
+      };
+    })
+  ];
 }

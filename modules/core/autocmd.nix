@@ -29,35 +29,51 @@ in {
       options = {
         event = mkOption {
           type = listOrSingletonOf strOrLuaFunction;
+          default = [];
+          description = lib.mdDoc "Event(s) to trigger the autocommand on.";
         };
         pattern = mkOption {
           type = listOrSingletonOf strOrLuaFunction;
+          default = [];
+          description = lib.mdDoc "Pattern(s) to match against.";
         };
         description = mkOption {
           type = types.nullOr types.str;
           default = null;
+          description = lib.mdDoc "Description of the autocommand.";
         };
         group = mkOption {
           type = types.nullOr strOrLuaFunction;
           default = null;
+          description = lib.mdDoc "Group of the autocommand.";
         };
         # can be called w/ rawLua (if lua function is desired, else if string
         # callback is interpreted as vimscript fn)
         callback = mkOption {
           type = types.nullOr strOrLuaFunction;
+          description = lib.mdDoc ''
+            lua / vimscript function to execute on trigger. Mutually exclusive
+            with `command`.
+          '';
           default = null;
         };
         command = mkOption {
           type = types.nullOr types.str;
           default = null;
+          description = lib.mdDoc ''
+            The (vim) command to run on trigger. Mutually exclusive with
+            `callback`
+          '';
         };
         once = mkOption {
           type = types.bool;
           default = false;
+          description = lib.mdDoc "Run the autocommand only once.";
         };
         nested = mkOption {
           type = types.bool;
           default = false;
+          description = lib.mdDoc "Run any further nested autocommands.";
         };
       };
     });

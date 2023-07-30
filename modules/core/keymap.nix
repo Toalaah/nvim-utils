@@ -45,6 +45,10 @@ with lib; let
   };
 in {
   options.keymaps = mkOption {
+    description = lib.mdDoc ''
+      List of keymaps to set. Refer to `vim.keymap.set` for usage
+      and option documentation.
+    '';
     # XXX: ordering in `oneOf` matters here!
     type = types.listOf (types.oneOf [(types.functionTo types.attrs) keymap]);
     default = [];
