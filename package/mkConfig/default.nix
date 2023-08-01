@@ -6,12 +6,12 @@
   extraArgs ? {},
 }: let
   lib' = import ../../lib {inherit lib;};
-  inherit (lib') toLua rawLua mkPluginSpec vim evalModule;
+  inherit (lib') toLua rawLua mkPluginSpec mkSimplePlugin vim evalModule;
   cfg = evalModule {
     specialArgs =
       extraArgs
       // {
-        inherit pkgs toLua rawLua;
+        inherit pkgs toLua rawLua mkSimplePlugin;
         inherit (lib') vim;
         mkOpts = opts: lib.filterAttrs (n: _: n != "enable") opts;
       };
