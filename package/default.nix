@@ -4,10 +4,11 @@
   configuration ? {},
   modules ? [],
   package ? pkgs.neovim-unwrapped,
+  extraArgs ? {},
 }: let
   mkConfig = import ./mkConfig;
   cfg = mkConfig {
-    inherit configuration pkgs lib;
+    inherit configuration pkgs lib extraArgs;
     modules' = {imports = modules;};
   };
   initLua = pkgs.writeTextFile {
