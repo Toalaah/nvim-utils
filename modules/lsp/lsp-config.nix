@@ -28,7 +28,7 @@ in {
   options.lsp.lsp-config = {
     enable = mkEnableOption "lsp-config";
     src = mkOption {
-      type = types.attrs;
+      type = types.package;
       description = lib.mdDoc ''
         Source to use for this plugin. This allows you to swap out the pinned
         version with a newer revision/fork or add patches by creating a
