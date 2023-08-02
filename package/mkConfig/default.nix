@@ -3,15 +3,18 @@
   modules',
   pkgs,
   lib ? pkgs.lib,
+  extraArgs ? {},
 }: let
   lib' = import ../../lib {inherit lib;};
-  inherit (lib') toLua rawLua mkPluginSpec vim evalModule;
+  inherit (lib') toLua rawLua mkPluginSpec mkSimplePlugin vim evalModule;
   evald = evalModule {
-    specialArgs = {
-      inherit pkgs toLua rawLua;
-      inherit (lib') vim;
-      mkOpts = opts: lib.filterAttrs (n: _: n != "enable") opts;
-    };
+    specialArgs =
+      extraArgs
+      // {
+        inherit pkgs toLua rawLua mkSimplePlugin;
+        inherit (lib') vim;
+        mkOpts = opts: lib.filterAttrs (n: _: n != "enable") opts;
+      };
     modules = [
       modules'
       configuration
@@ -25,25 +28,9 @@
   docs = pkgs.nixosOptionsDoc {
     inherit (evald) options;
   };
-  lazy = let
-    # https://stackoverflow.com/questions/54504685
-    recursiveMerge = attrList: let
-      f = attrPath:
-        lib.zipAttrsWith (
-          n: values:
-            if builtins.tail values == []
-            then builtins.head values
-            else if builtins.all builtins.isList values
-            then lib.unique (lib.concatLists values)
-            else if builtins.all builtins.isAttrs values
-            then f (attrPath ++ [n]) values
-            else lib.warn "ignoring configuration value for 'lazy.opts.${n}', using default instead." lib.last values
-        );
-    in
-      f [] attrList;
-  in {
+  lazy = {
     inherit (cfg.lazy) src;
-    opts = toLua (recursiveMerge [cfg.lazy.opts cfg.lazy._readOnlyOpts]);
+    opts = toLua (lib.attrsets.recursiveUpdate cfg.lazy.opts cfg.lazy._readOnlyOpts);
   };
 in {
   inherit (cfg) preHooks postHooks;
