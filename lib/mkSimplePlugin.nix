@@ -7,7 +7,7 @@
   # category = ["foo", "bar"] would expose the options: `foo.bar = {...}`
   category ? [],
   derivePluginNameFunc ? (p: builtins.head (lib.strings.splitString "." p.repo)),
-  extraPluginConfig ? (cfg: {}),
+  extraPluginConfig ? (_cfg: {}),
   extraModuleOpts ? {},
   extraConfig ? {},
 }:
