@@ -22,7 +22,6 @@ in
     dontInstall = true;
     dontConfigure = true;
 
-
     buildPhase = ''
       mkdir -p $out
       nixdoc --category "nvim" \
