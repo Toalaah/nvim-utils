@@ -1,5 +1,5 @@
 {
-  description = "Utilities for creating extensible, reproducible, and portable lazy.nvim-based neovim configurations in nix";
+  description = "Nix bindings for creating and sharing neovim configurations";
 
   inputs.nixpkgs.url = "github:nixos/nixpkgs";
 
@@ -8,7 +8,7 @@
     nixpkgs,
     ...
   }: let
-    mkModule = import ./module.nix;
+    mkModule = import ./mkModule.nix;
     eachSystem = f:
       nixpkgs.lib.genAttrs [
         "aarch64-darwin"
@@ -48,17 +48,5 @@
       default = import ./shell.nix {inherit pkgs;};
     });
 
-    packages = eachSystem (
-      {pkgs, ...}: let
-        mkNvimPkg = pkgs.callPackage (import ./package);
-        configurations = import ./configurations;
-      in
-        builtins.mapAttrs (name: _:
-          mkNvimPkg {
-            configuration = configurations.${name};
-            modules = [self.lib.baseModules.all];
-          })
-        configurations
-    );
   };
 }
