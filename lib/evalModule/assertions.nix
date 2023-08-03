@@ -1,7 +1,8 @@
 {lib}:
 with lib; {
   assertionModule = let
-    assertionType = lib.types.submodule {
+    # the type of an assertion
+    assertion = lib.types.submodule {
       options = {
         assertion = lib.mkOption {
           type = types.bool;
@@ -16,9 +17,10 @@ with lib; {
   in {
     options = {
       assertions = mkOption {
-        type = types.listOf assertionType;
+        type = types.listOf assertion;
         description = "A list of assertions which must pass";
         default = [];
+        visible = false;
       };
     };
   };
