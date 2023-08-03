@@ -47,6 +47,5 @@
     devShells = eachSystem ({pkgs, ...}: {
       default = import ./shell.nix {inherit pkgs;};
     });
-
   };
 }
