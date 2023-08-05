@@ -16,7 +16,7 @@
    Example:
      x = { a = "foo"; b = null }
      processPrimitive x.a
-     => "foo"
+     => "\"foo\""
      processPrimitive x.b
      => "nil"
 
