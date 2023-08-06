@@ -12,3 +12,8 @@ git-repository-url = "https://github.com/toalaah/nvim-utils"
 no-section-label = true
 preferred-dark-theme = 'ayu'
 site-url = "/nvim-utils/"
+
+[output.html.fold]
+# enable = true
+
+[preprocessor.cmdrun]
