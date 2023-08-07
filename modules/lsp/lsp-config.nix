@@ -26,7 +26,7 @@ with lib; let
   '';
 in {
   options.lsp.lsp-config = {
-    enable = mkEnableOption "lsp-config";
+    enable = mkEnableOption (lib.mdDoc "lsp-config");
     src = mkOption {
       type = types.package;
       description = lib.mdDoc ''

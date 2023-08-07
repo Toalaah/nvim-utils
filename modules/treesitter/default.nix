@@ -16,7 +16,7 @@ with lib; let
     mkOption {
       type = types.str;
       inherit default;
-      description = "keybinding for ${what}";
+      description = lib.mdDoc "keybinding for ${what}";
     };
   parsers = pkgs.stdenv.mkDerivation {
     name = "parser";
@@ -33,7 +33,7 @@ with lib; let
 in {
   options = {
     treesitter = {
-      enable = mkEnableOption "treesitter";
+      enable = mkEnableOption (lib.mdDoc "treesitter");
       src = mkOption {
         type = types.package;
         description = lib.mdDoc ''
@@ -45,16 +45,16 @@ in {
       };
       parsers = mkOption {
         type = types.listOf types.str;
-        description = "list of language parsers to install";
+        description = lib.mdDoc "list of language parsers to install";
         default = [];
         example = lib.literalExpression ''
           [ "c" "lua" ]
         '';
       };
       opts = {
-        highlight.enable = mkEnableOption "highlighting";
+        highlight.enable = mkEnableOption (lib.mdDoc "highlighting");
         incremental_selection = {
-          enable = mkEnableOption "incremental_selection";
+          enable = mkEnableOption (lib.mdDoc "incremental_selection");
           keymaps = {
             init_selection = mkKeymapOptionFor "init_selection" "<CR>";
             node_incremental = mkKeymapOptionFor "node_incremental" "<CR>";

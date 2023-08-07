@@ -15,7 +15,7 @@ with lib; let
 in {
   options = {
     tools.zk = {
-      enable = mkEnableOption "zk";
+      enable = mkEnableOption (lib.mdDoc "zk");
       src = mkOption {
         type = types.package;
         description = lib.mdDoc ''

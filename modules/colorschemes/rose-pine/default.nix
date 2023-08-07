@@ -15,7 +15,7 @@ with lib; let
 in {
   options = {
     colorschemes.rose-pine = {
-      enable = mkEnableOption "rose-pine";
+      enable = mkEnableOption (lib.mdDoc "rose-pine");
       src = mkOption {
         type = types.package;
         description = lib.mdDoc ''
@@ -27,15 +27,15 @@ in {
       };
       opts = {
         variant = mkOption {
-          description = "variant of rose-pine to use";
+          description = lib.mdDoc "variant of rose-pine to use";
           type = types.enum ["auto" "main" "moon" "dawn"];
           default = "auto";
         };
-        bold_vert_split = mkEnableOption "bold vertical split";
-        dim_nc_background = mkEnableOption "dim nc background";
-        disable_background = mkEnableOption "disable background";
-        disable_float_background = mkEnableOption "disable float background";
-        disable_italics = mkEnableOption "disable italics";
+        bold_vert_split = mkEnableOption (lib.mdDoc "bold vertical split");
+        dim_nc_background = mkEnableOption (lib.mdDoc "dim nc background");
+        disable_background = mkEnableOption (lib.mdDoc "disable background");
+        disable_float_background = mkEnableOption (lib.mdDoc "disable float background");
+        disable_italics = mkEnableOption (lib.mdDoc "disable italics");
       };
     };
   };

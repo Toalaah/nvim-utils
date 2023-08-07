@@ -25,7 +25,7 @@ with lib; let
 in {
   options = setAttrByPath modulePath (extraModuleOpts
     // {
-      enable = mkEnableOption pluginName;
+      enable = mkEnableOption (lib.mdDoc pluginName);
       src = mkOption {
         type = types.package;
         description = mdDoc "Source to use for ${pluginName}.";

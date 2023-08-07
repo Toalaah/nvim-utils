@@ -9,7 +9,7 @@ with lib; let
 in {
   options = {
     languages.lua = {
-      enable = mkEnableOption "lua";
+      enable = mkEnableOption (lib.mdDoc "lua");
       autoEnableLsp = mkOption {
         description = lib.mdDoc "lsp features for lua. This implies enabling `lsp.lsp-config`";
         type = types.bool;
@@ -18,7 +18,7 @@ in {
       lspPkg = mkOption {
         type = types.package;
         default = pkgs.lua-language-server;
-        description = "Lua language server package to use";
+        description = lib.mdDoc "Lua language server package to use";
       };
       settings = mkOption {
         type = types.attrsOf types.anything;

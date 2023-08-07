@@ -92,12 +92,13 @@ in
     }
 
   ''
-  # pkgs.runCommand "module-options" {} ''
-  #   mkdir -p $out
-  #   # construct per-module documentation files
-  #   ${
-  #     lib.strings.concatMapStringsSep "\n"
-  #     (v: "cat ${(mkDocs v).optionsCommonMark} > $out/${v}.md")
-  #     submodules
-  #   }
-  # ''
+# pkgs.runCommand "module-options" {} ''
+#   mkdir -p $out
+#   # construct per-module documentation files
+#   ${
+#     lib.strings.concatMapStringsSep "\n"
+#     (v: "cat ${(mkDocs v).optionsCommonMark} > $out/${v}.md")
+#     submodules
+#   }
+# ''
+

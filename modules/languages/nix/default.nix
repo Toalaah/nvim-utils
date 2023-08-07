@@ -9,7 +9,7 @@ with lib; let
 in {
   options = {
     languages.nix = {
-      enable = mkEnableOption "nix";
+      enable = mkEnableOption (lib.mdDoc "nix");
       autoEnableLsp = mkOption {
         description = lib.mdDoc "lsp features for nix. This implies enabling `lsp.lsp-config`";
         type = types.bool;
