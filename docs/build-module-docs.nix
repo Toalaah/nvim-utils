@@ -22,8 +22,12 @@
 
   moduleList = lib.flatten (recurseAttrValuesToList (lib.attrValues modules));
 
+  maybeTrace =
+    if traceModules
+    then builtins.trace
+    else _: x: x;
+
   options =
-    maybeTrace y
     (evalModule {
       modules = [../package/mkConfig/options.nix] ++ moduleList;
       specialArgs = {inherit pkgs;};
@@ -65,23 +69,14 @@
           };
     };
   submodules = builtins.attrNames (builtins.removeAttrs options ["_module"]);
-  maybeTrace =
-    if traceModules
-    then builtins.trace
-    else _: x: x;
   mkDocsCatCommand = v: let
     modulePath = builtins.filter (v: v != "core") (lib.strings.splitString "/" v);
   in ''
     mkdir -p $out/${v} && cat ${(mkDocs modulePath).optionsCommonMark} > $out/${v}/out.md
   '';
 in
-  # maybeTrace (let
-  #   elem = builtins.head y;
-  #   modulePath = lib.strings.splitString "/" elem;
-  #   optionsForModule = options.${modulePath};
-  #   docs = (mkDocs optionsForModule).optionsCommonMark;
-  # in docs)
   maybeTrace "(module-docs-builder) detected submodules: [${lib.strings.concatStringsSep ", " y}]"
+  maybeTrace "(module-docs-builder) old submodules: [${lib.strings.concatStringsSep ", " submodules}]"
   pkgs.runCommand "module-options" {} ''
     mkdir -p $out
     # construct per-module documentation files
@@ -90,15 +85,4 @@ in
       mkDocsCatCommand
       y
     }
-
   ''
-# pkgs.runCommand "module-options" {} ''
-#   mkdir -p $out
-#   # construct per-module documentation files
-#   ${
-#     lib.strings.concatMapStringsSep "\n"
-#     (v: "cat ${(mkDocs v).optionsCommonMark} > $out/${v}.md")
-#     submodules
-#   }
-# ''
-

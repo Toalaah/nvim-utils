@@ -1,20 +1,27 @@
-# Introduction
+# Nvim-Utils
 
-## Usage {#chapter-one}
+[`nvim-utils`](https://github.com/toalaah/nvim-utils) is a collection of
+utility functions for managing Neovim configurations / plugins in Nix. It aims
+to simplify the creation of reproducible, reusable, and extensible
+configurations.
 
-Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim
-labore culpa sint ad nisi Lorem pariatur mollit ex esse exercitation amet. Nisi
-anim cupidatat excepteur officia. Reprehenderit nostrud nostrud ipsum Lorem est
-aliquip amet voluptate voluptate dolor minim nulla est proident. Nostrud
-officia pariatur ut officia. Sit irure elit esse ea nulla sunt ex occaecat
-reprehenderit commodo officia dolor Lorem duis laboris cupidatat officia
-voluptate. Culpa proident adipisicing id nulla nisi laboris ex in Lorem sunt
-duis officia eiusmod. Aliqua reprehenderit commodo ex non excepteur duis sunt
-velit enim. Voluptate laboris sint cupidatat ullamco ut ea consectetur et est
-culpa et culpa duis.
+`nvim-utils` is module-based. Just like with [NixOS
+modules](https://nixos.wiki/wiki/NixOS_modules), users may [create their own
+modules](./usage.md) or use one of several
+[prebuilt](./modules/builtins/README.md) ones to build up their configs,
+depending on their needs.
 
-```nix
-{
-    a = 5;
-}
-```
+The plugin backend used in `nvim-utils` is the wonderful
+[lazy.nvim](https://github.com/folke/lazy.nvim). For one, this plugin manager
+is extremely performant and allows for trivial implementation of lazy-loading,
+resulting in snappy configs. Furthermore, the structure of `lazy.nvim`'s plugin
+specs lends itself quite nicely to the module structure found within
+`nvim-utils`.
+
+Under the hood, each module corresponding to a plugin or component of a user's
+config is simply transpiled to Lua and inserted into a final `init.lua` file,
+as one may already be familiar with. In fact, you may also use `nvim-utils` to
+simply generate a valid `init.lua` and use it as-is!
+
+To get started, view the [next](./getting-started.md) page to get your first
+configuration going.
