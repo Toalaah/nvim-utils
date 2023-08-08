@@ -4,4 +4,4 @@
 
 directory="$(nix-build -E "with import <nixpkgs> {}; callPackage $MDBOOK_ROOT/build-module-docs.nix {}" --no-out-link)"
 
-cat "$directory/$1/out.md"
+cat "$directory/$1.md"

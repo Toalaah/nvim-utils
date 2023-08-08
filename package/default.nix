@@ -9,7 +9,7 @@
   mkConfig = import ./mkConfig;
   cfg = mkConfig {
     inherit configuration pkgs lib extraArgs;
-    modules' = {imports = modules;};
+    userModules = {imports = modules;};
   };
   docs = pkgs.callPackage ./docs.nix {inherit (cfg) docs;};
   initLua = pkgs.writeTextFile {
