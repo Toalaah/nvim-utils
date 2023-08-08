@@ -11,7 +11,7 @@
     inherit configuration pkgs lib extraArgs;
     modules' = {imports = modules;};
   };
-  initLua = pkgs.writeTextFile {
+  initLuaFile = pkgs.writeTextFile {
     name = "init.lua";
     text = ''
       ${cfg.vim.opt}
@@ -21,6 +21,9 @@
       ${cfg.postHooks}
     '';
   };
+  initLua = pkgs.runCommand "init.lua" {} ''
+    ${pkgs.stylua}/bin/stylua - < ${initLuaFile} > $out
+  '';
 in
   (pkgs.wrapNeovim package {
     extraMakeWrapperArgs = lib.strings.concatStringsSep " " [
