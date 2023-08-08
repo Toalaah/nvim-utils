@@ -11,8 +11,7 @@
     inherit configuration pkgs lib extraArgs;
     userModules = {imports = modules;};
   };
-  docs = pkgs.callPackage ./docs.nix {inherit (cfg) docs;};
-  initLua = pkgs.writeTextFile {
+  initLuaFile = pkgs.writeTextFile {
     name = "init.lua";
     text = ''
       ${cfg.vim.opt}
@@ -22,6 +21,9 @@
       ${cfg.postHooks}
     '';
   };
+  initLua = pkgs.runCommand "init.lua" {} ''
+    ${pkgs.stylua}/bin/stylua - < ${initLuaFile} > $out
+  '';
 in
   (pkgs.wrapNeovim package {
     extraMakeWrapperArgs = lib.strings.concatStringsSep " " [
@@ -30,4 +32,4 @@ in
       "--add-flags '-u ${initLua}'"
     ];
   })
-  .overrideAttrs (_: {passthru = {inherit initLua docs;};})
+  .overrideAttrs (_: {passthru = {inherit initLua;};})
