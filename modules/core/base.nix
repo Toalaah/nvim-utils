@@ -45,7 +45,7 @@
         lib.mkOption {
           type = lib.types.attrs;
           description = lib.mdDoc ''
-            Values to set under the `vim.${ns}` namespace".
+            Values to set under the `vim.${ns}` namespace.
 
             Run `:help vim.o` for from inside the nvim process more information.
           '';

@@ -2,7 +2,7 @@ name: Deploy documentation
 
 on:
   push:
-    # branches: ["master"]
+    branches: ["master"]
 
   workflow_dispatch:
 
@@ -26,7 +26,7 @@ jobs:
       - uses: cachix/install-nix-action@v19
         with:
           github_access_token: ${{ secrets.GITHUB_TOKEN }}
-      - run: nix-build ./docs/build.nix
+      - run: nix-build ./docs
         name: build static documentation
       - uses: actions/configure-pages@v3
       - uses: actions/upload-pages-artifact@v2
