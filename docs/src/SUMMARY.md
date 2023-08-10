@@ -1,5 +1,10 @@
-- [Introduction](./README.md)
-- [Getting Started](./getting-started.md)
+[Introduction](./README.md)
+
+- [Getting Started](./gettings-started.md)
+- [Flake Usage](./flake-usage.md)
+- [NixOS / Home Manager Modules](./nixos-hm-modules.md)
+
+# Library
 
 - [Library functions](./lib/README.md)
 

@@ -22,6 +22,7 @@ Make sure to include the corresponding module, otherwise you will get
 definition errors!
 
 ```nix
+# default.nix
 nvim-utils.lib.mkNvimPkg {
   inherit pkgs;
   modules = with nvim-utils.lib.baseModules; [colorschemes.tokyonight];
@@ -61,6 +62,7 @@ the amount of boilerplate needed.
 Then in `default.nix`, simply add the module file and enable the configuration.
 
 ```nix
+# default.nix
 nvim-utils.lib.mkNvimPkg {
   inherit pkgs;
   modules = [ ./myCoolColorscheme.nix ];
