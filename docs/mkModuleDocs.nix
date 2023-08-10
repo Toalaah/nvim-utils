@@ -42,7 +42,7 @@
       then subModule
       else throw "argument `subModule` must be a string or a list of strings";
   in
-    pkgs.nixosOptionsDoc {
+    (pkgs.nixosOptionsDoc {
       options = lib.attrsets.getAttrFromPath modulePath options;
       transformOptions = let
         gitHubDeclaration = user: repo: subpath: let
@@ -66,7 +66,7 @@
               else decl)
             opt.declarations;
           };
-    };
+    }).optionsCommonMark;
 in
   maybeTrace "(module-docs-builder) generating documentation for categories: [${lib.strings.concatStringsSep ", " moduleCategories}]"
   pkgs.runCommand "module-options" {} ''
@@ -75,7 +75,7 @@ in
       # construct per-module documentation files
       lib.strings.concatMapStringsSep "\n"
       (v: ''
-        cat ${(mkDocs v).optionsCommonMark} > $out/${v}.md
+        cat ${mkDocs v} > $out/${v}.md
       '')
       moduleCategories
     }
