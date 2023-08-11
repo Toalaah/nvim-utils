@@ -86,7 +86,7 @@ configure, for instance:
 - Keymaps
 - Pre- and post-hooks
 
-Refer to the [core](./lib/README.md) module for more information.
+Refer to the [core](./modules/core.md) module for more information.
 
 **Note**: The `core` and `lazy` modules are implicitly included and do not need
 to be specified in the `modules` argument of `mkNvimPkg`.

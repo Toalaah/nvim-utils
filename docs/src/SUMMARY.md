@@ -1,6 +1,6 @@
 [Introduction](./README.md)
 
-- [Getting Started](./gettings-started.md)
+- [Getting Started](./getting-started.md)
 - [Flake Usage](./flake-usage.md)
 - [NixOS / Home Manager Modules](./nixos-hm-modules.md)
 - [Library functions](./lib/README.md)
@@ -10,4 +10,8 @@
     - [Keymaps](./modules/keymaps.md)
     - [Lazy](./modules/lazy.md)
     - [Vim](./modules/vim.md)
+    - [Colorschemes](./modules/colorschemes.md)
     - [Treesitter](./modules/treesitter.md)
+    - [Git](./modules/git.md)
+    - [Lsp](./modules/lsp.md)
+    - [Tools](./modules/tools.md)
