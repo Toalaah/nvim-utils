@@ -1,10 +1,10 @@
 {
   config,
   lib,
-  toLua,
   ...
 }:
 with lib; let
+  inherit (lib.lua) toLua;
   _mkKeymapImpl = expr:
   # Small sanity check: `expr` must only be callable once, specifically, only
   # `opts` should be optional. See `lib/vim.nix` for more details.

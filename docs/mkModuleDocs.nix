@@ -66,7 +66,8 @@
               else decl)
             opt.declarations;
           };
-    }).optionsCommonMark;
+    })
+    .optionsCommonMark;
 in
   maybeTrace "(module-docs-builder) generating documentation for categories: [${lib.strings.concatStringsSep ", " moduleCategories}]"
   pkgs.runCommand "module-options" {} ''

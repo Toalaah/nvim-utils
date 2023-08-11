@@ -2,10 +2,10 @@
   config,
   lib,
   pkgs,
-  rawLua,
   ...
 }:
 with lib; let
+  inherit (lib.lua) rawLua;
   cfg = config.lsp.null-ls;
   src = pkgs.fetchFromGitHub {
     owner = "jose-elias-alvarez";

@@ -35,7 +35,7 @@ nvim-utils.lib.mkNvimPkg {
 Refer to the [builtin modules](./modules/builtins/README.md) for all available
 modules along with their options.
 
-# Custom Modules
+# Writing Custom Modules
 
 Say we want to use a colorscheme which is not a builtin module. No problem,
 let's write our own. The process is very similar to writing a NixOS module, as

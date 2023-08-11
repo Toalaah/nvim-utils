@@ -1,10 +1,10 @@
 {
   config,
   lib,
-  toLua,
   ...
 }:
 with lib; let
+  inherit (lib.lua) toLua;
   stringifyAutoCmd = let
     ifNotNull = value: field: lib.optionalString (value != null) "${field} = ${toLua value},";
     ifNotFalse = value: field: lib.optionalString value "${field} = ${toLua value},";

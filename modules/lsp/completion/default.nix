@@ -2,10 +2,10 @@
   config,
   lib,
   pkgs,
-  rawLua,
   ...
 }:
 with lib; let
+  inherit (lib.lua) rawLua;
   sources = builtins.mapAttrs (_: v: pkgs.fetchFromGitHub (v // {name = v.repo;})) (import ./sources.nix);
 in {
   config = mkMerge [

@@ -2,11 +2,10 @@
   config,
   lib,
   pkgs,
-  rawLua,
-  toLua,
   ...
 }:
 with lib; let
+  inherit (lib.lua) toLua rawLua;
   cfg = config.lsp.lsp-config;
   src = pkgs.fetchFromGitHub {
     owner = "neovim";

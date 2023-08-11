@@ -3,17 +3,11 @@
 - [Getting Started](./gettings-started.md)
 - [Flake Usage](./flake-usage.md)
 - [NixOS / Home Manager Modules](./nixos-hm-modules.md)
-
-# Library
-
 - [Library functions](./lib/README.md)
-
-# Modules
-
-- [Core](./modules/builtins/core.md)
-- [Lazy](./modules/builtins/lazy.md)
-- [Vim](./modules/builtins/vim.md)
-
-# Optional Modules
-
-- [Treesitter](./modules/optionals/treesitter.md)
+- [Modules](./modules/README.md)
+    - [Core](./modules/core.md)
+    - [Autocmds](./modules/autocmds.md)
+    - [Keymaps](./modules/keymaps.md)
+    - [Lazy](./modules/lazy.md)
+    - [Vim](./modules/vim.md)
+    - [Treesitter](./modules/treesitter.md)
