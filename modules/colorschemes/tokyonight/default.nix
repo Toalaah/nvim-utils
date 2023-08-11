@@ -15,7 +15,7 @@ with lib; let
 in {
   options = {
     colorschemes.tokyonight = {
-      enable = mkEnableOption "tokyonight";
+      enable = mkEnableOption (lib.mdDoc "tokyonight");
       src = mkOption {
         type = types.package;
         description = lib.mdDoc ''
@@ -27,7 +27,7 @@ in {
       };
       opts = {
         style = mkOption {
-          description = "variant of tokyonight to use";
+          description = lib.mdDoc "variant of tokyonight to use";
           type = types.enum ["day" "moon" "night" "storm"];
           default = "moon";
         };

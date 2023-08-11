@@ -16,12 +16,12 @@ with lib; let
     mkOption {
       type = types.bool;
       default = true;
-      description = desc;
+      description = lib.mdDoc desc;
     };
 in {
   options = {
     git.gitsigns = {
-      enable = mkEnableOption "gitsigns";
+      enable = mkEnableOption (lib.mdDoc "gitsigns");
       src = mkOption {
         type = types.package;
         description = lib.mdDoc ''
@@ -33,28 +33,28 @@ in {
       };
       opts = {
         signcolumn = mkDefaultTrueOption "signcolumn";
-        numhl = mkEnableOption "numhl";
-        linehl = mkEnableOption "linehl";
-        word_diff = mkEnableOption "word diff";
-        current_line_blame = mkEnableOption "current line blame";
+        numhl = mkEnableOption (lib.mdDoc "numhl");
+        linehl = mkEnableOption (lib.mdDoc "linehl");
+        word_diff = mkEnableOption (lib.mdDoc "word diff");
+        current_line_blame = mkEnableOption (lib.mdDoc "current line blame");
         current_line_blame_opts = {
           virt_text = mkDefaultTrueOption "virtual text";
           virt_text_pos = mkOption {
             type = types.enum ["eol" "overlay" "right_align"];
             default = "eol";
-            description = "virtual text position";
+            description = lib.mdDoc "virtual text position";
           };
           delay = mkOption {
             type = types.int;
-            description = "delay";
+            description = lib.mdDoc "delay";
             default = 1000;
           };
-          ignore_whitespace = mkEnableOption "ignore whitespace";
+          ignore_whitespace = mkEnableOption (lib.mdDoc "ignore whitespace");
         };
         current_line_blame_formatter = mkOption {
           type = types.str;
           default = "<author>, <author_time:%Y-%m-%d> - <summary>";
-          description = "current line blame";
+          description = lib.mdDoc "current line blame";
         };
       };
     };

@@ -12,7 +12,7 @@ with lib; let
   };
 in {
   options.programs.nvim = {
-    enable = mkEnableOption "A lazy.nvim-based neovim configuration";
+    enable = mkEnableOption (lib.mdDoc "A lazy.nvim-based neovim configuration");
     package = mkOption {
       type = types.package;
       default = pkgs.neovim-unwrapped;

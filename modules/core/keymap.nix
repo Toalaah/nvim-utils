@@ -1,10 +1,10 @@
 {
   config,
   lib,
-  toLua,
   ...
 }:
 with lib; let
+  inherit (lib.lua) toLua;
   _mkKeymapImpl = expr:
   # Small sanity check: `expr` must only be callable once, specifically, only
   # `opts` should be optional. See `lib/vim.nix` for more details.
@@ -45,6 +45,10 @@ with lib; let
   };
 in {
   options.keymaps = mkOption {
+    description = lib.mdDoc ''
+      List of keymaps to set. Refer to nvim's documentation on `vim.keymap.set`
+      for usage and option documentation. Also see [`lib.vim.mkKeymap`](/lib#function-library-lib.vim.mkKeymap).
+    '';
     # XXX: ordering in `oneOf` matters here!
     type = types.listOf (types.oneOf [(types.functionTo types.attrs) keymap]);
     default = [];

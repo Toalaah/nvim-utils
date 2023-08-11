@@ -1,7 +1,3 @@
-/*
-This file defines the top-level options of `mkNvimConfig`, more specifically
-options which are not directly plugin-specific.
-*/
 {
   config,
   pkgs,
@@ -9,18 +5,13 @@ options which are not directly plugin-specific.
   ...
 }: {
   options = {
-    /*
-    Defines an array of merged plugin specs. These specs are defined on a
-    per-module basis.
-
-    When executing `mkNvimConfig`, the merged specs are mapped to a
-    lazy.nvim-compatible format and are then converted to stringified lua code,
-    which is finally insered into the custom RC of the wrapped binary.
-    */
     plugins = lib.mkOption {
+      # TODO: submodule
       type = lib.types.listOf lib.types.attrs;
       description = lib.mdDoc ''
-        Combined plugin spec passed to lazy.nvim startup function
+        Combined plugin spec passed to lazy.nvim startup function. You should
+        pass your plugin specs generated in modules to this configuration
+        value (see usage examples).
       '';
       default = [];
     };
@@ -41,27 +32,22 @@ options which are not directly plugin-specific.
       default = [];
     };
 
-    # used internally for read-access to final derivation output path
     _rtpPath = lib.mkOption {
       type = lib.types.path;
       readOnly = true;
       internal = true;
       default = let
-        mkRtp = import ./rtp.nix pkgs;
+        mkRtp = import ./mkRtp.nix pkgs;
       in
         (mkRtp config.rtp).outPath;
     };
 
-    /*
-    Defines an interface for specifiying vim options to set, for instance
-    `vim.g` or `vim.opt`.
-    */
     vim = let
       mkVimNamespaceOption = ns:
         lib.mkOption {
           type = lib.types.attrs;
           description = lib.mdDoc ''
-            Values to set under the `vim.${ns}` namespace".
+            Values to set under the `vim.${ns}` namespace.
 
             Run `:help vim.o` for from inside the nvim process more information.
           '';
@@ -72,13 +58,9 @@ options which are not directly plugin-specific.
       g = mkVimNamespaceOption "g";
     };
 
-    /*
-    Allows the user to specify pre-and-post hooks to run before and after lazy
-    startup respectively.
-    */
     preHooks = lib.mkOption {
       type = lib.types.lines;
-      description = lib.mdDoc "lua statements to be executed **before** lazy startup, newline separated";
+      description = lib.mdDoc "Lua statements to be executed **before** lazy startup, newline separated.";
       example = ''
         print('hello world')
       '';
@@ -87,19 +69,16 @@ options which are not directly plugin-specific.
 
     postHooks = lib.mkOption {
       type = lib.types.lines;
-      description = lib.mdDoc "lua statements to be executed **after** lazy startup, newline separated";
+      description = lib.mdDoc "Lua statements to be executed **after** lazy startup, newline separated.";
       example = ''
         print('hello world')
       '';
       default = "";
     };
 
-    /*
-    Extra packages to be included in the wrapped program's PATH
-    */
     extraPackages = lib.mkOption {
       type = lib.types.listOf lib.types.package;
-      description = lib.mdDoc "Extra packages to be included in the wrapped program's PATH";
+      description = lib.mdDoc "Extra packages to be included in the wrapped program's $PATH.";
       example = lib.literalExpression ''
         [ pkgs.hello ]
       '';

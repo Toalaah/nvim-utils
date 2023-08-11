@@ -1,0 +1,19 @@
+[book]
+authors = ["Samuel Kunst"]
+language = "en"
+multilingual = false
+src = "./src"
+title = "Nvim Utils"
+
+[output.html]
+git-repository-icon = "fa-github"
+edit-url-template = "https://github.com/toalaah/nvim-utils/edit/master/docs/{path}"
+git-repository-url = "https://github.com/toalaah/nvim-utils"
+no-section-label = true
+preferred-dark-theme = 'ayu'
+site-url = "/nvim-utils/"
+
+[output.html.fold]
+# enable = true
+
+[preprocessor.cmdrun]

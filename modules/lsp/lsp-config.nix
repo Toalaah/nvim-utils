@@ -2,11 +2,10 @@
   config,
   lib,
   pkgs,
-  rawLua,
-  toLua,
   ...
 }:
 with lib; let
+  inherit (lib.lua) toLua rawLua;
   cfg = config.lsp.lsp-config;
   src = pkgs.fetchFromGitHub {
     owner = "neovim";
@@ -26,7 +25,7 @@ with lib; let
   '';
 in {
   options.lsp.lsp-config = {
-    enable = mkEnableOption "lsp-config";
+    enable = mkEnableOption (lib.mdDoc "lsp-config");
     src = mkOption {
       type = types.package;
       description = lib.mdDoc ''

@@ -2,10 +2,10 @@
   config,
   lib,
   pkgs,
-  rawLua,
   ...
 }:
 with lib; let
+  inherit (lib.lua) rawLua;
   cfg = config.lsp.null-ls;
   src = pkgs.fetchFromGitHub {
     owner = "jose-elias-alvarez";
@@ -38,7 +38,7 @@ with lib; let
     ++ allFormatterSources;
 in {
   options.lsp.null-ls = {
-    enable = mkEnableOption "null-ls";
+    enable = mkEnableOption (lib.mdDoc "null-ls");
     src = mkOption {
       type = types.package;
       description = lib.mdDoc ''
@@ -48,7 +48,7 @@ in {
       '';
       default = src;
     };
-    autoformat = mkEnableOption "autoformatting";
+    autoformat = mkEnableOption (lib.mdDoc "autoformatting");
     code-actions = mkSourceOption "code-actions";
     completion = mkSourceOption "completion";
     diagnostics = mkSourceOption "diagnostics";

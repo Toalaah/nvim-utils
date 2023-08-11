@@ -9,4 +9,4 @@
     modules = modules ++ [assertionModule warningModule];
   };
 in
-  (evalWarnings evaledModule.config.warnings testAssertions evaledModule.config.assertions) evaledModule.config
+  (evalWarnings evaledModule.config.warnings testAssertions evaledModule.config.assertions) evaledModule

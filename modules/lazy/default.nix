@@ -46,6 +46,7 @@ in {
     };
     _readOnlyOpts = lib.mkOption {
       type = lib.types.attrsOf lib.types.unspecified;
+      internal = true;
       readOnly = true;
       default = defaults;
     };

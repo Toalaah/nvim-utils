@@ -6,6 +6,7 @@ with lib; {
         type = types.listOf types.str;
         description = "A list of warnings to show to the user at build time";
         default = [];
+        visible = false;
       };
     };
   };
