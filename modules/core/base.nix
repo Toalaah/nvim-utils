@@ -9,7 +9,9 @@
       # TODO: submodule
       type = lib.types.listOf lib.types.attrs;
       description = lib.mdDoc ''
-        Combined plugin spec passed to lazy.nvim startup function
+        Combined plugin spec passed to lazy.nvim startup function. You should
+        pass your plugin specs generated in modules to this configuration
+        value (see usage examples).
       '';
       default = [];
     };
@@ -58,7 +60,7 @@
 
     preHooks = lib.mkOption {
       type = lib.types.lines;
-      description = lib.mdDoc "lua statements to be executed **before** lazy startup, newline separated";
+      description = lib.mdDoc "Lua statements to be executed **before** lazy startup, newline separated.";
       example = ''
         print('hello world')
       '';
@@ -67,7 +69,7 @@
 
     postHooks = lib.mkOption {
       type = lib.types.lines;
-      description = lib.mdDoc "lua statements to be executed **after** lazy startup, newline separated";
+      description = lib.mdDoc "Lua statements to be executed **after** lazy startup, newline separated.";
       example = ''
         print('hello world')
       '';
@@ -76,7 +78,7 @@
 
     extraPackages = lib.mkOption {
       type = lib.types.listOf lib.types.package;
-      description = lib.mdDoc "Extra packages to be included in the wrapped program's PATH";
+      description = lib.mdDoc "Extra packages to be included in the wrapped program's $PATH.";
       example = lib.literalExpression ''
         [ pkgs.hello ]
       '';
