@@ -57,19 +57,32 @@
     }
   */
   mkSimplePlugin = {
-    # the evalModules config
+    # The top-level config you have access to in your module
     config,
-    # everything to do with the local plugin module
+    # The plugin source (for instance a source produced by `pkgs.fetchFromGitHub`)
     plugin,
-    # each element correspons to a level of nesting in the config. For instace,
-    # `category = ["foo" "bar"]` would expose the options: `foo.bar = {...}`
+    # The path to expose your module options under. Each element correspons to
+    # a level of nesting in the config. For instace, `category = ["foo" "bar"]`
+    # would expose the options: `foo.bar = {...}`. You may also pass a string
+    # where each nested level is separated by a `/`. For instance, `"foo/bar"` is
+    # equivalent to the example above.
     category ? [],
+    # A function to derive the plugin name from the plugin source. The default
+    # implementation uses the `repo` attribute from `plugin` (assumes structure
+    # similar to a source produced by `fetchFromGitHub`). The input to this
+    # function is `plugin`. The output must be a string
     derivePluginNameFunc ? (p: builtins.head (lib.strings.splitString "." p.repo)),
-    # TODO
+    # Extra options to pass to the lazy plugin spec. The function receives the
+    # plugin config at evaluation time as its only input. The output must be an
+    # attribute set, which is merged with the final spec. Any options which are
+    # accepted by layz's plugin spec should be valid.
     extraPluginConfig ? (_cfg: {}),
-    # TODO
+    # Any extra module options to generate for this module. Standard
+    # option-conventions apply
     extraModuleOpts ? {},
-    # TODO
+    # Extra `config` to generate for this module if it is enabled. This is
+    # merged with the final config. You may, for example, use this to set
+    # additional pre/post-hooks or set keymaps, etc.
     extraConfig ? {},
   }:
     with lib; let
