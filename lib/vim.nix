@@ -77,6 +77,11 @@
     # attribute set, which is merged with the final spec. Any options which are
     # accepted by layz's plugin spec should be valid.
     extraPluginConfig ? (_cfg: {}),
+    # Omit the `opt` options from the final module as well as the plugin
+    # spec. You may want to use this is the plugin which you specify does not
+    # support a conventional `setup()` function, ex a vimscript plugin which
+    # simply gets loaded.
+    noSetup ? false,
     # Any extra module options to generate for this module. Standard
     # option-conventions apply.
     extraModuleOpts ? {},
@@ -102,17 +107,31 @@
           enable = mkEnableOption (lib.mdDoc pluginName);
           src = mkOption {
             type = types.package;
-            description = mdDoc "Source to use for ${pluginName}.";
+            description = mdDoc "Source to use for `${pluginName}`.";
             default = plugin;
           };
-          opts = mkOption {
-            type = types.attrs;
-            default = {};
-            description = mdDoc "Options to pass to ${pluginName}";
-          };
-        });
+        }
+        // (
+          if noSetup
+          then {}
+          else {
+            opts = mkOption {
+              type = types.attrs;
+              default = {};
+              description = mdDoc "Options to pass to `${pluginName}`.";
+            };
+          }
+        ));
       config = let
-        pluginSpec = recursiveUpdate (extraPluginConfig cfg) {inherit (cfg) src opts;};
+        pluginSpec =
+          recursiveUpdate
+          (extraPluginConfig cfg)
+          {inherit (cfg) src;}
+          // (
+            if noSetup
+            then {}
+            else {inherit (cfg) opts;}
+          );
       in
         mkIf (cfg.enable) (recursiveUpdate extraConfig {plugins = [pluginSpec];});
     };
