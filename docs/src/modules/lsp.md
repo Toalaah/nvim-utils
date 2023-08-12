@@ -2,3 +2,5 @@
 documentation edits, refer to the original source file instead. -->
 
 <!-- cmdrun options-to-md.sh lsp -->
+
+<!-- cmdrun options-to-md.sh languages -->

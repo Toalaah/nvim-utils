@@ -57,9 +57,9 @@
     }
   */
   mkSimplePlugin = {
-    # The top-level config you have access to in your module
+    # The top-level config you have access to in your module.
     config,
-    # The plugin source (for instance a source produced by `pkgs.fetchFromGitHub`)
+    # The plugin source (for instance a source produced by `pkgs.fetchFromGitHub`).
     plugin,
     # The path to expose your module options under. Each element correspons to
     # a level of nesting in the config. For instace, `category = ["foo" "bar"]`
@@ -70,7 +70,7 @@
     # A function to derive the plugin name from the plugin source. The default
     # implementation uses the `repo` attribute from `plugin` (assumes structure
     # similar to a source produced by `fetchFromGitHub`). The input to this
-    # function is `plugin`. The output must be a string
+    # function is `plugin`. The output must be a string.
     derivePluginNameFunc ? (p: builtins.head (lib.strings.splitString "." p.repo)),
     # Extra options to pass to the lazy plugin spec. The function receives the
     # plugin config at evaluation time as its only input. The output must be an
@@ -78,7 +78,7 @@
     # accepted by layz's plugin spec should be valid.
     extraPluginConfig ? (_cfg: {}),
     # Any extra module options to generate for this module. Standard
-    # option-conventions apply
+    # option-conventions apply.
     extraModuleOpts ? {},
     # Extra `config` to generate for this module if it is enabled. This is
     # merged with the final config. You may, for example, use this to set
