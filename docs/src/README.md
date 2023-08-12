@@ -1,8 +1,8 @@
 # Nvim-Utils
 
 [`nvim-utils`](https://github.com/toalaah/nvim-utils) is a collection of
-utility functions for managing Neovim configurations / plugins in Nix. It aims
-to simplify the creation of reproducible, reusable, and extensible
+utility functions and modules for managing Neovim configurations / plugins in
+Nix. It aims to simplify the creation of reproducible, reusable, and extensible
 configurations.
 
 `nvim-utils` is module-based. Just like with [NixOS
