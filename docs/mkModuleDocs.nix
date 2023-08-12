@@ -5,7 +5,9 @@
 }: let
   inherit (pkgs) lib;
 
-  evalModule = import ../lib/evalModule {inherit lib;};
+  evalModule = import ../lib/evalModule {
+    lib = lib.extend (_: prev: (import ../lib {lib = prev;}) // prev);
+  };
 
   maybeTrace =
     if traceModules
