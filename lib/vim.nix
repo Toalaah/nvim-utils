@@ -77,9 +77,9 @@
     # attribute set, which is merged with the final spec. Any options which are
     # accepted by layz's plugin spec should be valid.
     extraPluginConfig ? (_cfg: {}),
-    # Omit the `opt` options from the final module as well as the plugin
-    # spec. You may want to use this is the plugin which you specify does not
-    # support a conventional `setup()` function, ex a vimscript plugin which
+    # Omit the `opt` options from the final module as well as the plugin spec.
+    # You may want to use this if the plugin which you specify does not support
+    # a conventional `setup()` function, for example a vimscript plugin which
     # simply gets loaded.
     noSetup ? false,
     # Any extra module options to generate for this module. Standard
