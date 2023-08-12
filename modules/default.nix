@@ -16,4 +16,6 @@
   tools.zk = ./tools/zk;
 
   treesitter = ./treesitter;
+
+  util.plenary = ./util/plenary.nix;
 }

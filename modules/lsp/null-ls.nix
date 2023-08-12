@@ -37,6 +37,7 @@ with lib; let
     ++ allHoverSources
     ++ allFormatterSources;
 in {
+  imports = [../util/plenary.nix];
   options.lsp.null-ls = {
     enable = mkEnableOption (lib.mdDoc "null-ls");
     src = mkOption {
@@ -57,23 +58,13 @@ in {
   };
   config = mkMerge [
     (mkIf cfg.enable {
-      assertions = [];
+      util.plenary.enable = true;
       plugins = [
         {
           slug = "jose-elias-alvarez/null-ls.nvim";
           event = ["BufReadPre" "BufNewFile"];
           inherit (cfg) src;
-          dependencies = [
-            {
-              slug = "nvim-lua/plenary.nvim";
-              src = pkgs.fetchFromGitHub {
-                owner = "nvim-lua";
-                repo = "plenary.nvim";
-                rev = "36aaceb6e93addd20b1b18f94d86aecc552f30c4";
-                hash = "sha256-q7cWcedN/BViNWpIFRdnvQrs60vQICmboqi9y+cRH2Q=";
-              };
-            }
-          ];
+          dependencies = [config.util.plenary.slug];
           name = "null-ls.nvim";
           opts = rawLua ''
             function()
