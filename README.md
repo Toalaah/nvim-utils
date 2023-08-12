@@ -1,5 +1,7 @@
 # Nvim-Utils
 
+[![Smoke test](https://github.com/Toalaah/nvim-utils/actions/workflows/smoke-test.yml/badge.svg?branch=master)](https://github.com/Toalaah/nvim-utils/actions/workflows/smoke-test.yml)
+
 `nvim-utils` is a collection of utility functions and modules for managing
 Neovim configurations / plugins in Nix. It aims to simplify the creation of
 reproducible, reusable, and extensible configurations.

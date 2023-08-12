@@ -1,3 +1,4 @@
 result
 docs/book
 .direnv
+examples/**/flake.lock
