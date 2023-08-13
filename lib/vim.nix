@@ -72,6 +72,10 @@
     # similar to a source produced by `fetchFromGitHub`). The input to this
     # function is `plugin`. The output must be a string.
     derivePluginNameFunc ? (p: builtins.head (lib.strings.splitString "." p.repo)),
+    # The name of the plugin to use in the module options. By default, the
+    # implmentation uses the result of `derivePluginNameFunc` to derive the
+    # option namespace from the plugin source.
+    moduleName ? null,
     # Extra options to pass to the lazy plugin spec. The function receives the
     # plugin config at evaluation time as its only input. The output must be an
     # attribute set, which is merged with the final spec. Any options which are
@@ -99,7 +103,11 @@
         else if isList category
         then category
         else throw "mkSimplePlugin: argument `category` must be a string or a list of strings";
-      modulePath = categoryPath ++ [pluginName];
+      moduleName =
+        if moduleName == null
+        then pluginName
+        else moduleName;
+      modulePath = categoryPath ++ [moduleName];
       cfg = getAttrFromPath modulePath config;
     in {
       options = setAttrByPath modulePath (extraModuleOpts
