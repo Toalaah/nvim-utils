@@ -85,7 +85,6 @@ in {
   ];
   # test adding telescope extensions
   telescope.extensions.terraform_doc = {
-    enable = true;
     src = pkgs.fetchFromGitHub {
       owner = "ANGkeith";
       repo = "telescope-terraform-doc.nvim";
