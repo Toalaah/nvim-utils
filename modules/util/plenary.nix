@@ -16,7 +16,7 @@ lib.vim.mkSimplePlugin {
   category = "util";
   extraModuleOpts = {
     slug = lib.mkOption {
-      default = "plenary.nvim";
+      default = "nvim-lua/plenary.nvim";
       readOnly = true;
       internal = true;
       type = lib.types.str;

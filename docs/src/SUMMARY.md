@@ -11,6 +11,7 @@
     - [Lazy](./modules/lazy.md)
     - [Vim](./modules/vim.md)
     - [Colorschemes](./modules/colorschemes.md)
+    - [Telescope](./modules/telescope.md)
     - [Treesitter](./modules/treesitter.md)
     - [Git](./modules/git.md)
     - [Lsp](./modules/lsp.md)
