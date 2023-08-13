@@ -141,6 +141,9 @@
             else {inherit (cfg) opts;}
           );
       in
-        mkIf (cfg.enable) (recursiveUpdate extraConfig {plugins = [pluginSpec];});
+        mkMerge [
+          (mkIf (cfg.enable) {plugins = [pluginSpec];})
+          extraConfig
+        ];
     };
 }

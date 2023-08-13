@@ -73,17 +73,17 @@ need is not supported, open an issue.
 
 **_How is this different to NixVim?_**
 
-It's not really that much different to be honest in so much that `nvim-utils`
-is significantly less mature and more bug-prone. I suppose the primary
-difference is the plugin backend used (or lack thereof), as `nixvim` seems use
-packer / `packadd` rather than `lazy` (although there appear to be discussions
-surrounding this). So why reinvent the wheel?
+It's not really that much different to be honest aside from the fact that
+`nvim-utils` is significantly less mature, feature-rich, and more bug-prone. I
+suppose the primary difference is the plugin backend used (or lack thereof),
+as `nixvim` seems use packer / `packadd` rather than `lazy` (although there
+appear to be discussions surrounding this). So why reinvent the wheel?
 
 - TBH I was not aware of this project until well into development of this tool
-- One of the goals with project ~~was~~ is to improve my understanding of the
-  Nix language
-- I wanted to continue using `lazy.nvim` as my plugin manager while moving to a
-  more nix-based neovim configuration
+- One of the goals with this project ~~was~~ is to improve my understanding of
+  the Nix language
+- I wanted to continue using `lazy.nvim` as my plugin manager while moving to
+  a more nix-based neovim configuration
 
 ---
 
