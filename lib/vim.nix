@@ -103,11 +103,11 @@
         else if isList category
         then category
         else throw "mkSimplePlugin: argument `category` must be a string or a list of strings";
-      moduleName =
+      moduleName' =
         if moduleName == null
         then pluginName
         else moduleName;
-      modulePath = categoryPath ++ [moduleName];
+      modulePath = categoryPath ++ [moduleName'];
       cfg = getAttrFromPath modulePath config;
     in {
       options = setAttrByPath modulePath (extraModuleOpts
