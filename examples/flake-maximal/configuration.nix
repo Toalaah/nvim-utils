@@ -77,7 +77,11 @@ in {
 
   telescope.enable = true;
   telescope.keys = [
-    ({ lhs = "<C-p>"; rhs = "<cmd>Telescope find_files<cr>"; desc = "Find Files"; })
+    {
+      lhs = "<C-p>";
+      rhs = "<cmd>Telescope find_files<cr>";
+      desc = "Find Files";
+    }
   ];
   # test adding telescope extensions
   telescope.extensions.terraform_doc = {

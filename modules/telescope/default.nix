@@ -13,14 +13,15 @@ with lib; let
   };
   cfg = config.telescope;
   configuredExtensions = builtins.mapAttrs (n: v:
-      v
-      // {
-        module =
-          if v.module == null
-          then n
-          else v.module;
-      }) cfg.extensions;
-  extensionOpts = builtins.mapAttrs (n: v: v.opts) configuredExtensions;
+    v
+    // {
+      module =
+        if v.module == null
+        then n
+        else v.module;
+    })
+  cfg.extensions;
+  extensionOpts = builtins.mapAttrs (_n: v: v.opts) configuredExtensions;
   extensionDeps = builtins.map (v: {inherit (v) src;}) (builtins.attrValues configuredExtensions);
 in {
   imports = [
