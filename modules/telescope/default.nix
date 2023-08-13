@@ -16,7 +16,7 @@ with lib; let
   extensionOpts = builtins.mapAttrs (n: v: v.opts) enabledExtensions;
   extensionDeps = builtins.map (v: {inherit (v) src;}) (builtins.attrValues enabledExtensions);
 in {
-  imports = [../util/plenary.nix];
+  imports = [../util/plenary.nix ../util/devicons.nix];
   options.telescope = {
     enable = mkEnableOption (lib.mdDoc "telescope");
     src = mkOption {
@@ -47,6 +47,9 @@ in {
         default = "fzf";
         readOnly = true;
         type = lib.types.str;
+        description = lib.mdDoc ''
+          The name of the lua module to load for this extension.
+        '';
       };
       src = mkOption {
         type = types.package;
@@ -75,6 +78,7 @@ in {
   config = mkMerge [
     (mkIf cfg.enable {
       util.plenary.enable = true;
+      util.devicons.enable = true;
       extraPackages = [pkgs.ripgrep pkgs.fd];
       plugins = [
         {
@@ -98,6 +102,7 @@ in {
             extensionDeps
             ++ [
               config.util.plenary.slug
+              config.util.devicons.slug
             ];
         }
       ];

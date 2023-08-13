@@ -20,4 +20,5 @@
   treesitter = ./treesitter;
 
   util.plenary = ./util/plenary.nix;
+  util.devicons = ./util/devicons.nix;
 }
