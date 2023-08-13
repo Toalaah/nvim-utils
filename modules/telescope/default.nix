@@ -12,11 +12,23 @@ with lib; let
     hash = "sha256-BU6LFfuloNDhGSFS55sehZAX6mIqpD+R4X+sfu8aZwQ=";
   };
   cfg = config.telescope;
-  enabledExtensions = lib.attrsets.filterAttrs (n: v: v.enable) cfg.extensions;
-  extensionOpts = builtins.mapAttrs (n: v: v.opts) enabledExtensions;
-  extensionDeps = builtins.map (v: {inherit (v) src;}) (builtins.attrValues enabledExtensions);
+  configuredExtensions = builtins.mapAttrs (n: v:
+      v
+      // {
+        module =
+          if v.module == null
+          then n
+          else v.module;
+      }) cfg.extensions;
+  extensionOpts = builtins.mapAttrs (n: v: v.opts) configuredExtensions;
+  extensionDeps = builtins.map (v: {inherit (v) src;}) (builtins.attrValues configuredExtensions);
 in {
-  imports = [../util/plenary.nix ../util/devicons.nix];
+  imports = [
+    ../util/plenary.nix
+    ../util/devicons.nix
+    # the extension sub-type
+    ./extension.nix
+  ];
   options.telescope = {
     enable = mkEnableOption (lib.mdDoc "telescope");
     src = mkOption {
@@ -41,39 +53,6 @@ in {
       default = {};
       description = mdDoc "Options to pass to `telescope`.";
     };
-    extensions.fzf = {
-      enable = mkEnableOption (lib.mdDoc "fzf-native.nvim extension to telescope");
-      module = mkOption {
-        default = "fzf";
-        readOnly = true;
-        type = lib.types.str;
-        description = lib.mdDoc ''
-          The name of the lua module to load for this extension.
-        '';
-      };
-      src = mkOption {
-        type = types.package;
-        description = lib.mdDoc ''
-          Source to use for this plugin. This allows you to swap out the pinned
-          version with a newer revision/fork or add patches by creating a
-          wrapper derivation.
-        '';
-        default =
-          pkgs.vimPlugins.telescope-fzf-native-nvim
-          // {
-            owner = "nvim-telescope";
-            repo = "fzf-native.nvim";
-          };
-      };
-      opts = mkOption {
-        type = types.attrs;
-        default = {};
-        description = mdDoc ''
-          Extension options to use for `fzf-native`. These are passed into
-          telescope's opts during setup.
-        '';
-      };
-    };
   };
   config = mkMerge [
     (mkIf cfg.enable {
@@ -91,7 +70,7 @@ in {
               ${
               lib.strings.concatMapStringsSep
               "\n" (v: "telescope.load_extension('${v.module}')")
-              (builtins.attrValues enabledExtensions)
+              (builtins.attrValues configuredExtensions)
             }
             end
           '';

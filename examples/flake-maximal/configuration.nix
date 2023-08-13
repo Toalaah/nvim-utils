@@ -74,4 +74,20 @@ in {
       description = "Highlight copied content after yank";
     }
   ];
+
+  telescope.enable = true;
+  telescope.keys = [
+    ({ lhs = "<C-p>"; rhs = "<cmd>Telescope find_files<cr>"; desc = "Find Files"; })
+  ];
+  # test adding telescope extensions
+  telescope.extensions.terraform_doc = {
+    enable = true;
+    src = pkgs.fetchFromGitHub {
+      owner = "ANGkeith";
+      repo = "telescope-terraform-doc.nvim";
+      rev = "4b539fc9a9b647dddebe6b0ccc3eac2a23e3ddcf";
+      hash = "sha256-8ry5Og/JLk0n3Ayx1YWUsQSJnA+FBXjilb3f1tKaE/4=";
+    };
+    opts = {};
+  };
 }
