@@ -10,14 +10,23 @@
     rev = "da8b00581a52f5f87ad2aba9f52171fda7491f18";
     hash = "sha256-+sp8opLLJhZVb98IkqqKDbdKuKOhNIgnllySIr8zUKw=";
   };
-  mkPlugNameDrv = plug: let
-    src = plug.src;
-    name = plug.name or src.repo;
-  in
-    pkgs.runCommand name {} ''
-      mkdir -p $out
-      cp -r ${src} $out/${name}
-    '';
+  mkPlugNameDrv = plug:
+    pkgs.stdenv.mkDerivation rec {
+      src = plug.src;
+      nativeBuildInputs = [pkgs.neovim];
+      name = plug.name or plug.src.repo;
+      phases = [ "unpackPhase"  "installPhase" "fixupPhase" ];
+      installPhase = ''
+        target=$out/${name}
+        mkdir -p $out
+        cp -r . $target
+      '';
+      fixupPhase = ''
+        if [ -d "$target/doc" ]; then
+          nvim -N -u NONE -i NONE -n --cmd "helptags $target/doc" +quit!
+        fi
+      '';
+    };
   lazyRoot = let
     nestedPlugins = lib.lists.flatten (builtins.map (p: p.dependencies or []) config.plugins);
     nestedPluginSpecs = builtins.filter (p: builtins.isAttrs p) nestedPlugins;
