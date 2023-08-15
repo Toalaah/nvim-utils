@@ -34,7 +34,7 @@ in {
     type = types.attrsOf extension;
     default = {};
     description = lib.mdDoc ''
-      The set of telescope to make available.
+      The set of telescope extensions to make available.
     '';
   };
 }

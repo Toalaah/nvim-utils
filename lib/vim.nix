@@ -128,17 +128,28 @@
               default = {};
               description = mdDoc "Options to pass to `${pluginName}`.";
             };
+            keys = mkOption {
+              # TODO: type checking / submodule
+              type = types.listOf types.attrs;
+              description = lib.mdDoc ''
+                A list of keybindings to set up for `${pluginName}`. Structure follows
+                standard lazy keymap spec.
+              '';
+              default = [];
+            };
           }
         ));
       config = let
         pluginSpec =
           recursiveUpdate
           (extraPluginConfig cfg)
-          {inherit (cfg) src;}
-          // (
-            if noSetup
-            then {}
-            else {inherit (cfg) opts;}
+          (
+            {inherit (cfg) src;}
+            // (
+              if noSetup
+              then {}
+              else {inherit (cfg) opts keys;}
+            )
           );
       in
         mkMerge [

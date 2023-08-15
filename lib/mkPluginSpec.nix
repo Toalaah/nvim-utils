@@ -2,10 +2,11 @@
   mkPluginSpec = {
     src,
     slug ? "",
+    keys ? [],
     dependencies ? [],
     ...
   } @ inputs: let
-    extraArgs = builtins.removeAttrs inputs ["slug" "src" "dependencies"];
+    extraArgs = builtins.removeAttrs inputs ["src" "slug" "keys" "dependencies"];
 
     tryGetSlug = src:
       if !(builtins.isAttrs src && builtins.hasAttr "owner" src && builtins.hasAttr "repo" src)
@@ -23,8 +24,8 @@
       else tryGetSlug src;
 
     keys' =
-      if (builtins.hasAttr "keys" extraArgs)
-      then (import ./mkKeyBindings.nix) extraArgs.keys
+      if (builtins.length keys > 0)
+      then (import ./mkKeyBindings.nix) keys
       else {};
 
     dependencies' = lib.filterAttrs (_: v: v != []) {
