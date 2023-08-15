@@ -12,12 +12,17 @@ with lib; let
     hash = "sha256-WbOqur7pZVK/iJXbse6rRP0OyLkFDHxfIjMn8J+xOUU=";
   };
   cfg = config.treesitter;
-  mkKeymapOptionFor = what: default:
-    mkOption {
-      type = types.str;
-      inherit default;
-      description = lib.mdDoc "keybinding for ${what}";
-    };
+  configuredExtensions = builtins.mapAttrs (n: v:
+    v
+    // {
+      module =
+        if v.module == null
+        then n
+        else v.module;
+    })
+  cfg.extensions;
+  extensionOpts = builtins.mapAttrs (_n: v: v.opts) configuredExtensions;
+  extensionDeps = builtins.map (v: {inherit (v) src;}) (builtins.attrValues configuredExtensions);
   parsers = pkgs.stdenv.mkDerivation {
     name = "parser";
     src = let
@@ -31,47 +36,52 @@ with lib; let
     '';
   };
 in {
-  options = {
-    treesitter = {
-      enable = mkEnableOption (lib.mdDoc "treesitter");
-      src = mkOption {
-        type = types.package;
-        description = lib.mdDoc ''
-          Source to use for this plugin. This allows you to swap out the pinned
-          version with a newer revision/fork or add patches by creating a
-          wrapper derivation.
-        '';
-        default = src;
-      };
-      parsers = mkOption {
-        type = types.listOf types.str;
-        description = lib.mdDoc "list of language parsers to install";
-        default = [];
-        example = lib.literalExpression ''
-          [ "c" "lua" ]
-        '';
-      };
-      opts = {
-        highlight.enable = mkEnableOption (lib.mdDoc "highlighting");
-        incremental_selection = {
-          enable = mkEnableOption (lib.mdDoc "incremental_selection");
-          keymaps = {
-            init_selection = mkKeymapOptionFor "init_selection" "<CR>";
-            node_incremental = mkKeymapOptionFor "node_incremental" "<CR>";
-            node_decremental = mkKeymapOptionFor "node_decremental" "<BS>";
-          };
-        };
-      };
+  imports = [
+    # the extension sub-type
+    ./extension.nix
+  ];
+  options.treesitter = {
+    enable = mkEnableOption (lib.mdDoc "treesitter");
+    src = mkOption {
+      type = types.package;
+      description = lib.mdDoc ''
+        Source to use for this plugin. This allows you to swap out the pinned
+        version with a newer revision/fork or add patches by creating a
+        wrapper derivation.
+      '';
+      default = src;
+    };
+    parsers = mkOption {
+      type = types.listOf types.str;
+      description = lib.mdDoc "list of language parsers to install";
+      default = [];
+      example = lib.literalExpression ''
+        [ "c" "lua" ]
+      '';
+    };
+    keys = mkOption {
+      type = types.listOf types.attrs;
+      description = lib.mdDoc ''
+        A list of keybindings to set up for treesitter. follows standard lazy
+        keymap spec.
+      '';
+      default = [];
+    };
+    opts = mkOption {
+      type = types.attrs;
+      default = {};
+      description = mdDoc "Options to pass to `treesitter`.";
     };
   };
   config = mkMerge [
     (mkIf cfg.enable {
-      assertions = [];
       plugins = [
         {
+          inherit (cfg) src;
           main = "nvim-treesitter.configs";
+          opts = lib.attrsets.recursiveUpdate cfg.opts extensionOpts;
+          dependencies = extensionDeps;
           event = ["BufReadPost" "BufNewFile"];
-          inherit (cfg) src opts;
         }
       ];
       rtp = [parsers];
