@@ -25,7 +25,7 @@ with lib; let
 in {
   imports = [./snippet.nix];
   options.lsp.completion = {
-    enable = mkEnableOption "completion support. Uses `nvim-cmp` under the hood.";
+    enable = mkEnableOption "completion support. Uses `nvim-cmp` under the hood";
     src = mkOption {
       type = types.package;
       description = lib.mdDoc ''
@@ -41,7 +41,18 @@ in {
       description = mdDoc ''
         Additional options to pass to `cmp.setup()`. Note that for simple
         setups (ex: keybindings and sources), you do not need to pass anything
-        to this option.
+        to this option and should instead use the `keys` and `sources` options
+        respectively (in fact, default keymaps are already set, although they
+        may be overwritten using this option).
+
+        The `nvim-cmp` module is made available in this scope under the variable
+        name `cmp`.
+      '';
+      example = lib.literalExpression ''
+        window = {
+          completion = rawLua "cmp.config.window.bordered()";
+          documentation = rawLua "cmp.config.window.bordered()";
+        };
       '';
     };
     sources = mkOption {
@@ -91,10 +102,6 @@ in {
             local cmp = require 'cmp'
             local opts = {
               sources = ${lib.lua.toLua completionSourceOpts},
-              window = {
-                completion = cmp.config.window.bordered(),
-                documentation = cmp.config.window.bordered(),
-              },
               mapping = cmp.mapping.preset.insert({
                 ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
                 ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
@@ -112,6 +119,7 @@ in {
             return vim.tbl_deep_extend(
               "force",
               opts,
+              -- custom user-set option overrides
               ${lib.lua.toLua cfg.opts}
             )
           end

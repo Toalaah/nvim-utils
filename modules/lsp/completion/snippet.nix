@@ -14,7 +14,7 @@ with lib; let
     };
 in {
   options.lsp.snippets = {
-    enable = mkEnableOption "snippet support. Uses `luasnip` under the hood.";
+    enable = mkEnableOption "snippet support. Uses `luasnip` under the hood";
     src = mkOption {
       type = types.package;
       description = lib.mdDoc ''
