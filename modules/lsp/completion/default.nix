@@ -115,6 +115,12 @@ in {
                   select = true,
                 }),
               }),
+              completion = {
+                autocomplete = {
+                  cmp.TriggerEvent.TextChanged,
+                  cmp.TriggerEvent.InsertEnter,
+                },
+              },
             }
             return vim.tbl_deep_extend(
               "force",
