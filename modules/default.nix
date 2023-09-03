@@ -8,6 +8,7 @@
 
   languages.lua = ./languages/lua;
   languages.nix = ./languages/nix;
+  languages.rust = ./languages/rust;
 
   lazy = ./lazy;
 

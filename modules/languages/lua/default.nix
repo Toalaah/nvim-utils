@@ -9,19 +9,14 @@ with lib; let
 in {
   options = {
     languages.lua = {
-      enable = mkEnableOption (lib.mdDoc "lua");
-      autoEnableLsp = mkOption {
-        description = lib.mdDoc "lsp features for lua. This implies enabling `lsp.lsp-config`";
-        type = types.bool;
-        default = true;
-      };
+      enable = mkEnableOption (lib.mdDoc "lua LSP features / additional language tooling.");
       lspPkg = mkOption {
         type = types.package;
         default = pkgs.lua-language-server;
         description = lib.mdDoc "Lua language server package to use";
       };
       settings = mkOption {
-        type = types.attrsOf types.anything;
+        type = types.attrs;
         default = {
           single_file_support = true;
           Lua = {
@@ -41,18 +36,12 @@ in {
     };
   };
   config = mkMerge [
-    (mkIf (cfg.enable && cfg.autoEnableLsp) {
-      lsp.lsp-config.enable = true;
-    })
     (mkIf cfg.enable {
       treesitter.parsers = ["lua"];
 
-      lsp.null-ls.formatters = ["stylua"];
-      extraPackages = lib.optionals config.lsp.null-ls.enable [pkgs.stylua];
-
-      lsp.lsp-config.serverConfigurations.lua_ls = {
+      lsp.lsp-config.servers.lua_ls = {
         cmd = ["${cfg.lspPkg}/bin/lua-language-server"];
-        inherit (cfg) settings;
+        extraOpts = {inherit (cfg) settings;};
       };
     })
   ];
