@@ -15,7 +15,7 @@
       src = plug.src;
       nativeBuildInputs = [pkgs.neovim];
       name = plug.name or plug.src.repo;
-      phases = [ "unpackPhase"  "installPhase" "fixupPhase" ];
+      phases = ["unpackPhase" "installPhase" "fixupPhase"];
       installPhase = ''
         target=$out/${name}
         mkdir -p $out

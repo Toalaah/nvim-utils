@@ -1,16 +1,4 @@
 {
-  nvim-cmp = {
-    owner = "hrsh7th";
-    repo = "nvim-cmp";
-    rev = "b8c2a62b3bd3827aa059b43be3dd4b5c45037d65";
-    hash = "sha256-mGRJy5fmGEuJD9jJhNNIW+J7juWPBLqHwlD81di/A/Y=";
-  };
-  cmp-nvim-lsp = {
-    owner = "hrsh7th";
-    repo = "cmp-nvim-lsp";
-    rev = "0e6b2ed705ddcff9738ec4ea838141654f12eeef";
-    hash = "sha256-DxpcPTBlvVP88PDoTheLV2fC76EXDqS2UpM5mAfj/D4=";
-  };
   cmp-nvim-lua = {
     owner = "hrsh7th";
     repo = "cmp-nvim-lua";

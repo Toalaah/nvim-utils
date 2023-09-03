@@ -5,16 +5,16 @@
   ...
 }:
 with lib; let
-  cfg = config.languages.nix;
+  cfg = config.languages.rust;
 in {
   options = {
-    languages.nix = {
-      enable = mkEnableOption (lib.mdDoc "nix LSP features / additional language tooling.");
+    languages.rust = {
+      enable = mkEnableOption (lib.mdDoc "rust LSP features / additional language tooling.");
       settings = mkOption {
         type = types.attrs;
         default = {};
         description = lib.mdDoc ''
-          Additional options passed to nix-lsp.
+          Additional options passed to rust-lsp.
 
           Consult the project's [documentation](https://github.com/oxalica/nil/blob/main/docs/configuration.md)
           for all available options.
@@ -24,11 +24,10 @@ in {
   };
   config = mkMerge [
     (mkIf cfg.enable {
-      treesitter.parsers = ["nix"];
-      rtp = [./ftdetect];
+      treesitter.parsers = ["rust"];
 
-      lsp.lsp-config.servers.nil_ls = {
-        cmd = ["${pkgs.nil}/bin/nil"];
+      lsp.lsp-config.servers.rust_analyzer = {
+        cmd = ["${pkgs.rust-analyzer}/bin/rust-analyzer"];
         extraOpts = {inherit (cfg) settings;};
       };
     })
