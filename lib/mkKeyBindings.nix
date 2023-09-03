@@ -33,8 +33,10 @@ keys: let
       {
         __index__0 = key.lhs;
         __index__1 = key.rhs;
+        mode = key.mode or "n";
       }
-      // (builtins.removeAttrs key ["lhs" "rhs"]);
+      // (key.opts or {})
+      // (builtins.removeAttrs key ["lhs" "rhs" "mode" "opts"]);
 in
   # for single string keybinding, ex keys = "<leader>x";
   if builtins.isString keys
