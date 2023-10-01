@@ -9,8 +9,7 @@
     x = rawLua "function(msg) print('hello ' .. msg) end"
 
     toLua x
-    => (function which returns)
-      "function(msg) print('hello ' .. msg) end")
+    => _: "function(msg) print('hello ' .. msg) end"
   */
   rawLua =
     # The lua expression to embed
@@ -29,8 +28,7 @@
     => "function(msg) print('hello ' .. msg) end"
 
     x = luaFile ./test.lua
-    => (function which returns)
-      "function(msg) print('hello ' .. msg) end")
+    => _: "function(msg) print('hello ' .. msg) end"
   */
   luaFile = file: rawLua (builtins.readFile file);
 
