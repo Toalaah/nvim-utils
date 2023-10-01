@@ -10,7 +10,7 @@ lib.vim.mkSimplePlugin {
     owner = "nvim-lua";
     repo = "plenary.nvim";
     rev = "36aaceb6e93addd20b1b18f94d86aecc552f30c4";
-    hash = "sha256-q7cWcedN/BViNWpIFRdnvQrs60vQICmboqi9y+cRH2Q=";
+    sha256 = "sha256-q7cWcedN/BViNWpIFRdnvQrs60vQICmboqi9y+cRH2Q=";
   };
   noSetup = true;
   category = "util";

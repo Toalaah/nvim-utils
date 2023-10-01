@@ -9,7 +9,7 @@ with lib; let
     owner = "nvim-treesitter";
     repo = "nvim-treesitter";
     rev = "575f5a4b1fcb60c1ac4f560c46a5171454d674ca";
-    hash = "sha256-WbOqur7pZVK/iJXbse6rRP0OyLkFDHxfIjMn8J+xOUU=";
+    sha256 = "sha256-WbOqur7pZVK/iJXbse6rRP0OyLkFDHxfIjMn8J+xOUU=";
   };
   cfg = config.treesitter;
   configuredExtensions = builtins.mapAttrs (n: v:

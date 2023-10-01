@@ -13,7 +13,7 @@ with lib; let
     owner = "neovim";
     repo = "nvim-lspconfig";
     rev = "08f1f347c718e945c3b1712ebb68c6834182cf3a";
-    hash = "sha256-TeGmo0axt1iUuPf2fkYAhIy6G5Kyr3R2Jtk8WJZfHU8=";
+    sha256 = "sha256-TeGmo0axt1iUuPf2fkYAhIy6G5Kyr3R2Jtk8WJZfHU8=";
   };
 
   mkServerConfig = name: value: let
@@ -34,7 +34,7 @@ with lib; let
     owner = "hrsh7th";
     repo = "cmp-nvim-lsp";
     rev = "0e6b2ed705ddcff9738ec4ea838141654f12eeef";
-    hash = "sha256-DxpcPTBlvVP88PDoTheLV2fC76EXDqS2UpM5mAfj/D4=";
+    sha256 = "sha256-DxpcPTBlvVP88PDoTheLV2fC76EXDqS2UpM5mAfj/D4=";
   };
 
   serverConfigurations = lib.attrsets.mapAttrsToList mkServerConfig cfg.servers;

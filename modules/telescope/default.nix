@@ -9,7 +9,7 @@ with lib; let
     owner = "nvim-telescope";
     repo = "telescope.nvim";
     rev = "2d92125620417fbea82ec30303823e3cd69e90e8";
-    hash = "sha256-BU6LFfuloNDhGSFS55sehZAX6mIqpD+R4X+sfu8aZwQ=";
+    sha256 = "sha256-BU6LFfuloNDhGSFS55sehZAX6mIqpD+R4X+sfu8aZwQ=";
   };
   cfg = config.telescope;
   configuredExtensions = builtins.mapAttrs (n: v:

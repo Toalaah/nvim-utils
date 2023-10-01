@@ -10,7 +10,7 @@ with lib; let
     owner = "hrsh7th";
     repo = "nvim-cmp";
     rev = "b8c2a62b3bd3827aa059b43be3dd4b5c45037d65";
-    hash = "sha256-mGRJy5fmGEuJD9jJhNNIW+J7juWPBLqHwlD81di/A/Y=";
+    sha256 = "sha256-mGRJy5fmGEuJD9jJhNNIW+J7juWPBLqHwlD81di/A/Y=";
   };
   completionSourceDeps = builtins.map (v: {inherit (v) src;}) (builtins.attrValues cfg.sources);
   completionSourceOpts = lib.attrsets.mapAttrsToList (n: v:
