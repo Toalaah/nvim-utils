@@ -9,11 +9,30 @@
     x = rawLua "function(msg) print('hello ' .. msg) end"
 
     toLua x
-    => "function(msg) print('hello ' .. msg) end"
+    => (function which returns)
+      "function(msg) print('hello ' .. msg) end")
   */
   rawLua =
     # The lua expression to embed
     code: (_: code);
+
+  /*
+  Embed raw lua code from a file into a nix expression.
+
+  The contents of `file` is embedded as-is into the assigned variable.
+
+  Type:
+    luaFile :: String -> (a -> String)
+
+  Example:
+    builtins.readFile ./test.lua
+    => "function(msg) print('hello ' .. msg) end"
+
+    x = luaFile ./test.lua
+    => (function which returns)
+      "function(msg) print('hello ' .. msg) end")
+  */
+  luaFile = file: rawLua (builtins.readFile file);
 
   /*
   Converts a primitive value to its stringified lua counterpart.
