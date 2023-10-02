@@ -1,6 +1,8 @@
 name: Smoke test
 on:
   push:
+    paths:
+      - '**.nix'
 jobs:
   build:
     runs-on: ubuntu-latest
