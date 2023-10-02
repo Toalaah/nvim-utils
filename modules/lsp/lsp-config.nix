@@ -12,8 +12,8 @@ with lib; let
   src = pkgs.fetchFromGitHub {
     owner = "neovim";
     repo = "nvim-lspconfig";
-    rev = "08f1f347c718e945c3b1712ebb68c6834182cf3a";
-    sha256 = "sha256-TeGmo0axt1iUuPf2fkYAhIy6G5Kyr3R2Jtk8WJZfHU8=";
+    rev = "ac478757efcde1ac346f7044ab774e7cbb482533";
+    sha256 = "05nladrq3i3flja17pwfy3bqplys17s5ydyfrnd6rpk6fr4pcdjl";
   };
 
   mkServerConfig = name: value: let
@@ -33,8 +33,8 @@ with lib; let
   cmp-nvim-lsp = pkgs.fetchFromGitHub {
     owner = "hrsh7th";
     repo = "cmp-nvim-lsp";
-    rev = "0e6b2ed705ddcff9738ec4ea838141654f12eeef";
-    sha256 = "sha256-DxpcPTBlvVP88PDoTheLV2fC76EXDqS2UpM5mAfj/D4=";
+    rev = "44b16d11215dce86f253ce0c30949813c0a90765";
+    sha256 = "1ny64ls3z9pcflsg3sd7xnd795mcfbqhyan3bk4ymxgv5jh2qkcr";
   };
 
   serverConfigurations = lib.attrsets.mapAttrsToList mkServerConfig cfg.servers;
