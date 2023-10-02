@@ -20,6 +20,6 @@ jobs:
         uses: peter-evans/create-pull-request@v5
         with:
           commit-message: 'chore: update module sources'
-          committer: "github-actions[bot]@users.noreply.github.com"
+          committer: "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
           author: "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
           branch: chore/update-module-sources
