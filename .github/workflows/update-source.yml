@@ -1,0 +1,21 @@
+name: Update module sources
+on:
+  schedule:
+    - '0 0 * * *'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: cachix/install-nix-action@v19
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Update module sources
+        run: nix-shell ./shell.nix --run ./scripts/update-sources.sh
+      - name: Create PR
+        uses: peter-evans/create-pull-request@v5
+        with:
+          commit-message: 'chore: update module sources'
+          committer: "github-actions[bot]@users.noreply.github.com"
+          author: "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
+          branch: chore/update-module-sources

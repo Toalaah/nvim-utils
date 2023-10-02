@@ -5,5 +5,6 @@ with pkgs;
       alejandra
       deadnix
       gitAndTools.git
+      update-nix-fetchgit
     ];
   }
