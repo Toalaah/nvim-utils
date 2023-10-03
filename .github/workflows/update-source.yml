@@ -21,6 +21,8 @@ jobs:
         with:
           token: ${{ secrets.PAT }}
           commit-message: 'chore: update module sources'
+          title: Update module sources
+          reviewers: toalaah
           committer: "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
           author: "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
           branch: chore/update-module-sources
