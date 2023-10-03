@@ -41,7 +41,7 @@ in {
       owner = "saadparwaiz1";
       repo = "cmp_luasnip";
       rev = "18095520391186d634a0045dacaa346291096566";
-      sha256 = "sha256-Z5SPy3j2oHFxJ7bK8DP8Q/oRyLEMlnWyIfDaQcNVIS0=";
+      sha256 = "0b91ap1l3nph46r7b5hcn7413yj3zhrz1jmn4xqp387ng35qz537";
     };
     plugins = [
       {
@@ -51,8 +51,8 @@ in {
             src = pkgs.fetchFromGitHub {
               owner = "rafamadriz";
               repo = "friendly-snippets";
-              rev = "00e191fea2cfbbdd378243f35b5953296537a116";
-              sha256 = "sha256-BWB14J4NaKapL+N5I4vYYgsHvN4C/Z6heN1h0Snszb4=";
+              rev = "43727c2ff84240e55d4069ec3e6158d74cb534b6";
+              sha256 = "1sjk17gn919aa84dkjfagwwjsas9zfkbrk840bjf580k8m83d9m8";
             };
             config = lib.lua.rawLua ''
               function()

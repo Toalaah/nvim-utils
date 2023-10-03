@@ -9,8 +9,8 @@ with lib; let
   src = pkgs.fetchFromGitHub {
     owner = "hrsh7th";
     repo = "nvim-cmp";
-    rev = "b8c2a62b3bd3827aa059b43be3dd4b5c45037d65";
-    sha256 = "sha256-mGRJy5fmGEuJD9jJhNNIW+J7juWPBLqHwlD81di/A/Y=";
+    rev = "5dce1b778b85c717f6614e3f4da45e9f19f54435";
+    sha256 = "1yl5b680p6vhk1741riiwjnw7a4wn0nimjvcab0ij6mx3kf28rsq";
   };
   completionSourceDeps = builtins.map (v: {inherit (v) src;}) (builtins.attrValues cfg.sources);
   completionSourceOpts = lib.attrsets.mapAttrsToList (n: v:
