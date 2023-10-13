@@ -40,8 +40,8 @@ in {
     lsp.completion.sources.luasnip.src = pkgs.fetchFromGitHub {
       owner = "saadparwaiz1";
       repo = "cmp_luasnip";
-      rev = "18095520391186d634a0045dacaa346291096566";
-      sha256 = "0b91ap1l3nph46r7b5hcn7413yj3zhrz1jmn4xqp387ng35qz537";
+      rev = "05a9ab28b53f71d1aece421ef32fee2cb857a843";
+      sha256 = "0gw3jz65dnxkc618j26zj37gs1yycf7wql9yqc9glazjdjbljhlx";
     };
     plugins = [
       {
