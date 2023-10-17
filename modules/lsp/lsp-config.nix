@@ -23,7 +23,11 @@ with lib; let
     };
     serverConfig =
       defaultConfig
-      // {inherit (value) cmd;}
+      // (
+        if value.cmd == null
+        then {}
+        else {inherit (value) cmd;}
+      )
       // value.extraOpts;
   in ''
     require('lspconfig')['${name}'].setup ${toLua serverConfig}
@@ -76,9 +80,13 @@ in {
       type = types.attrsOf (types.submodule {
         options = {
           cmd = mkOption {
-            type = types.listOf types.str;
+            type = types.nullOr (types.listOf types.str);
+            default = null;
             description = lib.mdDoc ''
               The command used to start the language server. Each `argv` should be a separate list entry.
+
+              If you want to use the default lspconfig 'cmd' value, set this
+              value to null (this is the default).
             '';
             example = lib.literalExpression ''
               cmd = [ "''${pkgs.myLanguageServer}/bin/my-lsp" "--stdio"];
