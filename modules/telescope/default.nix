@@ -8,8 +8,8 @@ with lib; let
   src = pkgs.fetchFromGitHub {
     owner = "nvim-telescope";
     repo = "telescope.nvim";
-    rev = "74ce793a60759e3db0d265174f137fb627430355";
-    sha256 = "1m4v097y8ypjm572k1qqii3z56w4x1dsjxd6gp0z24xqyvd4kpa4";
+    rev = "4522d7e3ea75ffddabdc39957168a8a7060b5df0";
+    sha256 = "143bdqxfzlfbjrd80pw4wkz95szp21qs1zn7i230sdavvrq00b3b";
   };
   cfg = config.telescope;
   configuredExtensions = builtins.mapAttrs (n: v:
