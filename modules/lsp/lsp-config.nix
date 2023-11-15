@@ -12,8 +12,8 @@ with lib; let
   src = pkgs.fetchFromGitHub {
     owner = "neovim";
     repo = "nvim-lspconfig";
-    rev = "cb49a4cd622d7ed775c31561bb8aa6a50712d6b9";
-    sha256 = "1zxd67r3qq5ryvy31jgy1clkcgm5ld4sjybz1p6fcp4iwhcfrjky";
+    rev = "0a0682d4646a6869b85a4e4d0e30da5ef8b11f66";
+    sha256 = "0i64ly4lgpvdywyczv39vnmljr6y445apvidz4db9cbrzzf39wd0";
   };
 
   mkServerConfig = name: value: let
