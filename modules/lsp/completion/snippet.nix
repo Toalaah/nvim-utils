@@ -51,8 +51,8 @@ in {
             src = pkgs.fetchFromGitHub {
               owner = "rafamadriz";
               repo = "friendly-snippets";
-              rev = "69a2c1675b66e002799f5eef803b87a12f593049";
-              sha256 = "0598qidaysarhzdz9p75kl0s8m9k65d0ir7f8vkzw5nbj1pqpkn2";
+              rev = "5cc1f45c6aac699ad008fb85f6ae03236062667d";
+              sha256 = "01dimq0nca103zss6qfxv07q7bnwsjd32pnncaz4bzmaia34w5kd";
             };
             config = lib.lua.rawLua ''
               function()
