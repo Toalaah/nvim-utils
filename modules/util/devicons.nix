@@ -9,8 +9,8 @@ lib.vim.mkSimplePlugin {
   plugin = pkgs.fetchFromGitHub {
     owner = "nvim-tree";
     repo = "nvim-web-devicons";
-    rev = "7f30f2da3c3641841ceb0e2c150281f624445e8f";
-    sha256 = "1srssx18fgipznnl6b3lk17jkv0acsx6cw86m6x788nawl6qhsv7";
+    rev = "0bb67ef952ea3eb7b1bac9c011281471d99a27bc";
+    sha256 = "0rykazpyv111w408c4xm1x76nr0vdwss8f7mbkfdgijxj9llk87b";
   };
   noSetup = true;
   moduleName = "devicons";
