@@ -4,7 +4,7 @@ with pkgs;
     buildInputs = [
       alejandra
       deadnix
-      gitAndTools.git
+      git
       update-nix-fetchgit
     ];
   }
