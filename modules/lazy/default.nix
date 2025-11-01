@@ -7,8 +7,8 @@
   src = pkgs.fetchFromGitHub {
     owner = "folke";
     repo = "lazy.nvim";
-    rev = "44cd12fa2709a4de644b1d7c2773d5c59df07a66";
-    sha256 = "0x8483bfrpzwc0nm190r6xdgg1ggr2rvc8k0dasvii2wxjhj5ns6";
+    rev = "f0f5bbb9e5bfae5e6468f9359ffea3d151418176";
+    sha256 = "08ki2mi4p1wdlkynapx8zrm36m7akvxybxxk7mg69ihdrkcrg6w1";
   };
   mkPlugNameDrv = plug:
     pkgs.stdenv.mkDerivation rec {
