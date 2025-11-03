@@ -32,7 +32,7 @@ jobs:
       - run: nix-build ./docs
         name: build static documentation
       - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v2
+      - uses: actions/upload-pages-artifact@v4
         with:
           path: './result'
       - uses: actions/deploy-pages@v4
