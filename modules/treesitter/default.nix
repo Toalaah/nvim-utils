@@ -8,8 +8,8 @@ with lib; let
   src = pkgs.fetchFromGitHub {
     owner = "nvim-treesitter";
     repo = "nvim-treesitter";
-    rev = "64f6f0ab4e3f613aa682eb5fe29c5025db500ddd";
-    sha256 = "1cis4gm58rhz297g5inhh24fmf3amcxlq5cm46w01155zrm3gpvj";
+    rev = "f603a2f4da48728f80257fb5fbb90145fd1dc173";
+    sha256 = "1y400xl90ih7z0jd423x3zv42qnbd37wm048pji13k73df2ljw3x";
   };
   cfg = config.treesitter;
   configuredExtensions = builtins.mapAttrs (n: v:
