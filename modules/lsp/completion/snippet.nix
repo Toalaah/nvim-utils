@@ -40,8 +40,8 @@ in {
     lsp.completion.sources.luasnip.src = pkgs.fetchFromGitHub {
       owner = "saadparwaiz1";
       repo = "cmp_luasnip";
-      rev = "05a9ab28b53f71d1aece421ef32fee2cb857a843";
-      sha256 = "0gw3jz65dnxkc618j26zj37gs1yycf7wql9yqc9glazjdjbljhlx";
+      rev = "98d9cb5c2c38532bd9bdb481067b20fea8f32e90";
+      sha256 = "037sh4g1747wf07f9sqngiifp89hqww6m2rvizy5ra7jyd04magk";
     };
     plugins = [
       {
@@ -51,8 +51,8 @@ in {
             src = pkgs.fetchFromGitHub {
               owner = "rafamadriz";
               repo = "friendly-snippets";
-              rev = "682157939e57bd6a2c86277dfd4d6fbfce63dbac";
-              sha256 = "16fivgnm9vzsk0gqjg8xjp15lrfdlq0w9wa00344yifqvbfam9qi";
+              rev = "b2ea5c41a150ba72fb656eedb4ed0a86d138d945";
+              sha256 = "07px3a8pq9yjhnr1pds0w2idzq9v8f5g4ccjvpimav0k5rd16nj8";
             };
             config = lib.lua.rawLua ''
               function()
